@@ -20,10 +20,6 @@ TOP_K = 2                   # identifies number of species to message about when
 CERTAINTY_THRESHOLD = 0.85  # the confidence level under which we will return multiple options. Could move this to lambda env var.
 
 leaf_classes_df = pd.read_csv('leaf_classes_sample.txt', names=['class_id'], header=None)
-class_map_df    = pd.read_csv('CUB_NABirds_class_map_sample.txt',
-                    names=['CUB_class_id', 'CUB_class_name', 'NA_class1', 'NA_class2', 'NA_class3'],
-                    sep=' ', header=None)
-class_map_df.NA_class3 = class_map_df.NA_class3.astype(int)
 
 def nabird_classify_image(image_as_bytes, endpoint_name):
     # Run the bird species inference using the SageMaker runtime. Endpoint must
