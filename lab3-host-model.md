@@ -9,10 +9,18 @@ In this lab, you will host the inference model and identify your first bird!  He
 
 ## Create a SageMaker model
 
-inference image is: 811284229777.dkr.ecr.us-east-1.amazonaws.com/image-classification:1 
+inference image is: 811284229777.dkr.ecr.us-east-1.amazonaws.com/image-classification:1
 
 ## Create a SageMaker endpoint configuration
 
 ## Create a SageMaker endpoint
 
 ## Test your model
+
+Windows
+set ENDPOINT_NAME=nabirds-species-identifier
+
+Mac
+export ENDPOINT_NAME=nabirds-species-identifier
+
+python test_direct_sample.py ../test_images/card.jpg
