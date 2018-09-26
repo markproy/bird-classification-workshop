@@ -1,14 +1,13 @@
 import json          # for parsing the results of the SageMaker inference, and the lambda event
 import urllib.parse  # for parsing the s3 bucket name and key
 import boto3         # for access to s3, SNS, and SageMaker api's
-import os            # for environment variables
-import sys           # for command line args
 import numpy as np   # for interpreting results from the SageMaker inference
-import pandas as pd  # for getting absolute class_id from the relative class_id
-from os import walk  # for getting files from a directory
 
+print('Loading function')
 
-# Getting access to sagemaker runtime
+print('Getting access to s3, sns, and sagemaker runtime')
+s3 = boto3.client('s3')
+sns = boto3.client('sns')
 runtime = boto3.client(service_name='runtime.sagemaker')
 
 # Load the bird species names. Needed for creating a useful Message
@@ -19,16 +18,34 @@ object_categories = ['Northern Cardinal (Adult Male)','Baltimore Oriole (Adult m
 TOP_K = 2                   # identifies number of species to message about when uncertain. Could move this to lambda env var.
 CERTAINTY_THRESHOLD = 0.85  # the confidence level under which we will return multiple options. Could move this to lambda env var.
 
-leaf_classes_df = pd.read_csv('leaf_classes_sample.txt', names=['class_id'], header=None)
+def lambda_handler(event, context):
+    s3_object_response = ''
 
-def nabird_classify_image(image_as_bytes, endpoint_name):
+    # Get the s3 object based on the event. Log the key, length (jpg size),
+    # and content type (image)
+    bucket = event['Records'][0]['s3']['bucket']['name']
+    key = urllib.parse.unquote_plus(event['Records'][0]['s3']['object']['key'],
+                                    encoding='utf-8')
+    try:
+        # Retrieve the bird jpg image from s3
+        s3_object_response = s3.get_object(Bucket=bucket, Key=key)
+        print("KEY: " + key)
+        print("CONTENT LENGTH: " + str(s3_object_response['ContentLength']))
+        print("CONTENT TYPE: " + s3_object_response['ContentType'])
+    except Exception as e:
+        print(e)
+        print('Error getting object {} from bucket {}. Make sure they exist and your bucket is in the same region as this function.'.format(key, bucket))
+        raise e
+
     # Run the bird species inference using the SageMaker runtime. Endpoint must
     # already be up and running.
     result = b''
     try:
+        print('Invoking bird species identification endpoint')
         # set up the payload for calling the SageMaker image classification inference
         # read the jpg image from the s3 object response into a byte array.
-        payload = image_as_bytes
+        payload = s3_object_response['Body'].read()
+        endpoint_name = os.environ['SAGEMAKER_ENDPOINT_NAME']
         endpoint_response = runtime.invoke_endpoint(
                                     EndpointName=endpoint_name,
                                     ContentType='application/x-image',
@@ -65,52 +82,32 @@ def nabird_classify_image(image_as_bytes, endpoint_name):
     # we identified the species.  In either case, show the confidence level as
     # a probability out to two decimal places in parentheses after the species name.
     # For example, "Woodpecker (0.93)".
-    top_k_indexes = []
-    for i in range(TOP_K):
-        rel_class_id = int(sorted_transposed_results[i][0])
-        abs_class_id = leaf_classes_df.iloc[rel_class_id]['class_id']
-        top_k_indexes.append(abs_class_id)
-
     msg = ''
     if (sorted_transposed_results[0][1] > CERTAINTY_THRESHOLD):
-        rel_class_id = int(sorted_transposed_results[0][0])
-        abs_class_id = leaf_classes_df.iloc[rel_class_id]['class_id']
-        msg = 'Bird is a: ' + \
-            object_categories[int(sorted_transposed_results[0][0])] + '(' + \
-            '{:2.2f}'.format(sorted_transposed_results[0][1]) + ')[' + \
-            str(abs_class_id) + ']'
-
-    # otherwise, provide a more nuanced result, giving the top K possible species
+        msg = 'Bird [' + key + '] is a: ' + object_categories[int(sorted_transposed_results[0][0])] + '(' + \
+                '{:2.2f}'.format(sorted_transposed_results[0][1]) + ')'
+    # otherwise, provide a more nuanced result, giving the top N possible species
     else:
-        msg = 'Bird may be a: '
-        for top_index in range(0, TOP_K):
+        msg = 'Bird [' + key + '] may be a: '
+        for top_index in range(0, TOP_N):
             if (top_index > 0):
                 msg = msg + ', or '
-            rel_class_id = int(sorted_transposed_results[top_index][0])
-            abs_class_id = leaf_classes_df.iloc[rel_class_id]['class_id']
-
-#            print('\nrel: ' + str(rel_class_id) + ', abs: ' + str(abs_class_id))
-#            print('cat: ' + object_categories[int(sorted_transposed_results[top_index][0])])
-
             msg = msg + object_categories[int(sorted_transposed_results[top_index][0])] + '(' + \
-                      '{:2.2f}'.format(sorted_transposed_results[top_index][1]) + ')[' + \
-                      str(abs_class_id) + ']'
+                      '{:2.2f}'.format(sorted_transposed_results[top_index][1]) + ')'
 
-    return msg, top_k_indexes
+    print('msg: ' + msg)
 
-try:
-    epn = os.environ['ENDPOINT_NAME']
-except Exception as e:
-    print('must set ENDPOINT_NAME environment variable before calling this function')
-    raise e
+    # Publish the message to SNS, which can in turn send an SMS message to interested parties.
+    response = ''
+    try:
+        # get topic ARN from Lambda envrionment variable
+        mySNSTopicARN = os.environ['SNS_TOPIC_ARN']
+        print('Publishing message to SNS topic: {}'.format(mySNSTopicARN))
+        response = sns.publish(TopicArn=mySNSTopicARN, Message=msg)
+        print("SNS Publish Response: {}".format(response))
+    except Exception as e:
+        print(e)
+        print('Error publishing message to SNS.')
+        raise e
 
-if (len(sys.argv) <= 1):
-    print('need to pass a base directory, as in ''python test_CUB.py ~/ML/birds/CUB_200_2011/CUB_200_2011/images''')
-    exit
-else:
-    ### test single jpg
-    filename = sys.argv[1]
-    f = open(filename, 'rb')
-    img = f.read()
-    msg, top_k = nabird_classify_image(img, epn)
-    print(msg)
+    return 'success' #response['content-type']
