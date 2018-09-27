@@ -23,8 +23,10 @@ Requires a role with access for Lambda to SNS, S3, and SageMaker.  The console d
 
 Use script from Mac or Windows environment to create a Lambda function package and use the AWS CLI to update the function.
 
-## Extend the function to publish to SNS
-
 ## Configure s3 to trigger your Lambda function
+
+### Add a notification event to your s3 bucket
+
+Go to the s3 console.  Select your s3 bucket, and click on 'Properties'.  Go to the 'Events' area and add a new notification event.  Select 'ObjectCreate(All)', with a 'Prefix' of 'birds/' and a 'Suffix' of '.jpg'.  Send it to your newly updated Lambda function 'IdentifySpeciesAndNotify'.
 
 ## Test by adding an image to s3
