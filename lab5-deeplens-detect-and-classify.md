@@ -9,6 +9,8 @@ In this lab, you will use AWS DeepLens to detect birds and trigger classificatio
 
 ## Register the DeepLens device
 
+Use documentation of standard steps.
+
 ## Customize the object detection function
 
 ## Create and deploy the bird detection project
