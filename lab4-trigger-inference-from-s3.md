@@ -9,13 +9,25 @@ In this lab, you will configure your s3 bucket to automatically trigger an infer
 
 ## Create a Lambda function
 
-### Create a 'hello world' function
-
-Use the Lambda console and pick the 'hello world' blueprint.
-
 ### Create the IAM role for Lambda function
 
 Requires a role with access for Lambda to SNS, S3, and SageMaker.  The console doesn't let you pick SageMaker, so it has to be attached manually after the role gets created.  Else, could be included in the CFT that gets applied to each account for the workshop, or could be an add-on CFT that each attendee applies.
+
+### Create a 'hello world' function
+
+Use the Lambda console and pick the 'hello-world-python3' blueprint.  Name it 'IdentifySpeciesAndNotify'.  For IAM role, pick 'Choose an existing role' and then pick 'abc' which was created for you in the lab setup steps.  OR, create the IAM role in the previous step.
+
+Add 'SAGEMAKER_ENDPOINT_NAME' environment variable 'nabirds-species-identifier'.
+
+Add 'SNS_TOPIC_ARN' environment variable in later lab.
+
+### In the Lambda Designer, add S3 as a Trigger
+
+Select S3 in the left hand panel list of possible triggers.  Configure the trigger in the lower panel of the Designer console.
+
+Select 'ObjectCreate(All)', with a 'Prefix' of 'birds/' and a 'Suffix' of '.jpg'.
+
+Click 'Save'.
 
 ### Adding numpy support for a Lambda function
 
@@ -23,11 +35,9 @@ Requires a role with access for Lambda to SNS, S3, and SageMaker.  The console d
 
 Use script from Mac or Windows environment to create a Lambda function package and use the AWS CLI to update the function.
 
-## Configure s3 to trigger your Lambda function
+Windows deploy_lambda
 
-### Add a notification event to your s3 bucket
-
-Go to the s3 console.  Select your s3 bucket, and click on 'Properties'.  Go to the 'Events' area and add a new notification event.  Select 'ObjectCreate(All)', with a 'Prefix' of 'birds/' and a 'Suffix' of '.jpg'. Choose 'Lambda function' as the notification type. Send it to your newly updated Lambda function 'IdentifySpeciesAndNotify'.  Save.
+Mac source ./deploy_lambda.sh
 
 ## Test by adding an image to s3
 
