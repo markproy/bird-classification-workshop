@@ -1,5 +1,6 @@
 import json          # for parsing the results of the SageMaker inference, and the lambda event
 import urllib.parse  # for parsing the s3 bucket name and key
+import os            # for accessing environment variables
 import boto3         # for access to s3, SNS, and SageMaker api's
 import numpy as np   # for interpreting results from the SageMaker inference
 
