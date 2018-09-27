@@ -15,4 +15,12 @@ Use documentation of standard steps.
 
 ## Create and deploy the bird detection project
 
+Create new project.  Choose project type.  Object detection. Next. Create.
+
+Select the project.  Deploy to device.  Pick the device you registered.  Review.  Deploy.
+
 ## Test the project
+
+Login to the device using the keyboard and monitor.  "aws_cam" is the username.  "Aws2018!" is the password.
+
+mplayer -demuxer lavf -lavfdopts format=mjpeg:probesize=32 /tmp/results.mjpeg
