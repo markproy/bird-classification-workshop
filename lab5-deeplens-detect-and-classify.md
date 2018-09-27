@@ -52,10 +52,20 @@ Hold a bird picture in front of the DeepLens.  Hold it steady.  Keep it about 8 
 
 Now check the lambda logs for the project.  Click on the project.  Click on lambda logs.  Pick the 'deeplens-object-detection' log group.  Pick the most recent log stream.  Search for 'error'.
 
-Now check to see if the project was successful cropping the image and saving it to S3.
+Now check to see if the project was successful cropping the image and saving it to S3.  Go to your bucket.  Refresh. Navigate to the "birds" folder.  You will see a new folder created for today's date.  Within that, there will be subfolders for each minute in which there was a bird pushed.  Preview the jpg file to see the cropped image that was saved.
 
 IoT console.  IoT permissions in user's IAM policy.
 
 ## Troubleshooting
 
-S3 access denied.  You have not given permission to the Lambda function to create objects in s3.
+### S3 access denied
+
+You have not given permission to the Lambda function to create objects in s3.
+
+In IAM, find the AWSDeepLensGreengrassGroupRole and extend it by attaching the 'AmazonS3FullAccess' policy.
+
+### Registration hangs
+
+Ensure you are not on VPN.
+
+If deeplens.amazon.net hangs when trying to connect with the device over its softAP SSID, try DeepLens.config instead.

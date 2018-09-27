@@ -12,10 +12,12 @@ Call it 'deeplens-sagemaker-birdpic-arrived'.
 
 ## Configure new SNS subscription
 
+Click 'Create subscription'.  Pick 'SMS' as the protocol.  Enter your cell phone number (e.g., '+16035551212').
+
 ## Extend the Lambda function to publish to SNS
 
 Change the code.
 
-Add the Lambda environment variable 'SNS_TOPIC_ARN' to use the arn of the SNS topic. 
+Add the Lambda environment variable 'SNS_TOPIC_ARN' to use the arn of the SNS topic.
 
 ## Test

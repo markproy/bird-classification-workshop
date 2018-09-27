@@ -10,10 +10,20 @@ In this lab, you will prepare the images dataset for training.  These are the st
 
 ## Download the images
 
+Use the bit.ly URL to download the sample bird images for 4 species.  This is the image dataset that will be used for the workshop.  Extract the zip file into the 'images' directory.
+
 ## Explore the dataset
+
+Open provided Jupyter notebook to look at counts of each species.  Look at image sizes.  Preview sample images from each species.  Look at species class id's and species names.
 
 ## Package the images
 
+Run script that invokes im2rec to create packaged recordIO files.
+
 ## Create an s3 bucket
 
+'deeplens-sagemaker-20181128-test1'
+
 ## Upload the packaged images to s3
+
+Use 'aws s3 cp ...' or multi-part upload from Python script or from s3 console.
