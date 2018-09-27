@@ -24,3 +24,5 @@ Mac
 export ENDPOINT_NAME=nabirds-species-identifier
 
 python test_direct_sample.py ../test_images/card.jpg
+
+This should invoke the SageMaker endpoint, parse the results, create and print a message telling you which bird species was identified.  If the confidence level was low, it will tell you the top 2 candidates.  Confidence levels are also printed.
