@@ -1,0 +1,20 @@
+:: This script deploys an updated lamnbda function.
+:: The lambda_code subdirectory must be pre-populated with the lambda function
+:: and the corresponding set of additional python packages that are required
+:: beyond those provided automatically by AWS Lambda.  In particular,
+:: numpy is often needed, but is not provided by default.
+:: Note that since AWS Lambda is run on Linux, the numpy packages cannot
+:: come from a Mac. The easiest way to get them is to use an EC2 Linux instance,
+:: install Python, create a virtual environment, install numpy in that environment,
+:: and copy the resulting packages.
+:: This script assumes you've already done this step and those packages are
+:: provided in the same subdirectory as the lambda function.
+
+set FUNCTION_NAME=IdentifySpeciesAndNotify
+set PACKAGE_FILE_PREFIX=package
+
+:: First, create the lambda package as a zip file
+jar cMf package.zip -C lambda .
+
+:: Now deploy the resulting package
+aws lambda update-function-code --function-name %FUNCTION_NAME% --zip-file fileb://./%PACKAGE_FILE_PREFIX%.zip
