@@ -14,4 +14,8 @@ Call it 'deeplens-sagemaker-birdpic-arrived'.
 
 ## Extend the Lambda function to publish to SNS
 
+Change the code.
+
+Add the Lambda environment variable 'SNS_TOPIC_ARN' to use the arn of the SNS topic. 
+
 ## Test
