@@ -31,12 +31,12 @@ Open the SageMaker notebook to review the following:
 
 ## Package the images
 
-Run script that invokes im2rec to create packaged RecordIO files.
+Run script that invokes `im2rec` to create packaged RecordIO files.
 
 ## Upload the packaged images to S3
 
-Create an S3 bucket - 'deeplens-sagemaker-20181128-test1'.
+Create an S3 bucket - `deeplens-sagemaker-20181128-test1`.
 
-Create a 'train' folder for the train.rec, and a 'validation' folder for the val.rec file.
+Create a `train` folder for the `train.rec`, and a `validation` folder for the `val.rec` file.
 
-Use 'aws s3 cp ...' or multi-part upload from Python script or from s3 console.
+Use `aws s3 cp ...` or multi-part upload from Python script or from s3 console.

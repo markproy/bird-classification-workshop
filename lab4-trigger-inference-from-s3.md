@@ -15,17 +15,17 @@ Requires a role with access for Lambda to SNS, S3, and SageMaker.  The console d
 
 ### Create a 'hello world' function
 
-Use the Lambda console and pick the 'hello-world-python3' blueprint.  Name it 'IdentifySpeciesAndNotify'.  For IAM role, pick 'Choose an existing role' and then pick 'abc' which was created for you in the lab setup steps.  OR, create the IAM role in the previous step.
+Use the Lambda console and pick the `hello-world-python3` blueprint.  Name it `IdentifySpeciesAndNotify`.  For IAM role, pick `Choose an existing role` and then pick `abc` which was created for you in the lab setup steps.  OR, create the IAM role in the previous step.
 
-Add 'SAGEMAKER_ENDPOINT_NAME' environment variable 'nabirds-species-identifier'.
+Add `SAGEMAKER_ENDPOINT_NAME` environment variable `nabirds-species-identifier`.
 
-Add 'SNS_TOPIC_ARN' environment variable in later lab.
+Add `SNS_TOPIC_ARN` environment variable in later lab.
 
 ### In the Lambda Designer, add S3 as a Trigger
 
 Select S3 in the left hand panel list of possible triggers.  Configure the trigger in the lower panel of the Designer console.
 
-Select 'ObjectCreate(All)', with a 'Prefix' of 'birds/' and a 'Suffix' of '.jpg'.
+Select `ObjectCreate(All)`, with a `Prefix` of `birds/` and a `Suffix` of `.jpg`.
 
 Click 'Save'.
 
@@ -35,18 +35,18 @@ Click 'Save'.
 
 Use script from Mac or Windows environment to create a Lambda function package and use the AWS CLI to update the function.
 
-Windows deploy_lambda
+Windows `deploy_lambda`
 
-Mac source ./deploy_lambda.sh
+Mac `source ./deploy_lambda.sh`
 
 ## Test by adding an image to s3
 
 Copy a test image to s3.  Use console to upload, or use the AWS CLI.
 
-aws s3 cp test_images/card.jpg s3://bucket/birds/card.jpg
+`aws s3 cp test_images/card.jpg s3://bucket/birds/card.jpg`
 
 You may have to refresh the console to see the new file in your bucket.
 
 ### Review CloudWatch logs for the Lambda function
 
-Go to the Lambda console.  Click the 'Monitoring' tab.  You should see Invocations count go up.  Click 'View logs in CloudWatch'.  Click on the logstream.  Review the logs.  Look for ones with 'msg' to see the results of the SageMaker inference.
+Go to the Lambda console.  Click the `Monitoring` tab.  You should see Invocations count go up.  Click `View logs in CloudWatch`.  Click on the logstream.  Review the logs.  Look for ones with `msg` to see the results of the SageMaker inference.

@@ -20,39 +20,39 @@ Select the project.  Deploy to device.  Pick the device you registered.  Review.
 
 ## Test the project
 
-Login to the device using the keyboard and monitor.  "aws_cam" is the username.  "Aws2018!" is the password.
+Login to the device using the keyboard and monitor.  `aws_cam` is the username.  `Aws2018!` is the password.
 
-mplayer -demuxer lavf -lavfdopts format=mjpeg:probesize=32 /tmp/results.mjpeg
+`mplayer -demuxer lavf -lavfdopts format=mjpeg:probesize=32 /tmp/results.mjpeg`
 
 ## Customize the object detection function
 
 Select the project.  Click on the function.  Takes you to Lambda console.
 
-Go to $LATEST for editing. Paste in the updated function from lab5/greengrassHelloWorld.py .
+`Go to $LATEST` for editing. Paste in the updated function from `lab5/greengrassHelloWorld.py` .
 
 Set the environment variables:
 
-BUCKET_NAME <your bucket>
+`BUCKET_NAME <your bucket>
 DETECTION_THRESHOLD 0.55
-S3S3_PUSH_THROTTLE_SECONDS 4
+S3S3_PUSH_THROTTLE_SECONDS 4`
 
 Save.
 
 Actions. Publish new version. Note the new version number.  Add a comment. Publish.
 
-Back to DeepLens console.  Edit the project.  Click on 'Function'.  Choose the new version number that you just published. Save.
+Back to DeepLens console.  Edit the project.  Click on `Function`.  Choose the new version number that you just published. Save.
 
 ## Re-deploy
 
-Select the project.  Click 'Deploy to device'.  Pick the device.  Click 'Review'.  Click 'Deploy' to replace the project on the device.  Takes a couple of minutes to complete the deployment and then another minute for the project to run, which is indicated by the top blue light staying lit.
+Select the project.  Click `Deploy to device`.  Pick the device.  Click `Review`.  Click `Deploy` to replace the project on the device.  Takes a couple of minutes to complete the deployment and then another minute for the project to run, which is indicated by the top blue light staying lit.
 
 ## Test
 
 Hold a bird picture in front of the DeepLens.  Hold it steady.  Keep it about 8 to 12 inches from the device.  You should see it detect the bird and highlight it with a thick purple bounding box.
 
-Now check the lambda logs for the project.  Click on the project.  Click on lambda logs.  Pick the 'deeplens-object-detection' log group.  Pick the most recent log stream.  Search for 'error'.
+Now check the lambda logs for the project.  Click on the project.  Click on lambda logs.  Pick the `deeplens-object-detection` log group.  Pick the most recent log stream.  Search for `error`.
 
-Now check to see if the project was successful cropping the image and saving it to S3.  Go to your bucket.  Refresh. Navigate to the "birds" folder.  You will see a new folder created for today's date.  Within that, there will be subfolders for each minute in which there was a bird pushed.  Preview the jpg file to see the cropped image that was saved.
+Now check to see if the project was successful cropping the image and saving it to S3.  Go to your bucket.  Refresh. Navigate to the `birds` folder.  You will see a new folder created for today's date.  Within that, there will be subfolders for each minute in which there was a bird pushed.  Preview the jpg file to see the cropped image that was saved.
 
 IoT console.  IoT permissions in user's IAM policy.
 
@@ -62,7 +62,7 @@ IoT console.  IoT permissions in user's IAM policy.
 
 You have not given permission to the Lambda function to create objects in s3.
 
-In IAM, find the AWSDeepLensGreengrassGroupRole and extend it by attaching the 'AmazonS3FullAccess' policy.
+In IAM, find the `AWSDeepLensGreengrassGroupRole` and extend it by attaching the `AmazonS3FullAccess` policy.
 
 ### Registration hangs
 

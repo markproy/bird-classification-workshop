@@ -13,12 +13,12 @@ Here are the steps involved:
 
 In this section, you will create a SageMaker training job to build your bird species identification model.  The resulting model artifacts will be used in a SageMaker endpoint to provide predictions.  Detailed documentation is available for image classification [hyperparameters](https://docs.aws.amazon.com/sagemaker/latest/dg/IC-Hyperparameter.html) as well as how to [train a model](https://docs.aws.amazon.com/sagemaker/latest/dg/IC-Hyperparameter.html) using Amazon SageMaker.
 
-Here are the detailed steps to train the model by creating a job from the console.  First click on "Training Jobs" on the left panel of the SageMaker console.  Then click on "Create Training Job".  From there, you need to fill in the details of the job:
+Here are the detailed steps to train the model by creating a job from the console.  First click on `Training Jobs` on the left panel of the SageMaker console.  Then click on `Create Training Job`.  From there, you need to fill in the details of the job:
 
 * Pick a name for the job.
-* Choose 'Image classification' from the built in list of algorithms.
-* Choose 'ml.p2.xlarge' instance type.  Note that your account must have its resource limit increased beyond the default of 0.  The p2 and p3 instance families provide GPU's, which are required for SageMaker's image classification algorithm.
-* Define 2 data channels.  Content type 'application/x-recordio'. Compression type: None, Record wrapper type: None, Data type: S3Prefix, S3 data distribution type: FullyReplicated. URI: s3://<bucket-name>/train/ . S3 output path: s3://<bucket-name>/output .
+* Choose `Image classification` from the built in list of algorithms.
+* Choose `ml.p2.xlarge` instance type.  Note that your account must have its resource limit increased beyond the default of 0.  The p2 and p3 instance families provide GPU's, which are required for SageMaker's image classification algorithm.
+* Define 2 data channels.  Content type `application/x-recordio`. Compression type: None, Record wrapper type: None, Data type: S3Prefix, S3 data distribution type: FullyReplicated. URI: s3://<bucket-name>/train/ . S3 output path: s3://<bucket-name>/output .
 
 Define the hyperparameters:
 * **num_classes**: 4.  If you were to use the full NABirds dataset, this would be 555.
@@ -36,18 +36,18 @@ Define the hyperparameters:
 
 For all other parameters, use default values.
 
-Click on "Create training job", which will create the job and launch it on the selected instance type.  Note that training job creation could be accomplished from a Jupyter notebook, or from a CI/CD pipeline, or using the AWS CLI.
+Click on `Create training job`, which will create the job and launch it on the selected instance type.  Note that training job creation could be accomplished from a Jupyter notebook, or from a CI/CD pipeline, or using the AWS CLI.
 
 ## View the results of the training
 
 Click on training job to view details.
 
-Click on 'view logs'.
+Click on `view logs`.
 
 Pick the latest log stream.
 
-Should see logging of progress for each epoch.  Pay attention to 'Validation-accuracy', as it should be steadily increasing.
+Should see logging of progress for each epoch.  Pay attention to `Validation-accuracy`, as it should be steadily increasing.
 
 Provide script or Jupyter notebook to view the accuracy progress by epoch.
 
-Results are saved in model.tar.gz in the specified output directory.  That will be used to create a model for inference.
+Results are saved in `model.tar.gz` in the specified output directory.  That will be used to create a model for inference.
