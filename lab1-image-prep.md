@@ -1,12 +1,16 @@
 # Lab 1 - Prepare images for training
 
-In this lab, you will prepare the images dataset for training.  These are the steps you will take for the lab:
+In this lab, you will prepare the images dataset for training.  We will be using [SageMaker's Image Classification algorithm](https://docs.aws.amazon.com/sagemaker/latest/dg/image-classification.html), which requires 
+
+These are the high level steps you will take for the lab:
 
 1. Download the images
 2. Explore the dataset using a SageMaker notebook
 3. Use the im2rec utility to package the images
 4. Create an s3 bucket that will be used throughout the workshop (needs "DeepLens" prefix?)
 5. Upload the packaged images to s3 for training
+
+The following sections walk you through the detailed steps.
 
 ## Download the images
 
