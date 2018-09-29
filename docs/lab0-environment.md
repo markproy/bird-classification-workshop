@@ -8,7 +8,7 @@ This will provide all of the content you need to get started with the labs.
 
 ## Preparing the AWS CLI (command line interface)
 
-If you have not yet set up your environment to use the AWS CLI, follow [these](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) instructions.
+If you have not yet set up your environment to use the AWS CLI, follow [these](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) instructions to install the CLI.  Step by step instructions for configuring the AWS CLI can be found [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html).
 
 ## Installing Python
 
