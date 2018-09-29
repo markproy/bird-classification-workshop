@@ -35,6 +35,38 @@ endpoint_response = runtime.invoke_endpoint(
 result = endpoint_response['Body'].read()
 ```
 
+#### Parse the results
+
+Once we have the results of the inference, we turn it into a two-dimensional array with the index of the species and the probability that the image is of that species.  The array is sorted in descending probability, with the most likely species first.
+
+```
+result = json.loads(result)
+indexes = np.empty(len(result))
+for i in range(0, len(result)):
+    indexes[i] = i
+full_results = np.vstack((indexes, result))
+transposed_full_results = full_results.T
+sorted_transposed_results = transposed_full_results[transposed_full_results[:,1].argsort()[::-1]]
+```
+
+#### Create a human readable message with the results
+
+Given the sorted results, it is straightforward to then construct a message that summarizes what the model predicted.  This can be logged or pushed to SNS (and on to SMS).  If the model is beyond a configurable threshold, the message definitively states the bird species.  Otherwise, it shows the confidence level of the top two species.  The S3 object key is included in the message to support viewing of the cropped image that was used as input.  A useful extension to this lab would be to provide a signed URL to the image as part of the message.
+
+```
+msg = ''
+if (sorted_transposed_results[0][1] > CERTAINTY_THRESHOLD):
+    msg = 'Bird [' + key + '] is a: ' + object_categories[int(sorted_transposed_results[0][0])] + '(' + \
+            '{:2.2f}'.format(sorted_transposed_results[0][1]) + ')'
+else:
+    msg = 'Bird [' + key + '] may be a: '
+    for top_index in range(0, TOP_K):
+        if (top_index > 0):
+            msg = msg + ', or '
+        msg = msg + object_categories[int(sorted_transposed_results[top_index][0])] + '(' + \
+                  '{:2.2f}'.format(sorted_transposed_results[top_index][1]) + ')'
+```
+
 ### Add environment variables
 
 Add `SAGEMAKER_ENDPOINT_NAME` environment variable `nabirds-species-identifier`.
