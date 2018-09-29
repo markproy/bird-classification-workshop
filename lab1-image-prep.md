@@ -40,3 +40,6 @@ Create an S3 bucket - `deeplens-sagemaker-20181128-test1`.
 Create a `train` folder for the `train.rec`, and a `validation` folder for the `val.rec` file.
 
 Use `aws s3 cp ...` or multi-part upload from Python script or from s3 console.
+
+
+[Home](../README.md) - [Lab 1](docs/lab1-image-prep.md)
