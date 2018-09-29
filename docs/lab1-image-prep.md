@@ -14,11 +14,21 @@ The following sections walk you through the detailed steps.
 
 ## Download the images
 
+### About the NABirds images
+
 This workshop leverages the [NABirds]( http://dl.allaboutbirds.org/nabirds) dataset, which is provided by the [Cornell Lab of Ornithology](http://merlin.allaboutbirds.org/the-story/) whose mission is to help people answer the question "What is that bird?"  The licensing agreement does not permit us to distribute their dataset.  Instead, your instructor will provide a temporary link to use a subset of bird species during this workshop.
 
 The full dataset contains nearly 50,000 images, and the compressed download file is around 9 GB.  In addition to a long download time, using a dataset of this size would take many hours to train a neural network.  That is not practical in a 2-hour workshop.  If you would like to work with the full dataset later on to continue your learning, you can go [here](http://dl.allaboutbirds.org/nabirds) to register to download it yourself for non-commercial research purposes.
 
-For the workshop, use the instructor-provided URL to download 'sample_images.zip', saving it to the root directory of the workshop file structure.  This zip file contains bird images for a subset of species that will be used for the workshop.  Extract the zip file into the 'images' directory at the root of the workshop file structure.
+### Download the images for the workshop
+
+For the workshop, use the instructor-provided URL to download `sample_images.zip`, saving it to the root directory of the workshop file structure.  This zip file contains bird images for a subset of species that will be used for the workshop.  Extract the zip file into the `images` directory at the root of the workshop file structure.  This directory is provided as empty in the initial repository.
+
+If you prefer to run a script after downloading the zip file to the root directory, use the following command from the `lab1` directory.
+
+On Windows: `unzip_images.bat`
+
+On Mac: `source unzip_images.sh`
 
 ## Explore the dataset
 
