@@ -18,12 +18,14 @@ If you do not already have Python set up in your environment, you can download a
 
 To complete all the labs, you will also need some additional Python libraries that can be installed using `pip` as follows:
 
-`python -m pip install —upgrade pip
+```
+python -m pip install —upgrade pip
 pip install boto3
 pip install numpy
 pip install pandas
 pip install mxnet
-pip install opencv-python`
+pip install opencv-python
+```
 
 ## Navigation
 
