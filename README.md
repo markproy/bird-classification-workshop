@@ -9,6 +9,7 @@ You will also create a custom project for AWS DeepLens that detects birds and tr
 
 The workshop is composed of the following 6 labs:
 
+* [Lab 0](docs/lab0-environment.md) - Setting up your environment
 * [Lab 1](docs/lab1-image-prep.md) - Prepare images for training
 * [Lab 2](docs/lab2-train-model.md) - Train the classification model using Amazon SageMaker
 * [Lab 3](docs/lab3-host-model.md) - Host the trained model and identify your first bird!
