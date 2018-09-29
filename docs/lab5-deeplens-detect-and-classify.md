@@ -67,25 +67,26 @@ Here are the steps to follow to customize the project.
 * Click on the name of the project you created earlier.  The console will take you to the details page for that project.
 * Click on the function (e.g., `deeplens-object-detection/versions/1`), which will take you to the Lambda console.
 * Click on `Go to $LATEST` so that you can edit the function in the console.
-* Paste in the updated function from `lab5/greengrassHelloWorld.py` .
-
-Set the environment variables:
+* Paste in the updated function from `labs/lab5/greengrassHelloWorld.py` .
+* Set the environment variables:
 
 ```
 BUCKET_NAME = <your bucket>
 DETECTION_THRESHOLD = 0.55
 S3S3_PUSH_THROTTLE_SECONDS = 4
 ```
+* Click `Save`.
+* On the `Actions` menu, click `Publish new version`. Note the new version number.  Add a comment. Click `Publish`.
+* Return back to DeepLens `Projects` console.  Click on `Edit` to edit the project content.  
+* Under `Project Content`, click on `Function` (not the name of the function) to expand the editor.  
+* Choose the new version number that you just published (should be the latest).
+* Click `Save`.
 
-Save.
-
-Actions. Publish new version. Note the new version number.  Add a comment. Publish.
-
-Back to DeepLens console.  Edit the project.  Click on `Function`.  Choose the new version number that you just published. Save.
 
 ## Re-deploy
 
-Select the project.  Click `Deploy to device`.  Pick the device.  Click `Review`.  Click `Deploy` to replace the project on the device.  Takes a couple of minutes to complete the deployment and then another minute for the project to run, which is indicated by the top blue light staying lit.
+* Click on `Deploy to device`.  
+* Select your device.  Click `Review`. Confirm that you want to overwrite the project that is already deployed on the device. Click `Deploy`. This process then takes a couple of minutes to complete the deployment and then another minute for the project to run, which is indicated by the top blue light staying lit.
 
 ## Test
 
