@@ -9,12 +9,12 @@ You will also create a custom project for AWS DeepLens that detects birds and tr
 
 The workshop is composed of the following 6 labs:
 
-* [Lab 1](lab1-image-prep.md) - Prepare images for training
-* [Lab 2](lab2-train-model.md) - Train the classification model using Amazon SageMaker
-* [Lab 3](lab3-host-model.md) - Host the trained model and identify your first bird!
-* [Lab 4](lab4-trigger-inference-from-s3.md) - Trigger an inference as new pictures arrive in S3
-* [Lab 5](lab5-deeplens-detect-and-classify.md) - Use AWS DeepLens to detect birds and trigger classification
-* [Lab 6](lab6-text-notification.md) - Configure text notification with identified species (optional)
+* [Lab 1](docs/lab1-image-prep.md) - Prepare images for training
+* [Lab 2](docs/lab2-train-model.md) - Train the classification model using Amazon SageMaker
+* [Lab 3](docs/lab3-host-model.md) - Host the trained model and identify your first bird!
+* [Lab 4](docs/lab4-trigger-inference-from-s3.md) - Trigger an inference as new pictures arrive in S3
+* [Lab 5](docs/lab5-deeplens-detect-and-classify.md) - Use AWS DeepLens to detect birds and trigger classification
+* [Lab 6](docs/lab6-text-notification.md) - Configure text notification with identified species (optional)
 
 ### Acknowledgement for use of the NABirds dataset
 
