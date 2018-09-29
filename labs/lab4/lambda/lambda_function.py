@@ -52,7 +52,7 @@ def lambda_handler(event, context):
                                     ContentType='application/x-image',
                                     Body=payload)
         # grab the inference result, which includes an array of probabilities,
-        # each one corresponding to the likelhood that the image represents a bird
+        # each one corresponding to the likelihood that the image represents a bird
         # of that species.
         result = endpoint_response['Body'].read()
     except Exception as e:

@@ -3,9 +3,9 @@
 In this lab, you will configure your s3 bucket to automatically trigger an inference on your endpoint using images as they arrive in the bucket.  Here are the steps involved:
 
 1. Create a Lambda function to identify bird species
-2. Extend the function to publish to SNS
-3. Configure your s3 bucket to trigger your Lambda function
-4. Test by adding an image to s3
+2. Configure your s3 bucket to trigger your Lambda function
+3. Test by adding an image to s3
+4. Extend the function to publish to SNS
 
 ## Create a Lambda function
 
@@ -19,7 +19,21 @@ Use the Lambda console and pick the `hello-world-python3` blueprint.  Name it `I
 
 ### Update the code
 
-The code for this lambda function is provided in `labs\lab4\lambda\lambda_function.py` .  When your Lambda function has an external dependency that is not provided in the default Lambda environment, you need to provide those external dependencies.  You provide those in a package, and the editing of the function cannot be done on the Lambda console.  Review the [function code](../labs/lab4/lambda/lambda_function.py). 
+The code for this lambda function is provided in `labs\lab4\lambda\lambda_function.py` .  When your Lambda function has an external dependency that is not provided in the default Lambda environment, you need to provide those external dependencies.  You provide those in a package, and the editing of the function cannot be done on the Lambda console.  Review the [function code](../labs/lab4/lambda/lambda_function.py).  Let's walk through a few key sections.
+
+#### Invoking the SageMaker endpoint
+
+In the following section of the code, we take the cropped image from S3 as an array of bytes and pass it as the payload to the SageMaker endpoint identified in the Lambda function environment variable.  The inference result comes back as an array of probabilities, each one corresponding to the likelihood that the image represents a bird of that species.
+
+```
+payload = s3_object_response['Body'].read()
+endpoint_name = os.environ['SAGEMAKER_ENDPOINT_NAME']
+endpoint_response = runtime.invoke_endpoint(
+                            EndpointName=endpoint_name,
+                            ContentType='application/x-image',
+                            Body=payload)
+result = endpoint_response['Body'].read()
+```
 
 ### Add environment variables
 
