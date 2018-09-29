@@ -43,6 +43,10 @@ Open the SageMaker notebook to review the following:
 
 Run script that invokes `im2rec` to create packaged RecordIO files.
 
+On Windows: `package_images.bat`
+
+On Mac: `source package_images.sh`
+
 ## Upload the packaged images to S3
 
 Create an S3 bucket - `deeplens-sagemaker-20181128-test1`.
