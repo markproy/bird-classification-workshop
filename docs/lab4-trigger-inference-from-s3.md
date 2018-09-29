@@ -67,6 +67,15 @@ else:
                   '{:2.2f}'.format(sorted_transposed_results[top_index][1]) + ')'
 ```
 
+#### Publishing the message to SNS
+
+Two simple lines of code are all that we need to publish the message to SNS, and one of them is just retrieving the SNS topic ARN from a Lambda environment variable.
+
+```
+mySNSTopicARN = os.environ['SNS_TOPIC_ARN']
+response = sns.publish(TopicArn=mySNSTopicARN, Message=msg)
+```
+
 ### Add environment variables
 
 Add `SAGEMAKER_ENDPOINT_NAME` environment variable `nabirds-species-identifier`.
