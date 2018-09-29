@@ -59,6 +59,8 @@ Now you will customize the object detection project to use a new function that w
 
 In this section, we will review the key pieces of code that are used in the customized object detection function.  The [full code](../labs/lab5/greengrassHelloWorld.py) can be seen in `labs/lab5/greengrassHelloWorld.py`.
 
+**Insert code review here**
+
 ### Detailed steps for customizing the project function
 
 Here are the steps to follow to customize the project.
