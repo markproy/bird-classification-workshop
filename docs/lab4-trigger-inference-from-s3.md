@@ -19,7 +19,7 @@ Use the Lambda console and pick the `hello-world-python3` blueprint.  Name it `I
 
 ### Update the code
 
-The code for this lambda function is provided in `labs\lab4\lambda\lambda_function.py` .  When your Lambda function has an external dependency that is not provided in the default Lambda environment, you need to provide those external dependencies.  You provide those in a package, and the editing of the function cannot be done on the Lambda console.  Review the [function code](lambda/lambda_function.py). 
+The code for this lambda function is provided in `labs\lab4\lambda\lambda_function.py` .  When your Lambda function has an external dependency that is not provided in the default Lambda environment, you need to provide those external dependencies.  You provide those in a package, and the editing of the function cannot be done on the Lambda console.  Review the [function code](../labs/lab4/lambda/lambda_function.py). 
 
 ### Add environment variables
 
