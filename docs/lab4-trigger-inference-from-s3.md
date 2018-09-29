@@ -17,6 +17,12 @@ Requires a role with access for Lambda to SNS, S3, and SageMaker.  The console d
 
 Use the Lambda console and pick the `hello-world-python3` blueprint.  Name it `IdentifySpeciesAndNotify`.  For IAM role, pick `Choose an existing role` and then pick `abc` which was created for you in the lab setup steps.  OR, create the IAM role in the previous step.
 
+### Update the code
+
+The code for this lambda function is provided in `labs\lab4\lambda\lambda_function.py` .  When your Lambda function has an external dependency that is not provided in the default Lambda environment, you need to provide those external dependencies.  You provide those in a package, and the editing of the function cannot be done on the Lambda console.  Review the [function code](lambda/lambda_function.py). 
+
+### Add environment variables
+
 Add `SAGEMAKER_ENDPOINT_NAME` environment variable `nabirds-species-identifier`.
 
 Add `SNS_TOPIC_ARN` environment variable in later lab.
@@ -27,7 +33,7 @@ Select S3 in the left hand panel list of possible triggers.  Configure the trigg
 
 Select `ObjectCreate(All)`, with a `Prefix` of `birds/` and a `Suffix` of `.jpg`.
 
-Click 'Save'.
+Click `Save`.
 
 ### Adding numpy support for a Lambda function
 
