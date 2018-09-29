@@ -50,3 +50,7 @@ You may have to refresh the console to see the new file in your bucket.
 ### Review CloudWatch logs for the Lambda function
 
 Go to the Lambda console.  Click the `Monitoring` tab.  You should see Invocations count go up.  Click `View logs in CloudWatch`.  Click on the logstream.  Review the logs.  Look for ones with `msg` to see the results of the SageMaker inference.
+
+## Navigation
+
+[Home](../README.md) - [Lab 1](lab1-image-prep.md) - [Lab 2](lab2-train-model.md) - [Lab 3](lab3-host-model.md) - [Lab 4](lab4-trigger-inference-from-s3.md) - [Lab 5](lab5-deeplens-detect-and-classify.md) - [Lab 6](lab6-text-notification.md) - [Troubleshooting](troubleshooting.md)
