@@ -70,20 +70,24 @@ Here are the steps to follow to customize the project.
 * Click on the function (e.g., `deeplens-object-detection/versions/1`), which will take you to the Lambda console.
 * Click on `Go to $LATEST` so that you can edit the function in the console.
 * Paste in the updated function from `labs/lab5/greengrassHelloWorld.py` .
-* Set the environment variables:
+* Set the environment variables.  Note that if you forget to add these environment variables, your project will deploy successfully but will not run.  The top blue light will never turn on.  Here are the three environment variables you need to set:
 
 ```
 BUCKET_NAME = <your bucket>
 DETECTION_THRESHOLD = 0.55
-S3S3_PUSH_THROTTLE_SECONDS = 4
+S3_PUSH_THROTTLE_SECONDS = 4
 ```
-* Click `Save`.
+* Click `Save` to save the project with the updated function code and environment variables.
 * On the `Actions` menu, click `Publish new version`. Note the new version number.  Add a comment. Click `Publish`.
-* Return back to DeepLens `Projects` console.  Click on `Edit` to edit the project content.  
-* Under `Project Content`, click on `Function` (not the name of the function) to expand the editor.  
-* Choose the new version number that you just published (should be the latest).
-* Click `Save`.
 
+### Updating the DeepLens project to use the new version of the function
+
+Follow these steps to update your DeepLens project to be using the new version of the Lambda function you just created:
+
+* Return back to DeepLens `Projects` console.  Click on `Edit` to edit the project content.  
+* Under `Project Content`, click on `Function` (not the name of the function) to expand the project function editor.  
+* Choose the new version number that you just published (should be the latest).
+* Click `Save` to save your project edits.
 
 ## Re-deploy
 
@@ -92,15 +96,47 @@ S3S3_PUSH_THROTTLE_SECONDS = 4
 
 ## Test
 
-Hold a bird picture in front of the DeepLens.  Hold it steady.  Keep it about 8 to 12 inches from the device.  You should see it detect the bird and highlight it with a thick purple bounding box.
+### Show some bird pictures to your DeepLens device
 
-Now check the lambda logs for the project.  Click on the project.  Click on lambda logs.  Pick the `deeplens-object-detection` log group.  Pick the most recent log stream.  Search for `error`.
+From your DeepLens terminal, use `mplayer` again to view the device's project video stream:
+
+```
+mplayer -demuxer lavf -lavfdopts format=mjpeg:probesize=32 /tmp/results.mjpeg
+```
+
+Hold a bird picture in front of the DeepLens.  Hold it steady.  Keep it about 8 to 12 inches from the device.  You should see it in the `mplayer` window, and you should see that the bird is detected and highlighted with a thick purple bounding box.
+
+**insert picture here**
+
+### Check to see that the cropped image was saved to S3
 
 Now check to see if the project was successful cropping the image and saving it to S3.  Go to your bucket.  Refresh. Navigate to the `birds` folder.  You will see a new folder created for today's date.  Within that, there will be subfolders for each minute in which there was a bird pushed.  Preview the jpg file to see the cropped image that was saved.
 
 IoT console.  IoT permissions in user's IAM policy.
 
 ## Troubleshooting
+
+### Project successfully deployed, but top light never turns on
+
+Be sure you have waited at least a minute after the successful deployment to give it a chance to run.
+
+Now check the lambda logs for the project.  Click on the project.  Click on lambda logs.  Pick the `deeplens-object-detection` log group.  Pick the most recent log stream.  Search for `error`.
+
+If the Lambda function is failing immediately when the DeepLens tries to load it, you may get errors in the `python_runtime` log.  From the `Device` page of the DeepLens console, navigate to the Greengrass logs (link near the bottom of the page).  From CloudWatch, choose the log group called `/aws/greengrass/GreengrassSystem/python_runtime`.  Open the log stream in this log group that has the latest event time.  If you had forgotten to add the environment variables to your Lambda function, your function would be failing to load.  The `python_runtime` log would show an error about its inability to find the `BUCKET_NAME` environment variable.
+
+### Other remediation steps
+
+Try restarting greengrass.  
+
+```
+sudo systemctl restart greengrassd.service —no-block
+```
+
+If that does not work, try rebooting the DeepLens device.
+
+If that does not work, navigate to the device in the DeepLens console and click `Remove project` to remove the project.  This will take a couple of minutes to complete.  You may need to refresh the console to see that it has been removed.  Deploy the project once again, and ensure this time the top light gets lit.
+
+If that does not work, click on `Deregister the device`.  Then go back and repeat device registration and deploying the project.
 
 ### S3 access denied
 
