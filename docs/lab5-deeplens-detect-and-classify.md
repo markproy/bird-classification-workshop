@@ -112,7 +112,22 @@ Hold a bird picture in front of the DeepLens.  Hold it steady.  Keep it about 8 
 
 Now check to see if the project was successful cropping the image and saving it to S3.  Go to your bucket.  Refresh. Navigate to the `birds` folder.  You will see a new folder created for today's date.  Within that, there will be subfolders for each minute in which there was a bird pushed.  Preview the jpg file to see the cropped image that was saved.
 
-IoT console.  IoT permissions in user's IAM policy.
+### Now find out what species was identified
+
+Two ways to do this:
+
+1. Review the logs for the `IdentifySpeciesAndNotify` Lambda function.
+2. IoT console.  **ensure IoT permissions in user's IAM policy.**
+
+#### Reviewing Lambda logs for species
+
+Go to the AWS Lambda console and select the `IdentifySpeciesAndNotify` function.  Click on the `Monitoring` tab.  Click on the `View logs in CloudWatch` button on the upper right corner of the screen above the metrics charts.
+
+In CloudWatch, open the log stream that has the most recent event time.  Scan the log for output from your Lambda function.  Log entries for invocations are bracketed by an initial entry of `START RequestId` and a closing log entry of `REPORT RequestId` which displays the duration and memory size information.  If everything worked well, you will see an entry that starts with `msg` that will show you the results of the species identification.  If not, you may see an entry that says `An error occurred`.  One common example would be that you do not have your SageMaker endpoint up and running with the correct endpoint name (i.e., `nabirds-species-identifier`).
+
+#### Using the IoT console to see the bird species results
+
+tbs
 
 ## Troubleshooting
 
@@ -124,7 +139,7 @@ Now check the lambda logs for the project.  Click on the project.  Click on lamb
 
 If the Lambda function is failing immediately when the DeepLens tries to load it, you may get errors in the `python_runtime` log.  From the `Device` page of the DeepLens console, navigate to the Greengrass logs (link near the bottom of the page).  From CloudWatch, choose the log group called `/aws/greengrass/GreengrassSystem/python_runtime`.  Open the log stream in this log group that has the latest event time.  If you had forgotten to add the environment variables to your Lambda function, your function would be failing to load.  The `python_runtime` log would show an error about its inability to find the `BUCKET_NAME` environment variable.
 
-### Other remediation steps
+#### Other remediation steps
 
 Try restarting greengrass.  
 
@@ -144,7 +159,7 @@ You have not given permission to the Lambda function to create objects in s3.
 
 In IAM, find the `AWSDeepLensGreengrassGroupRole` and extend it by attaching the `AmazonS3FullAccess` policy.
 
-### Registration hangs
+### DeepLens device registration hangs
 
 Ensure you are not on VPN.
 
