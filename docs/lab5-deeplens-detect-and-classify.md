@@ -57,9 +57,43 @@ Now you will customize the object detection project to use a new function that w
 * Crop the scene to that bounding box.
 * Save the cropped image as a jpg to a `birds` folder in your S3 bucket.
 
-In this section, we will review the key pieces of code that are used in the customized object detection function.  The [full code](../labs/lab5/greengrassHelloWorld.py) can be seen in `labs/lab5/greengrassHelloWorld.py`.
+In this section, we will review some of the key pieces of code that are used in the customized object detection function.  The [full code](../labs/lab5/greengrassHelloWorld.py) can be seen in `labs/lab5/greengrassHelloWorld.py`.
 
-**Insert code review here**
+#### Code for cropping the image and calling push_to_s3 function
+
+Here is the code from the main loop of the inference function.  If the object detection model finds any birds, each one is cropped and saved to S3.
+
+```
+# If it's a bird, crop the image and save a copy to s3
+# if we haven't detected birds in the last few seconds
+if ((obj_name == 'bird') and (time_window > S3_PUSH_THROTTLE_SECONDS)):
+    # crop and push
+    crop_img = frame_without_boxes[ymin:ymax, xmin:xmax]
+    push_to_s3(crop_img, i)
+    # remember the time of the last push
+    last_bird_pushed = timestamp
+# Store label and probability to send to cloud
+cloud_output[output_map[obj['label']]] = obj['prob']
+```
+
+#### Code from push_to_s3 for publishing the cropped image to S3
+
+Here is code from a utility function that takes the cropped image, encodes it as a jpg file, and creates an S3 object for the file.  It stores the file in the `birds` folder in the supplied S3 bucket, and it automatically creates subfolders based on date and time for an organized collection of cropped images.
+
+```
+timestamp = int(time.time())
+now = datetime.datetime.now()
+key = "birds/{}_{}/{}_{}/{}_{}.jpg".format(now.month, now.day,
+                                           now.hour, now.minute,
+                                           timestamp, index)
+s3 = boto3.client('s3')
+encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 90]
+_, jpg_data = cv2.imencode('.jpg', img, encode_param)
+response = s3.put_object(ACL='public-read',
+                         Body=jpg_data.tostring(),
+                         Bucket=BUCKET_NAME,
+                         Key=key)
+```
 
 ### Detailed steps for customizing the project function
 

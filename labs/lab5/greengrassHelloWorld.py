@@ -201,10 +201,6 @@ def greengrass_infinite_infer_run():
         # load the SSD object detection model
         model = load_model(SSD_MODEL_PATH)
 
-        # load the SSD object detection model again to simulate what would happen
-        # if we loaded an image classification model to be used on each bird
-#        img_cls_model = load_model(SSD_MODEL_PATH)
-
         # The height and width of the training set images
         input_height = 300
         input_width = 300
@@ -275,12 +271,6 @@ def greengrass_infinite_infer_run():
                         font_thickness = BIRD_FONT_THICKNESS
                         font_scale     = BIRD_FONT_SCALE
                         text_offset    = BIRD_TEXT_OFFSET
-
-                        # simulate using a second model within the loop, for
-                        # each bird detected. if this performs ok, could consider
-                        # doing the image classification at the edge
-#                        throwaway_results = img_cls_model.parseResult(model_type,
-#                                                                     model.doInference(frame_resize))
 
                     # See https://docs.opencv.org/3.4.1/d6/d6e/group__imgproc__draw.html
                     # for more information about the cv2.rectangle method.
