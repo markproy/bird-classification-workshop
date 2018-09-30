@@ -127,7 +127,7 @@ In CloudWatch, open the log stream that has the most recent event time.  Scan th
 
 #### Using the IoT console to see the bird species results
 
-tbs
+From the DeepLens device page of the console, copy the IoT subscription topic and navigate to the IoT console.  Paste in the subscription topic.  Now show another bird to the device.  You should see the results in the IoT console.
 
 ## Troubleshooting
 
