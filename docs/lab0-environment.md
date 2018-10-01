@@ -1,5 +1,9 @@
 # Lab 0 - Setting up your environment
 
+## Consider using SageMaker terminal or Workspaces environment
+
+TBD
+
 ## Cloning the github repository
 
 `github clone https://github.com/markproy/bird-classification-workshop`

@@ -7,8 +7,7 @@ These are the high level steps you will take for the lab:
 1. Download the images
 2. Explore the dataset using a SageMaker notebook
 3. Use the [im2rec](https://mxnet.incubator.apache.org/faq/recordio.html) utility to package the images
-4. Create an S3 bucket that will be used throughout the workshop
-5. Upload the packaged images to S3 for training
+4. Upload the packaged images to S3 for training
 
 The following sections walk you through the detailed steps.
 
@@ -49,7 +48,7 @@ On Mac: `source package_images.sh`
 
 ## Upload the packaged images to S3
 
-Create an S3 bucket - `deeplens-sagemaker-20181128-test1`.
+Create an S3 bucket - `deeplens-sagemaker-20181128-test1`, or... have this created for them ahead of time.
 
 Create a `train` folder for the `train.rec`, and a `validation` folder for the `val.rec` file.
 

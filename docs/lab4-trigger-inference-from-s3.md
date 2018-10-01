@@ -17,9 +17,17 @@ Requires a role with access for Lambda to SNS, S3, and SageMaker.  The console d
 
 Use the Lambda console and pick the `hello-world-python3` blueprint.  Name it `IdentifySpeciesAndNotify`.  For IAM role, pick `Choose an existing role` and then pick `abc` which was created for you in the lab setup steps.  OR, create the IAM role in the previous step.
 
+### In the Lambda Designer, add S3 as a Trigger
+
+Select S3 in the left hand panel list of possible triggers.  Configure the trigger in the lower panel of the Designer console.
+
+Select `ObjectCreate(All)`, with a `Prefix` of `birds/` and a `Suffix` of `.jpg`.
+
+Click `Save`.
+
 ### Update the code
 
-The code for this lambda function is provided in `labs\lab4\lambda\lambda_function.py` .  When your Lambda function has an external dependency that is not provided in the default Lambda environment, you need to provide those external dependencies.  You provide those in a package, and the editing of the function cannot be done on the Lambda console.  Review the [function code](../labs/lab4/lambda/lambda_function.py).  Let's walk through a few key sections.
+Before deploying the custom code, take some time to review it [function code](../labs/lab4/lambda/lambda_function.py).  Let's walk through a few key sections of the code.
 
 #### Invoking the SageMaker endpoint
 
@@ -82,15 +90,9 @@ Add `SAGEMAKER_ENDPOINT_NAME` environment variable `nabirds-species-identifier`.
 
 Add `SNS_TOPIC_ARN` environment variable in later lab.
 
-### In the Lambda Designer, add S3 as a Trigger
-
-Select S3 in the left hand panel list of possible triggers.  Configure the trigger in the lower panel of the Designer console.
-
-Select `ObjectCreate(All)`, with a `Prefix` of `birds/` and a `Suffix` of `.jpg`.
-
-Click `Save`.
-
 ### Adding numpy support for a Lambda function
+
+The code for this lambda function is provided in `labs\lab4\lambda\lambda_function.py` .  When your Lambda function has an external dependency that is not provided in the default Lambda environment, you need to provide those external dependencies.  You provide the dependent code by creating a package.  The packaging work in our case is to provide the Python numpy package, and the workshop has done the necessary [work](https://docs.aws.amazon.com/lambda/latest/dg/lambda-python-how-to-create-deployment-package.html) for you.  Note that when deployment packages are used, the function cannot be edited using the Lambda console.  
 
 ### Updating the Lambda function
 
