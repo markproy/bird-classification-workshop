@@ -13,6 +13,10 @@ Here are the steps involved:
 
 In this section, you will create a SageMaker training job to build your bird species identification model.  The resulting model artifacts will be used in a SageMaker endpoint to provide predictions.  Detailed documentation is available for image classification [hyperparameters](https://docs.aws.amazon.com/sagemaker/latest/dg/IC-Hyperparameter.html) as well as how to [train a model](https://docs.aws.amazon.com/sagemaker/latest/dg/IC-Hyperparameter.html) using Amazon SageMaker.
 
+The following figure illustrates at a high level the training process.
+
+![](./screenshots/training_the_model.png)
+
 Here are the detailed steps to train the model by creating a job from the console.  First click on `Training Jobs` on the left panel of the SageMaker console.  Then click on `Create Training Job`.  From there, you need to fill in the details of the job:
 
 * Pick a name for the job.
