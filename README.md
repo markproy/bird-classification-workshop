@@ -19,8 +19,8 @@ The workshop is composed of the following 6 labs:
 
 ### Acknowledgement for use of the NABirds dataset
 
-Data provided by the Cornell Lab of Ornithology, with thanks to photographers and contributors of crowdsourced data at AllAboutBirds.org/Labs.
+**Data provided by the Cornell Lab of Ornithology, with thanks to photographers and contributors of crowdsourced data at AllAboutBirds.org/Labs.
 
 This material is based upon work supported by the National Science Foundation under Grant No. 1010818.
 
-Any requests for further use of this data should be directed [here](http://dl.allaboutbirds.org/nabirds).
+Any requests for further use of this data should be directed [here](http://dl.allaboutbirds.org/nabirds).**

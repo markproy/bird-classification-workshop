@@ -21,15 +21,23 @@ Use the Lambda console and pick the `hello-world-python3` blueprint.  Name it `I
 
 Select S3 in the left hand panel list of possible triggers.  Configure the trigger in the lower panel of the Designer console.
 
-Select `ObjectCreate(All)`, with a `Prefix` of `birds/` and a `Suffix` of `.jpg`.
+Select `ObjectCreate(All)`, with a `Prefix` of `birds/` and a `Suffix` of `.jpg`.  Click `Add` to add the S3 trigger.
 
-Click `Save`.
+Click `Save` to save the initial version of the Lambda function containing the code from the AWS-supplied blueprint.
+
+
+### Add environment variables
+
+Add `SAGEMAKER_ENDPOINT_NAME` environment variable `nabirds-species-identifier`.
+
+Add `SNS_TOPIC_ARN` environment variable in later lab.
+
 
 ### Update the code
 
 Before deploying the custom code, take some time to review it [function code](../labs/lab4/lambda/lambda_function.py).  Let's walk through a few key sections of the code.
 
-#### Invoking the SageMaker endpoint
+#### Code for Invoking the SageMaker endpoint
 
 In the following section of the code, we take the cropped image from S3 as an array of bytes and pass it as the payload to the SageMaker endpoint identified in the Lambda function environment variable.  The inference result comes back as an array of probabilities, each one corresponding to the likelihood that the image represents a bird of that species.
 
@@ -43,7 +51,7 @@ endpoint_response = runtime.invoke_endpoint(
 result = endpoint_response['Body'].read()
 ```
 
-#### Parse the results
+#### Code for Parsing the results
 
 Once we have the results of the inference, we turn it into a two-dimensional array with the index of the species and the probability that the image is of that species.  The array is sorted in descending probability, with the most likely species first.
 
@@ -57,7 +65,7 @@ transposed_full_results = full_results.T
 sorted_transposed_results = transposed_full_results[transposed_full_results[:,1].argsort()[::-1]]
 ```
 
-#### Create a human readable message with the results
+#### Code for Creating a human readable message with the results
 
 Given the sorted results, it is straightforward to then construct a message that summarizes what the model predicted.  This can be logged or pushed to SNS (and on to SMS).  If the model is beyond a configurable threshold, the message definitively states the bird species.  Otherwise, it shows the confidence level of the top two species.  The S3 object key is included in the message to support viewing of the cropped image that was used as input.  A useful extension to this lab would be to provide a signed URL to the image as part of the message.
 
@@ -75,7 +83,7 @@ else:
                   '{:2.2f}'.format(sorted_transposed_results[top_index][1]) + ')'
 ```
 
-#### Publishing the message to SNS
+#### Code for Publishing the message to SNS
 
 Two simple lines of code are all that we need to publish the message to SNS, and one of them is just retrieving the SNS topic ARN from a Lambda environment variable.
 
@@ -83,12 +91,6 @@ Two simple lines of code are all that we need to publish the message to SNS, and
 mySNSTopicARN = os.environ['SNS_TOPIC_ARN']
 response = sns.publish(TopicArn=mySNSTopicARN, Message=msg)
 ```
-
-### Add environment variables
-
-Add `SAGEMAKER_ENDPOINT_NAME` environment variable `nabirds-species-identifier`.
-
-Add `SNS_TOPIC_ARN` environment variable in later lab.
 
 ### Adding numpy support for a Lambda function
 
@@ -106,7 +108,9 @@ Mac `source ./deploy_lambda.sh`
 
 Copy a test image to s3.  Use console to upload, or use the AWS CLI.
 
-`aws s3 cp test_images/card.jpg s3://bucket/birds/card.jpg`
+**fix this command**
+
+`aws s3 cp test_images/card.jpg s3://<bucket-name>/birds/card.jpg`
 
 You may have to refresh the console to see the new file in your bucket.
 

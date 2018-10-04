@@ -15,7 +15,7 @@ FUNCTION_NAME=IdentifySpeciesAndNotify
 PACKAGE_FILE_PREFIX=package
 
 # First, create the lambda package as a zip file
-cd working #lambda_code
+cd lambda
 zip -r9 ../$PACKAGE_FILE_PREFIX.zip .
 cd ..
 
