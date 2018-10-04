@@ -67,6 +67,10 @@ Now you will customize the object detection project to use a new function that w
 * Crop the scene to that bounding box.
 * Save the cropped image as a jpg to a `birds` folder in your S3 bucket.
 
+The following figure illustrates how the customized Lambda function interacts with the cropped image in S3, the trained model in SageMaker, and SNS for notification.
+
+![](./screenshots/custom_lambda.png)
+
 In this section, we will review some of the key pieces of code that are used in the customized object detection function.  The [full code](../labs/lab5/greengrassHelloWorld.py) can be seen in `labs/lab5/greengrassHelloWorld.py`.
 
 #### Code for cropping the image and calling push_to_s3 function
