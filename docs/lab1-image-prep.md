@@ -1,8 +1,6 @@
 # Lab 1 - Prepare images for training
 
-In this lab, you will prepare the images for training.  We will be using SageMaker's [Image Classification algorithm](https://docs.aws.amazon.com/sagemaker/latest/dg/image-classification.html) against these images.  This algorithm performs supervised learning, taking an image as input and classifying it into one of many output categories.  In this workshop, the output categories are species of birds like Cardinal and Oriole.  The algorithm uses a convolutional neural network (ResNet), and is best trained with a dataset of images packaged in [Apache MXNet RecordIO](https://mxnet.incubator.apache.org/architecture/note_data_loading.html) format.  The following figure illustrates the process of packaging the images.
-
-![](./screenshots/prepare_images.png)
+In this lab, you will prepare the images for training.  We will be using SageMaker's [Image Classification algorithm](https://docs.aws.amazon.com/sagemaker/latest/dg/image-classification.html) against these images.  This algorithm performs supervised learning, taking an image as input and classifying it into one of many output categories.  In this workshop, the output categories are species of birds like Cardinal and Oriole.  The algorithm uses a convolutional neural network (ResNet), and is best trained with a dataset of images packaged in [Apache MXNet RecordIO](https://mxnet.incubator.apache.org/architecture/note_data_loading.html) format.  
 
 These are the high level steps you will take for the lab:
 
@@ -42,11 +40,14 @@ Open the SageMaker notebook to review the following:
 
 ## Package the images
 
-Run script that invokes `im2rec` to create packaged RecordIO files.
+The following figure illustrates the process of packaging the images.
 
-On Windows: `package_images.bat`
+![](./screenshots/prepare_images.png)
 
-On Mac: `source package_images.sh`
+For this workshop, we have provided a script to do the packaging.  The script invokes the `im2rec` utility to create packaged RecordIO files.  To run the script, run the following command from the `labs/lab1` directory:
+
+* On Windows: `package_images.bat`
+* On Mac: `source package_images.sh`
 
 ## Upload the packaged images to S3
 
