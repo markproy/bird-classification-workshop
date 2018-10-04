@@ -33,6 +33,12 @@ Use documentation of standard registration steps.
 
 ## Deploy off the shelf object detection project
 
+The following figure illustrates the composition of an AWS DeepLens project.
+
+![](./screenshots/deeplens_project.png)
+
+Here are the detailed steps you will follow to deploy the project:
+
 * Click `Deploy a project`.
 * On the `Projects` console, click `Create new project`.
 * Use a project template called `Object detection`.  Click `Next`, and then click `Create`.  Project creation could take a few seconds.  
