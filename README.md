@@ -17,6 +17,17 @@ The workshop is composed of the following 6 labs:
 * [Lab 5](docs/lab5-deeplens-detect-and-classify.md) - Use AWS DeepLens to detect birds and trigger classification
 * [Lab 6](docs/lab6-text-notification.md) - Configure text notification with identified species (optional)
 
+### Cleaning up
+
+After you are done, it is important to clean up resources in your account so that you will not be billed unexpectedly.  If you used an AWS account that was supplied to you just for the purposes of this workshop, then you can skip this step.
+
+* Delete the SageMaker endpoint
+* Stop the SageMaker notebook instance
+* Delete image dataset
+* Delete any S3 buckets that you created just for this workshop
+* Delete SNS topic
+* Delete Lambda functions
+
 ### Acknowledgement for use of the NABirds dataset
 
 **Data provided by the Cornell Lab of Ornithology, with thanks to photographers and contributors of crowdsourced data at AllAboutBirds.org/Labs.**
