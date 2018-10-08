@@ -29,6 +29,8 @@ On Windows: `unzip_images.bat`
 
 On Mac: `source unzip_images.sh`
 
+From SageMaker terminal: `source ./unzip_images.sh`
+
 ## Explore the dataset
 
 Open the SageMaker notebook to review the following:
