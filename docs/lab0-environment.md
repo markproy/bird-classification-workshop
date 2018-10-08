@@ -10,6 +10,22 @@ TBD
 
 This will provide all of the content you need to get started with the labs.
 
+OR
+
+Create a SageMaker notebook instance with ml.m4.xlarge instance type.
+
+When it is created, Open it.  Click on New conda_python3.
+
+In the first cell, paste this command and execute it (shift enter):
+
+```
+! git clone https://fbfd8b1f0692e5f155c19117204f0f9a7723c22b@github.com/markproy/bird-classification-workshop
+```
+
+Upload the `sample_images.zip` file to the `bird-classification-workshop` folder.  It is 91MB, and will take several minutes to upload.
+
+Navigate on the Files tab to open the Jupyter notebook in `bird-classification-workshop/labs/LabNotebook.ipynb`.
+
 ## Preparing the AWS CLI (command line interface)
 
 If you have not yet set up your environment to use the AWS CLI, follow [these](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) instructions to install the CLI.  Step by step instructions for configuring the AWS CLI can be found [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html).
