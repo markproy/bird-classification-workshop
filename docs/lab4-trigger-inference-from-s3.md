@@ -173,6 +173,7 @@ Now click `View logs in CloudWatch`.  Click on the most recently updated Log Str
 Review the logs.  Look for log entries containing `msg` to see the results of the SageMaker inference.  As you interpret the logs, you will see that each invocation of the function is bracketed by a `START` message at the beginning of the invocation, and a `REPORT` message after completion of the invocation.  Here is a sample set of log output:
 
 ```
+...
 17:34:15 START RequestId: be06fb5e-cd7b-11e8-bd9b-9b286c7b5b1c Version: $LATEST
 17:34:15 KEY: birds/card.jpg
 17:34:15 CONTENT LENGTH: 106394
@@ -183,10 +184,11 @@ Review the logs.  Look for log entries containing `msg` to see the results of th
 17:34:15 Error publishing message to SNS.
 17:34:15 'SNS_TOPIC_ARN': KeyError Traceback (most recent call  last): File "/var/task/lambda_function.py", line 112, in lambda_handler raise e File "/var/task/lambda_function.py", line 105, in lambda_handler mySNSTopicARN = os.environ['SNS_TOPIC_ARN'] File "/var/lang/lib/python3.6/os.py", line 669, in __getitem__ raise KeyError(key) from None KeyError: 'SNS_TOPIC_ARN'
 17:34:15 END RequestId: be06fb5e-cd7b-11e8-bd9b-9b286c7b5b1c
-17:34:15 REPORT RequestId: be06fb5e-cd7b-11e8-bd9b-9b286c7b5b1c Duration: 567.73 ms Billed Duration: 600 ms Memory Size: 128 MB Max Memory Used: 67 MB 
+17:34:15 REPORT RequestId: be06fb5e-cd7b-11e8-bd9b-9b286c7b5b1c Duration: 567.73 ms Billed Duration: 600 ms Memory Size: 128 MB Max Memory Used: 67 MB
+...
 ```
 
-If you are not finding those entries, you should look for error messages that will help you troubleshoot the problem.
+If you are not finding `msg` entries, you should look for error messages that will help you troubleshoot the problem.
 
 ## Navigation
 
