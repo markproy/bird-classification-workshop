@@ -41,7 +41,7 @@ Return to your SageMaker Jupyter notebook and click on the `New` button on the u
 
 In this section, you will use some images that your model has never seen before and run tests against the inference endpoint you created earlier in this lab.
 
-You will be executing the following [test script](../labs/lab2/test_direct_sample.py).  To run the test, navigate to the Lab 2 folder and then run the test using Python:
+You will be executing the following [test script](../../labs/lab2/test_direct_sample.py).  To run the test, navigate to the Lab 2 folder and then run the test using Python:
 
 ```
 cd SageMaker/bird-classification-workshop/labs/lab2
