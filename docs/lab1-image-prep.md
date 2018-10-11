@@ -2,7 +2,7 @@
 
 In this lab, you will prepare the images for training.  We will be using SageMaker's [Image Classification algorithm](https://docs.aws.amazon.com/sagemaker/latest/dg/image-classification.html) against these images.  This algorithm performs supervised learning, taking an image as input and classifying it into one of many output categories.  In this workshop, the output categories are species of birds like Cardinal and Oriole.  The algorithm uses a convolutional neural network (ResNet), and is best trained with a dataset of images packaged in [Apache MXNet RecordIO](https://mxnet.incubator.apache.org/architecture/note_data_loading.html) format.  
 
-These are the high level steps you will take for the lab: 
+These are the high level steps you will take for the lab:
 
 1. Download the images
 2. Explore the dataset using a SageMaker notebook
@@ -60,5 +60,7 @@ Create a `train` folder for the `train.rec`, and a `validation` folder for the `
 Use `aws s3 cp ...` or multi-part upload from Python script or from s3 console.
 
 ## Navigation
+
+Go to the [Next Lab](lab2-train-model.md)
 
 [Home](../README.md) - [Lab 1](lab1-image-prep.md) - [Lab 2](lab2-train-model.md) - [Lab 3](lab3-host-model.md) - [Lab 4](lab4-trigger-inference-from-s3.md) - [Lab 5](lab5-deeplens-detect-and-classify.md) - [Lab 6](lab6-text-notification.md) - [Troubleshooting](troubleshooting.md)
