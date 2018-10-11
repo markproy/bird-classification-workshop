@@ -49,6 +49,12 @@ cd SageMaker/bird-classification-workshop/labs/lab3
 python test_direct_sample.py ../../test_images/card.jpg
 ```
 
+You should see output like the following:
+
+```
+Bird is a: Northern Cardinal (Adult Male)(0.94)[772]
+```
+
 **should default the endpoint name in this script so that no one needs to set an env var**
 
 This will invoke the SageMaker endpoint, parse the results, create and print a message telling you which bird species was identified.  If the confidence level was low, it will tell you the top 2 candidates.  Confidence levels are also printed.
