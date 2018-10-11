@@ -121,21 +121,72 @@ cd ~/SageMaker/bird-classification-workshop/labs/lab4
 source ./deploy_lambda.sh
 ```
 
-The script first creates a zip file containing the code as well as the `numpy` Python package.  It then uses the AWS CLI to deploy the package to Lambda.  This is made possible by having the proper IAM role for the SageMaker notebook instance that lets you update the function code using the Lambda service.
+The script first creates a zip file containing the code as well as the `numpy` Python package.  It then uses the AWS CLI to deploy the package to Lambda.  This is made possible by having the proper IAM role for the SageMaker notebook instance that lets you update the function code using the Lambda service.  You should receive output similar to the following:
+
+```
+{
+    "FunctionName": "IdentifySpeciesAndNotify",
+    "FunctionArn": "arn:aws:lambda:us-east-1:033464141587:function:IdentifySpeciesAndNotify",
+    "Runtime": "python3.6",
+    "Role": "arn:aws:iam::033464141587:role/service-role/deeplens-workshop-lambda-role",
+    "Handler": "lambda_function.lambda_handler",
+    "CodeSize": 18889247,
+    "Description": "A starter AWS Lambda function.",
+    "Timeout": 3,
+    "MemorySize": 128,
+    "LastModified": "2018-10-11T17:01:16.764+0000",
+    "CodeSha256": "534Cp/EnJIkf//lJvWlERqqvXxSYFIiI4hxSBtHCwMU=",
+    "Version": "$LATEST",
+    "VpcConfig": {
+        "SubnetIds": [],
+        "SecurityGroupIds": [],
+        "VpcId": ""
+    },
+    "Environment": {
+        "Variables": {
+            "SAGEMAKER_ENDPOINT_NAME": "nabirds-species-identifier"
+        }
+    },
+    "TracingConfig": {
+        "Mode": "PassThrough"
+    },
+    "RevisionId": "1bc16b77-93bc-420b-b9b8-41a203597bf5"
+}
+```
 
 ## Test by adding an image to s3
 
-Copy a test image to s3.  Use console to upload, or use the AWS CLI.
+Copy a test image to s3.  The workshop has a set of test images you can use in the `test_images` folder.  You can use the S3 console to upload an image, or use the AWS CLI as in the following command:
 
-**fix this command**
+```
+aws s3 cp ../../test_images/card.jpg s3://<bucket-name>/birds/card.jpg`
+```
 
-`aws s3 cp test_images/card.jpg s3://<bucket-name>/birds/card.jpg`
-
-You may have to refresh the console to see the new file in your bucket.
+You may have to refresh the S3 console to see the new file in your bucket.  Also, to ensure the Lambda function is triggered, you need to ensure you use the `birds/` prefix for the target object in the S3 bucket.
 
 ### Review CloudWatch logs for the Lambda function
 
-Go to the Lambda console.  Click the `Monitoring` tab.  You should see Invocations count go up.  Click `View logs in CloudWatch`.  Click on the logstream.  Review the logs.  Look for ones with `msg` to see the results of the SageMaker inference.
+Go to the Lambda console.  Click the `Monitoring` tab.  You should see the `Invocations` count go up.  Note that the metrics are not updated instantaneously.  It could take a couple of minutes and a refresh before you see the charts updated.
+
+Now click `View logs in CloudWatch`.  Click on the most recently updated Log Stream. You can identify that by looking at the `Last Event Time` column.
+
+Review the logs.  Look for log entries containing `msg` to see the results of the SageMaker inference.  As you interpret the logs, you will see that each invocation of the function is bracketed by a `START` message at the beginning of the invocation, and a `REPORT` message after completion of the invocation.  Here is a sample set of log output:
+
+```
+17:34:15 START RequestId: be06fb5e-cd7b-11e8-bd9b-9b286c7b5b1c Version: $LATEST
+17:34:15 KEY: birds/card.jpg
+17:34:15 CONTENT LENGTH: 106394
+17:34:15 CONTENT TYPE: image/jpeg
+17:34:15 Invoking bird species identification endpoint
+17:34:15 msg: Bird [birds/card.jpg] is a: Northern Cardinal (Adult Male)(0.94)
+17:34:15 'SNS_TOPIC_ARN'
+17:34:15 Error publishing message to SNS.
+17:34:15 'SNS_TOPIC_ARN': KeyError Traceback (most recent call  last): File "/var/task/lambda_function.py", line 112, in lambda_handler raise e File "/var/task/lambda_function.py", line 105, in lambda_handler mySNSTopicARN = os.environ['SNS_TOPIC_ARN'] File "/var/lang/lib/python3.6/os.py", line 669, in __getitem__ raise KeyError(key) from None KeyError: 'SNS_TOPIC_ARN'
+17:34:15 END RequestId: be06fb5e-cd7b-11e8-bd9b-9b286c7b5b1c
+17:34:15 REPORT RequestId: be06fb5e-cd7b-11e8-bd9b-9b286c7b5b1c Duration: 567.73 ms Billed Duration: 600 ms Memory Size: 128 MB Max Memory Used: 67 MB 
+```
+
+If you are not finding those entries, you should look for error messages that will help you troubleshoot the problem.
 
 ## Navigation
 
