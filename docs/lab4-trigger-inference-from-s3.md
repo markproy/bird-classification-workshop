@@ -7,35 +7,47 @@ In this lab, you will configure your s3 bucket to automatically trigger an infer
 3. Test by adding an image to s3
 4. Extend the function to publish to SNS
 
-## Create a Lambda function
+## Create a Lambda function to identify bird species
 
-### Create the IAM role for Lambda function
+### Create or select an IAM role for your Lambda function
 
-Requires a role with access for Lambda to SNS, S3, and SageMaker.  The console doesn't let you pick SageMaker, so it has to be attached manually after the role gets created.  Else, could be included in the CFT that gets applied to each account for the workshop, or could be an add-on CFT that each attendee applies.
+This Lambda function requires an IAM role with access for Lambda to SNS, S3, and SageMaker.  The console doesn't let you pick SageMaker, so it has to be attached manually after the role gets created.  Your workshop may have created the role on your behalf already.  Go to the IAM console and click on the `Roles` section.  Look for a role called `deeplens-workshop-lambda-role`.  Click on that role and ensure it has access to SNS, S3, and SageMaker, as well as basic Lambda execution permissions (i.e., for CloudWatch logging).
 
-### Create a 'hello world' function
+### Create a 'hello world' Lambda function
 
-Use the Lambda console and pick the `hello-world-python3` blueprint.  Name it `IdentifySpeciesAndNotify`.  For IAM role, pick `Choose an existing role` and then pick `abc` which was created for you in the lab setup steps.  OR, create the IAM role in the previous step.
+* Use the Lambda console and click on `Create function` to get started.
+* Next, choose to create your function via `Blueprints`.
+* Search for the blueprint called `hello-world-python3`.  Select that blueprint and click on `Configure` at the bottom of the page.
+* Name the new function `IdentifySpeciesAndNotify`.  
+* For IAM role, pick `Choose an existing role` and then pick `service-role/deeplens-workshop-lambda-role` which was created earlier.
+* Click `Create function` at the bottom of the page.
+
+Now you have successfully created a hello world Lambda function with the appropriate permissions.  You will customize it to do what we need it to do in the subsequent steps.
 
 ### In the Lambda Designer, add S3 as a Trigger
 
-Select S3 in the left hand panel list of possible triggers.  Configure the trigger in the lower panel of the Designer console.
+* Select `S3` in the left hand panel list of possible triggers. It is near the bottom.
+* You'll see an `S3` box added to the design panel on the right, and it will say `Configuration required`.  
+* Scroll down to the `Configure triggers` section of the designer.
+* The first configuration step is to identify which S3 bucket will serve as the event source.  Choose your S3 bucket from the dropdown list (**TBS: come up with standard S3 nomenclature**)
+* Next, ensure `ObjectCreated(All)` is selcted as the `Event Type`.
+* Enter a `Prefix` of `birds/` and a `Suffix` of `.jpg`.
+* Lastly, click `Add` to add the S3 trigger.
+* Click `Save` to save the initial version of the Lambda function.  
 
-Select `ObjectCreate(All)`, with a `Prefix` of `birds/` and a `Suffix` of `.jpg`.  Click `Add` to add the S3 trigger.
-
-Click `Save` to save the initial version of the Lambda function containing the code from the AWS-supplied blueprint.
-
+The function is now available, and will be triggered when new objects arrive in that bucket.  However, the code for the Lambda function is still simply the default code from the AWS-supplied blueprint.  You'll supply the real code required later on in this lab.
 
 ### Add environment variables
 
-Add `SAGEMAKER_ENDPOINT_NAME` environment variable `nabirds-species-identifier`.
+* At the top of the Lambda designer panel, click on the box with the name of the function (i.e., `IdentifySpeciesAndNotify`).
+* Scroll down past the function code below until you reach the `Environment variables` section.
+* Enter a new environment variable with `SAGEMAKER_ENDPOINT_NAME` as its key, and `nabirds-species-identifier` for its value.  This tells the function which SageMaker endpoint to use when performing an inference to identify a bird species.  The value must match the name of the endpoint you supplied in [Lab 3](lab3-host-model.md).
+* **TBS** Add `SNS_TOPIC_ARN` environment variable in later lab.
+* Click `Save` to save your function including the new settings.
 
-Add `SNS_TOPIC_ARN` environment variable in later lab.
+### Update the Python code for your function
 
-
-### Update the code
-
-Before deploying the custom code, take some time to review it [function code](../labs/lab4/lambda/lambda_function.py).  Let's walk through a few key sections of the code.
+Before updating the Lambda function to have the required code to predict bird species, first take some time to review [the code](../labs/lab4/lambda/lambda_function.py).  Let's walk through a few key code snippets in the sections below.
 
 #### Code for Invoking the SageMaker endpoint
 
@@ -67,7 +79,7 @@ sorted_transposed_results = transposed_full_results[transposed_full_results[:,1]
 
 #### Code for Creating a human readable message with the results
 
-Given the sorted results, it is straightforward to then construct a message that summarizes what the model predicted.  This can be logged or pushed to SNS (and on to SMS).  If the model is beyond a configurable threshold, the message definitively states the bird species.  Otherwise, it shows the confidence level of the top two species.  The S3 object key is included in the message to support viewing of the cropped image that was used as input.  A useful extension to this lab would be to provide a signed URL to the image as part of the message.
+Given the sorted results, it is straightforward to then construct a message that summarizes what the model predicted.  This can be logged or pushed to SNS (and on to SMS).  If the model's prediction confidence is beyond a configurable threshold, the message definitively states the bird species.  Otherwise, it shows the confidence level of the top two species.  The S3 object key is included in the message to support viewing of the cropped image that was used as input.  A useful extension to this lab would be to provide a signed URL as part of the message that would let the user be one click away from seeing the bird that was sent to the model inference.
 
 ```
 msg = ''
@@ -85,7 +97,7 @@ else:
 
 #### Code for Publishing the message to SNS
 
-Two simple lines of code are all that we need to publish the message to SNS, and one of them is just retrieving the SNS topic ARN from a Lambda environment variable.
+Two simple lines of code are all that we need to publish the message to SNS. One of them is just retrieving the SNS topic ARN from a Lambda environment variable.
 
 ```
 mySNSTopicARN = os.environ['SNS_TOPIC_ARN']
@@ -94,15 +106,22 @@ response = sns.publish(TopicArn=mySNSTopicARN, Message=msg)
 
 ### Adding numpy support for a Lambda function
 
-The code for this lambda function is provided in `labs\lab4\lambda\lambda_function.py` .  When your Lambda function has an external dependency that is not provided in the default Lambda environment, you need to provide those external dependencies.  You provide the dependent code by creating a package.  The packaging work in our case is to provide the Python numpy package, and the workshop has done the necessary [work](https://docs.aws.amazon.com/lambda/latest/dg/lambda-python-how-to-create-deployment-package.html) for you.  Note that when deployment packages are used, the function cannot be edited using the Lambda console.  
+The code for this lambda function is provided in `labs/lab4/lambda/lambda_function.py` .  When your Lambda function has an external dependency that is not provided in the default Lambda environment (e.g., Python's `numpy` package), you need to provide those external dependencies in a Lambda deployment package.  
+
+You provide the dependent code by creating a deployment package.  The packaging work in our case is to provide the Python numpy package, and the workshop has done the necessary [work](https://docs.aws.amazon.com/lambda/latest/dg/lambda-python-how-to-create-deployment-package.html) for you.  
+
+Note that when deployment packages are used, the function cannot be edited using the Lambda console. Instead, you need to use your own editor of choice.  In this workshop, if you want to make any code changes to the Lambda function, you can navigate to the code in your SageMaker Jupyter notebook in the Files tab.  Click through the folders to get to `labs/lab4/lambda/lambda_function.py`.  If you make any changes, simply click on `Save` on the `File` menu to save the changes before deploying the code in the next step.
 
 ### Updating the Lambda function
 
-Use script from Mac or Windows environment to create a Lambda function package and use the AWS CLI to update the function.
+From your SageMaker terminal window, deploying the package is very straightforward, as we have provided a simple shell script to execute:
 
-Windows `deploy_lambda`
+```
+cd ~/SageMaker/bird-classification-workshop/labs/lab4
+source ./deploy_lambda.sh
+```
 
-Mac `source ./deploy_lambda.sh`
+The script first creates a zip file containing the code as well as the `numpy` Python package.  It then uses the AWS CLI to deploy the package to Lambda.  This is made possible by having the proper IAM role for the SageMaker notebook instance that lets you update the function code using the Lambda service.
 
 ## Test by adding an image to s3
 
