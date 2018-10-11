@@ -1,5 +1,13 @@
 # Troubleshooting
 
+### Device status will not move on from 'Deployment in progress'
+
+If your device never moves to a `Device status` of online, and instead seems to be stuck on `Deployment in progress`, first be sure to click the refresh button on your web browser, as that status does not always update on its own.  If you are still stuck on `Deployment in progress`, de-register the device, and restart the registration steps.
+
+### Update is available
+
+If your device shows a status of `Update is available`, scroll down and click on `Update` to get the latest set of software updates for the DeepLens.  You will need to wait several minutes for this process to complete.
+
 ### Project successfully deployed, but top light never turns on
 
 Be sure you have waited at least a minute after the successful deployment to give it a chance to run.
@@ -28,11 +36,11 @@ You have not given permission to the Lambda function to create objects in s3.
 
 In IAM, find the `AWSDeepLensGreengrassGroupRole` and extend it by attaching the `AmazonS3FullAccess` policy.
 
-### DeepLens device registration hangs
+### DeepLens device registration hangs and times out
 
 Ensure you are not on VPN.
 
-If deeplens.amazon.net hangs when trying to connect with the device over its softAP SSID, try DeepLens.config instead.
+If `deeplens.amazon.net` hangs when trying to connect with the device over its softAP SSID, try `DeepLens.config` instead.
 
 ## Navigation
 

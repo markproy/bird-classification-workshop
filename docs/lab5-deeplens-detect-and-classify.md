@@ -14,22 +14,25 @@ Here are the steps you will use in this lab:
 
 ## Register the DeepLens device
 
-Use documentation of standard registration steps.
+**TBS: Use documentation of standard registration steps.**
+
+Here are the steps required to register your DeepLens device.  Ensure you are using `us-east-1 (N.Virginia)` as your region.
 
 * Name the device.  Use the name provided on a sticker on the device (e.g., `L25`).
-* Permissions.  Should be all set based on CloudFormation template that already set up the proper permissions.
+* Permissions.  The DeepLens required permissions should be all set for your workshop ahead of time, so you should see a green circle with a check mark next to `IAM roles for DeepLens`.  If not, please refer to [these instructions](https://docs.aws.amazon.com/deeplens/latest/dg/deeplens-getting-started-register.html).
 * Certificate.  Download the certificate to be used on the device.  You will need to upload this certificate to the device in an upcoming step.
-* Next.
+* Click `Next`.
 * Use paper clip to enable the device softAP WiFi.  You will connect to the device WiFi to upload the certificate.
 * Once the middle light on the device is blinking, connect to the device WiFi.  The SSID is shown on the sticker on the device (e.g., `AMDC-UB82`).
 * Once you are connected to the device WiFi, click `Next` to continue the setup.
-* Select a `Wired connection` using `Ethernet-USB Adapter`.  Click `Use Ethernet`.  Click `Connect`.
-* Upload the certificate that you downloaded earlier.  Click `Edit` even if it looks like there is already a certificate attached.  This could be from an earlier registration.  Click `Browse` and locate the certificate zip file (e.g., `certificates-deeplens_JVHM9GHxSqRE84fw.zip`) you downloaded earlier.  Click `Upload zip file`.
+* Under the `Network connection` section, ensure that it is configured to a `Wired connection` using `Ethernet-USB Adapter`. If it is not, click `Edit` and then choose `Use Ethernet`.
+* In the `Certificate` section, you need to upload the certificate that you downloaded earlier.  Click `Edit` even if it looks like there is already a certificate attached.  If there is one already listed, it is from an earlier registration and it will **not** work for your new registration.  After clicking `Edit`, click `Browse` and locate the certificate zip file (e.g., `certificates-deeplens_JVHM9GHxSqRE84fw.zip`) you downloaded earlier.  Click `Save` to return to the main configuration screen.
 * Leave the device password as is.  For this workshop, you will see the password on a sticker on the device.
 * Click `Finish`.  This will disconnect you from the device WiFi, and will complete the registration on the device.
 * Re-connect to your network (non-device WiFi, or Ethernet).
-* Click `Open AWS DeepLens Console`.
-* You should see `Registration status` of `Registered`, and a `Device status` of `Online`.
+* Now you will return to the console by clicking `AWS management console`.
+* Click `Devices` on the left hand panel of the DeepLens console in the `Resources` section.
+* For your device, you should see `Registration status` of `Registered`, and a `Device status` of `Online`.  It is possible that the `Device status` says `Deployment in progress`.  If so, give it a couple of minutes.
 
 ## Deploy off the shelf object detection project
 
@@ -41,23 +44,23 @@ Here are the detailed steps you will follow to deploy the project:
 
 * Click `Deploy a project`.
 * On the `Projects` console, click `Create new project`.
-* Use a project template called `Object detection`.  Click `Next`, and then click `Create`.  Project creation could take a few seconds.  
+* Use a project template called `Object detection`.  Click `Next`, and then click `Create`.  Project creation could take a few seconds.  You will know that the project is fully created when you see its `Description`, `Creation time`, and `Last updated` information populated in the console.  Try clicking your web browser refresh button if those fields are still blank.
 * Once the project is created, select it, and click `Deploy to device`. Pick the device you registered in the previous step. Click `Review`. Click `Deploy`.
-* You will see the status at the top of the page indicating `Deployment of project is in progress`, with an indication of percent complete of the model download.  It will then create a Greengrass deployment.  After a few minutes, you will see the status bar change from blue to green indicating `Deployment of project succeeded`.
-* Soon thereafter, the topmost blue light on the device should turn on and remain lit.
+* You will see the status at the top of the page in a blue box, and it will indicate `Deployment of project is in progress`.  A percent completion of the model download will be displayed.  Once the model is downloaded, the device will create a Greengrass deployment.  After a few minutes, you will see the status bar change from blue to green indicating `Deployment of project succeeded`.
+* Soon thereafter, the topmost blue light on the device should turn on and remain lit.  All three blue lights should be lit when the model is downloaded and is running.
 
 ## Test the project
 
 Login to the device using the keyboard and monitor.  `aws_cam` is the username.  `Aws2018!` is the password.
 
-Once the desktop is displayed, right click on the desktop and select `Open Terminal`.  In the terminal window, launch a viewer to see the project stream being provided by the AWS DeepLens device.
+Once the desktop is displayed, right click on the desktop and select `Open Terminal`.  In the terminal window, launch a viewer to see the project stream being provided by the AWS DeepLens device.  The following command in the terminal window will launch a new project viewer window:
 
 ```
 mplayer -demuxer lavf -lavfdopts format=mjpeg:probesize=32 /tmp/results.mjpeg
 ```
 This will bring up a new window showing you what the device is seeing.  For the Object Detection project, it will also show you blue bounding boxes and confidence levels each time it identifies one of the 20 objects it has been trained to detect (e.g., person, sofa, tv monitor).
 
-## Customize the object detection project
+## Customize the object detection project to identify birds
 
 ### Review the code you will be providing
 
@@ -65,7 +68,7 @@ Now you will customize the object detection project to use a new function that w
 
 * Display a bold purple bounding box to highlight the bird.
 * Crop the scene to that bounding box.
-* Save the cropped image as a jpg to a `birds` folder in your S3 bucket.
+* Save the cropped image as a jpg file to a `birds` folder in your S3 bucket.
 
 The following figure illustrates how the customized Lambda function interacts with the cropped image in S3, the trained model in SageMaker, and SNS for notification.
 
@@ -73,7 +76,7 @@ The following figure illustrates how the customized Lambda function interacts wi
 
 In this section, we will review some of the key pieces of code that are used in the customized object detection function.  The [full code](../labs/lab5/greengrassHelloWorld.py) can be seen in `labs/lab5/greengrassHelloWorld.py`.
 
-#### Code for cropping the image and calling push_to_s3 function
+#### Code for cropping the image and calling the 'push_to_s3' function
 
 Here is the code from the main loop of the inference function.  If the object detection model finds any birds, each one is cropped and saved to S3.
 
@@ -84,15 +87,17 @@ if ((obj_name == 'bird') and (time_window > S3_PUSH_THROTTLE_SECONDS)):
     # crop and push
     crop_img = frame_without_boxes[ymin:ymax, xmin:xmax]
     push_to_s3(crop_img, i)
+
     # remember the time of the last push
     last_bird_pushed = timestamp
+
 # Store label and probability to send to cloud
 cloud_output[output_map[obj['label']]] = obj['prob']
 ```
 
-#### Code from push_to_s3 for publishing the cropped image to S3
+#### Code from 'push_to_s3' for publishing the cropped image to S3
 
-Here is code from a utility function that takes the cropped image, encodes it as a jpg file, and creates an S3 object for the file.  It stores the file in the `birds` folder in the supplied S3 bucket, and it automatically creates subfolders based on date and time for an organized collection of cropped images.
+Here is code from a utility function called `push_to_s3` that takes the cropped image, encodes it as a jpg file, and creates an S3 object from that file.  It stores the file in the `birds` folder in the supplied S3 bucket, and it automatically creates subfolders based on date and time for an organized collection of cropped images.
 
 ```
 timestamp = int(time.time())
@@ -101,8 +106,10 @@ key = "birds/{}_{}/{}_{}/{}_{}.jpg".format(now.month, now.day,
                                            now.hour, now.minute,
                                            timestamp, index)
 s3 = boto3.client('s3')
+
 encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 90]
 _, jpg_data = cv2.imencode('.jpg', img, encode_param)
+
 response = s3.put_object(ACL='public-read',
                          Body=jpg_data.tostring(),
                          Bucket=BUCKET_NAME,
@@ -115,9 +122,9 @@ Here are the steps to follow to customize the project.
 
 * Go to the `Project` part of the DeepLens console.
 * Click on the name of the project you created earlier.  The console will take you to the details page for that project.
-* Click on the function (e.g., `deeplens-object-detection/versions/1`), which will take you to the Lambda console.
+* Click on the name of function (e.g., `deeplens-object-detection/versions/1`), which will take you to the Lambda console.
 * Click on `Go to $LATEST` so that you can edit the function in the console.
-* Paste in the updated function from `labs/lab5/greengrassHelloWorld.py` .
+* Paste in the updated function from [labs/lab5/greengrassHelloWorld.py](../labs/lab5/greengrassHelloWorld.py).
 * Set the environment variables.  Note that if you forget to add these environment variables, your project will deploy successfully but will not run.  The top blue light will never turn on.  Here are the three environment variables you need to set:
 
 ```
