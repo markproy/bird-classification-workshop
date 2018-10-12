@@ -69,7 +69,7 @@ Mac
 `export ENDPOINT_NAME=nabirds-species-identifier`
 
 
-`python test_direct_sample.py ../../test_images/card.jpg`
+`python test_direct_sample.py ../../test_images/northern-cardinal.jpg`
 
 **should default the endpoint name in this script so that no one needs to set an env var**
 
