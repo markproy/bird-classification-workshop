@@ -104,6 +104,8 @@ mySNSTopicARN = os.environ['SNS_TOPIC_ARN']
 response = sns.publish(TopicArn=mySNSTopicARN, Message=msg)
 ```
 
+We will enable this code in [Lab 6](lab6-text-notification.md).
+
 ### Adding numpy support for a Lambda function
 
 The code for this lambda function is provided in `labs/lab4/lambda/lambda_function.py` .  When your Lambda function has an external dependency that is not provided in the default Lambda environment (e.g., Python's `numpy` package), you need to provide those external dependencies in a Lambda deployment package.  
