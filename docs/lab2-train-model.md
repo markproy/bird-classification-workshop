@@ -33,7 +33,7 @@ Here are the detailed steps to train the model by creating a job from the consol
 
 Define the hyperparameters:
 * **num_classes**: 4.  If you were to use the full NABirds dataset, this would be 555.
-* **num_training_samples**: 335.  If you were to use the full NABirds dataset, this would be > 40,000.
+* **num_training_samples**: 430.  If you were to use the full NABirds dataset, this would be > 40,000.
 * **epochs**: 15.  For this size dataset on the selected instance type, 15 epochs will allow the job to complete in around 6 minutes with reasonable accuracy.  If you had more time available, you could improve the accuracy by doubling the number of epochs.
 * **checkpoint_frequency**: 15.
 * **augmentation_type** 'crop'. This tells the algorithm to also flip each image horizontally to increase the model's ability to accurately identify species.  If a bird is facing left in the image, this augmentation will also train the model with a copy of the image with the bird facing to the right.

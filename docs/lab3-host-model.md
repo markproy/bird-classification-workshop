@@ -46,13 +46,13 @@ You will be executing the following [test script](../labs/lab3/test_direct_sampl
 ```
 export ENDPOINT_NAME=nabirds-species-identifier
 cd SageMaker/bird-classification-workshop/labs/lab3
-python test_direct_sample.py ../../test_images/card.jpg
+python test_direct_sample.py ../../test_images/northern-cardinal.jpg
 ```
 
 You should see output like the following:
 
 ```
-Bird is a: Northern Cardinal (Adult Male)(0.94)[772]
+Bird is a: Northern Cardinal (Adult Male)(0.98)[772]
 ```
 
 **should default the endpoint name in this script so that no one needs to set an env var**

@@ -13,8 +13,7 @@ runtime = boto3.client(service_name='runtime.sagemaker')
 
 # Load the bird species names. Needed for creating a useful Message
 # based on the SageMaker inference results.
-object_categories = ['Northern Cardinal (Adult Male)','Baltimore Oriole (Adult male)',
-                     'Northern Cardinal (Female/Juvenile)','Baltimore Oriole (Female/Immature male)']
+object_categories = ['Purple Martin','Northern Cardinal','American Goldfinch','Eastern Bluebird']
 
 TOP_K = 2                   # identifies number of species to message about when uncertain. Could move this to lambda env var.
 CERTAINTY_THRESHOLD = 0.85  # the confidence level under which we will return multiple options. Could move this to lambda env var.

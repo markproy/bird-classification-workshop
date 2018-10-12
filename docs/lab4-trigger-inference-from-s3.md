@@ -161,7 +161,7 @@ The script first creates a zip file containing the code as well as the `numpy` P
 Copy a test image to s3.  The workshop has a set of test images you can use in the `test_images` folder.  You can use the S3 console to upload an image, or use the AWS CLI as in the following command:
 
 ```
-aws s3 cp ../../test_images/card.jpg s3://<bucket-name>/birds/card.jpg`
+aws s3 cp ../../test_images/northern-cardinal.jpg s3://<bucket-name>/birds/northern-cardinal.jpg`
 ```
 
 You may have to refresh the S3 console to see the new file in your bucket.  Also, to ensure the Lambda function is triggered, you need to ensure you use the `birds/` prefix for the target object in the S3 bucket.
@@ -181,7 +181,7 @@ Review the logs.  Look for log entries containing `msg` to see the results of th
 17:34:15 CONTENT LENGTH: 106394
 17:34:15 CONTENT TYPE: image/jpeg
 17:34:15 Invoking bird species identification endpoint
-17:34:15 msg: Bird [birds/card.jpg] is a: Northern Cardinal (Adult Male)(0.94)
+17:34:15 msg: Bird [birds/northern-cardinal.jpg] is a: Northern Cardinal (0.94)
 17:34:15 'SNS_TOPIC_ARN'
 17:34:15 Error publishing message to SNS.
 17:34:15 'SNS_TOPIC_ARN': KeyError Traceback (most recent call  last): File "/var/task/lambda_function.py", line 112, in lambda_handler raise e File "/var/task/lambda_function.py", line 105, in lambda_handler mySNSTopicARN = os.environ['SNS_TOPIC_ARN'] File "/var/lang/lib/python3.6/os.py", line 669, in __getitem__ raise KeyError(key) from None KeyError: 'SNS_TOPIC_ARN'
