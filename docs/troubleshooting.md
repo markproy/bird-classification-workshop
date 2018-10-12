@@ -8,6 +8,10 @@ If your device never moves to a `Device status` of online, and instead seems to 
 
 If your device shows a status of `Update is available`, scroll down and click on `Update` to get the latest set of software updates for the DeepLens.  You will need to wait several minutes for this process to complete.
 
+### 'mplayer' command does not successfully show a project viewer window
+
+There are occasional times when `mplayer` issues errors but does not completely fail.  There are other times when the window displayed is the wrong aspect ratio.  In either of these cases, simply `ctrl-C` the `mplayer` command, and try again.
+
 ### Project successfully deployed, but top light never turns on
 
 Be sure you have waited at least a minute after the successful deployment to give it a chance to run.

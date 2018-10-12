@@ -137,17 +137,18 @@ S3_PUSH_THROTTLE_SECONDS = 4
 
 ### Updating the DeepLens project to use the new version of the function
 
-Follow these steps to update your DeepLens project to be using the new version of the Lambda function you just created:
+Follow these steps to update your DeepLens project so that it uses the new version of the Lambda function you just created:
 
 * Return back to DeepLens `Projects` console.  Click on `Edit` to edit the project content.  
 * Under `Project Content`, click on `Function` (not the name of the function) to expand the project function editor.  
 * Choose the new version number that you just published (should be the latest).
-* Click `Save` to save your project edits.
+* Click `Save` to save your project edits.  Note that when you are back on the screen with the list of projects, it will also show a version number of the DeepLens project itself.  That is completely independent of the version number of the Lambda function.
 
 ## Re-deploy
 
+* Select your project.
 * Click on `Deploy to device`.  
-* Select your device.  Click `Review`. Confirm that you want to overwrite the project that is already deployed on the device. Click `Deploy`. This process then takes a couple of minutes to complete the deployment and then another minute for the project to run, which is indicated by the top blue light staying lit.
+* Select your device.  Click `Review`. Confirm that you want to overwrite the project that is already deployed on the device. Click `Deploy`. This process then takes a couple of minutes to complete the deployment and then another minute for the project to run, which is indicated by the top blue light staying lit.  Note that the project viewer window that was running on your DeepLens attached monitor will go away when the deployment is complete since the old project will have been removed.
 
 ## Test
 
@@ -165,14 +166,18 @@ Hold a bird picture in front of the DeepLens.  Hold it steady.  Keep it about 8 
 
 ### Check to see that the cropped image was saved to S3
 
-Now check to see if the project was successful cropping the image and saving it to S3.  Go to your bucket.  Refresh. Navigate to the `birds` folder.  You will see a new folder created for today's date.  Within that, there will be subfolders for each minute in which there was a bird pushed.  Preview the jpg file to see the cropped image that was saved.
+Now check to see if the project was successful cropping the image and saving it to S3.  Go to your bucket.  Be sure to click the S3 refresh symbol (to the right of the name of the current region).  Otherwise, you will not be seeing the latest state of the S3 bucket.
+
+Navigate to the `birds` folder.  You will see a new folder created for today's date (`mm_dd` format).  Within that folder, there will be subfolders for each minute in which there was a bird pushed (`hh_mm`, where the hours are in military time and `mm` represents minutes).  Preview the jpg file to see the cropped image that was saved from the DeepLens to S3.
 
 ### Now find out what species was identified
 
-Two ways to do this:
+There are two ways that you can find out what bird species was identified:
 
 1. Review the logs for the `IdentifySpeciesAndNotify` Lambda function.
-2. IoT console.  **ensure IoT permissions in user's IAM policy.**
+2. Use the AWS IoT console.  **ensure IoT permissions in user's IAM policy.**
+
+Let's look at the detailed steps.
 
 #### Reviewing Lambda logs for species
 
