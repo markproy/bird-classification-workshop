@@ -44,7 +44,9 @@ In IAM, find the `AWSDeepLensGreengrassGroupRole` and extend it by attaching the
 
 Ensure you are not on VPN.
 
-If `deeplens.amazon.net` hangs when trying to connect with the device over its softAP SSID, try `DeepLens.config` instead.
+If `deeplens.amazon.net` hangs when trying to connect with the device over its softAP SSID, try `deepLens.config` instead.
+
+If neither of those work, try using the ip address directly (e.g., `http://10.105.168.217/`).  You can find this by opening a terminal window using the directly connected keyboard and monitor.  From the terminal window, enter `ifconfig`.  In the output, look for `inet addr:` and you should be able to find the ip address of the device.
 
 ## Navigation
 

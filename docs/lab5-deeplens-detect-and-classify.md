@@ -18,29 +18,35 @@ Here are the steps required to register your DeepLens device.  The standard inst
 
 ### Step 1 - Name the device and download a new certificate
 
+* Power up your AWS DeepLens device.
 * Navigate to the [AWS DeepLens console](https://console.aws.amazon.com/deeplens/home?region=us-east-1#devices).
 * Name the device.  Use the name provided on a sticker on the device (e.g., `L25`).
 * Permissions.  The DeepLens required permissions should be all set for your workshop ahead of time, so you should see a green circle with a check mark next to `IAM roles for DeepLens`.  If not, please refer to [these instructions](https://docs.aws.amazon.com/deeplens/latest/dg/deeplens-getting-started-register.html).
 * Certificate.  Download the certificate to be used on the device.  Do not open the zip file, but simply download it and remember where you saved it.  You will need to upload this certificate to the device in an upcoming step.
 * Click `Next`.
 
-### Step 2 - Upload the certificate to the device
+### Step 2 - Connect to the DeepLens softAP WiFi
 
 * Use paper clip to enable the device softAP WiFi.  You will connect to the device WiFi to upload the certificate.
-* Once the middle light on the device is blinking, connect to the device WiFi.  The SSID is shown on the sticker on the device (e.g., `AMDC-UB82`).
-* Once you are connected to the device WiFi, click `Next` to continue the setup.
+* Once the middle light on the device is blinking, connect to the device WiFi.  The SSID is shown on the sticker on the device (e.g., `AMDC-UB82`).  Note that if you are connected to your work VPN, you should disconnect before trying to connect to the DeepLens WiFi.
+* Once you are connected to the device WiFi, click `Next` to continue the setup.  This will take you to a configuration page running on the DeepLens device.  If you have errors when trying to connect, review the [troubleshooting steps](troubleshooting.md).
+
+### Step 3 - Upload the certificate to the device
+
 * Under the `Network connection` section, ensure that it is configured to a `Wired connection` using `Ethernet-USB Adapter`. If it is not, click `Edit` and then choose `Use Ethernet`.
 * In the `Certificate` section, you need to upload the certificate that you downloaded earlier.  Click `Edit` even if it looks like there is already a certificate attached.  If there is one already listed, it is from an earlier registration and it will **not** work for your new registration.  
-* After clicking `Edit`, click `Browse` and locate the certificate zip file (e.g., `certificates-deeplens_JVHM9GHxSqRE84fw.zip`) you downloaded earlier.  Click `Save` to return to the main configuration screen.
 * Leave the device password as is.  For this workshop, you will see the password on a sticker on the device.
-* Click `Finish`.  This will disconnect you from the device WiFi, and will complete the registration on the device.
+* After clicking `Edit`, click `Browse` and locate the certificate zip file (e.g., `certificates-deeplens_JVHM9GHxSqRE84fw.zip`) you downloaded earlier.  Depending on the version of the software running on the AWS DeepLens, you may also need to then click `Upload zip file`.  
+* Once the file upload is complete, click `Save` to return to the main configuration screen, or click `Finish`.  This will disconnect you from the device WiFi, and will complete the registration on the device.
 
 ### Step 3 - Complete the device registration
 
 * Re-connect to your network (non-device WiFi, or Ethernet).
 * Now you will return to the console by clicking `AWS management console`.
 * Click `Devices` on the left hand panel of the DeepLens console in the `Resources` section.
-* For your device, you should see `Registration status` of `Registered`, and a `Device status` of `Online`.  It is possible that the `Device status` says `Deployment in progress`.  If so, give it a couple of minutes.
+* For your device, you should see `Registration status` of `Registered`, and a `Device status` of `Online`.  
+* It is possible that the `Device status` says `Deployment in progress`.  If so, give it a couple of minutes.  If that status will not change, try the [troubleshooting steps](troubleshooting.md).
+* If your `Device status` is `Update available`, scroll down to the `Device Details` section and click `Update` to update the device software.
 
 ## Deploy off the shelf object detection project
 
