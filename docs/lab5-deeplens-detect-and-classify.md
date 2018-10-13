@@ -103,8 +103,11 @@ Here is the code from the main loop of the inference function.  If the object de
 # If it's a bird, crop the image and save a copy to s3
 # if we haven't detected birds in the last few seconds
 if ((obj_name == 'bird') and (time_window > S3_PUSH_THROTTLE_SECONDS)):
-    # crop and push
-    crop_img = frame_without_boxes[ymin:ymax, xmin:xmax]
+    # crop and push, add a buffer around the bounding box area that
+    # the single shot detection model provides, so that we don't end up
+    # trimming any body parts of the bird
+    crop_img = frame_without_boxes[(ymin - (3 * BIRD_BOX_THICKNESS)):(ymax + (3 * BIRD_BOX_THICKNESS)), 
+                                   (xmin - (3 * BIRD_BOX_THICKNESS)):(xmax + (3 * BIRD_BOX_THICKNESS))]
     push_to_s3(crop_img, i)
 
     # remember the time of the last push
