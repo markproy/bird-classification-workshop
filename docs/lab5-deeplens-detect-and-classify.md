@@ -56,11 +56,16 @@ The following figure illustrates the composition of an AWS DeepLens project.
 
 Here are the detailed steps you will follow to deploy the project:
 
+### Step 1 - Create a project
+
 * Click `Deploy a project`.
 * On the `Projects` console, click `Create new project`.
-* Use a project template called `Object detection`.  Click `Next`, and then click `Create`.  Project creation could take a few seconds.  You will know that the project is fully created when you see its `Description`, `Creation time`, and `Last updated` information populated in the console.  Try clicking your web browser refresh button if those fields are still blank.
+* Use a project template called `Object detection`.  Click `Next`, and then click `Create`.  Project creation could take a few seconds.  You will know that the project is fully created when you see `Description`, `Creation time`, and `Last updated` are populated in the console.  Once you see a green banner at the top of the page indicating a successful creation, click your web browser refresh button if those fields are still blank.
+
+### Step 2 - Deploy it to the device
+
 * Once the project is created, select it, and click `Deploy to device`. Pick the device you registered in the previous step. Click `Review`. Click `Deploy`.
-* You will see the status at the top of the page in a blue box, and it will indicate `Deployment of project is in progress`.  A percent completion of the model download will be displayed.  Once the model is downloaded, the device will create a Greengrass deployment.  After a few minutes, you will see the status bar change from blue to green indicating `Deployment of project succeeded`.
+* You will see the status at the top of the page in a blue box, and it will indicate `Deployment of project is in progress`.  A percent completion of the model download will be displayed.  Once the model is downloaded, the device will create a Greengrass deployment.  This progress will be indicated in the blue banner at the top of the page.  After a few minutes, you will see the status bar change from blue to green indicating `Deployment of project succeeded`.
 * Soon thereafter, the topmost blue light on the device should turn on and remain lit.  All three blue lights should be lit when the model is downloaded and is running.
 
 ## Test the project
@@ -134,10 +139,10 @@ response = s3.put_object(ACL='public-read',
 
 Here are the steps to follow to customize the project.
 
-* Go to the `Project` part of the DeepLens console.
+* Click on `Projects` in the `Resources` section of the left hand panel of the AWS DeepLens console.
 * Click on the name of the project you created earlier.  The console will take you to the details page for that project.
-* Click on the name of function (e.g., `deeplens-object-detection/versions/1`), which will take you to the Lambda console.
-* Click on `Go to $LATEST` so that you can edit the function in the console.
+* Click on the **name of the function** (e.g., `deeplens-object-detection/versions/1`), which will take you to the Lambda console.
+* Once you are in the Lambda console for the function, click on `Go to $LATEST` so that you can edit the function in the console.
 * Paste in the updated function from [labs/lab5/greengrassHelloWorld.py](../labs/lab5/greengrassHelloWorld.py).
 * Set the environment variables.  Note that if you forget to add these environment variables, your project will deploy successfully but will not run.  The top blue light will never turn on.  Here are the three environment variables you need to set:
 
@@ -153,10 +158,10 @@ S3_PUSH_THROTTLE_SECONDS = 4
 
 Follow these steps to update your DeepLens project so that it uses the new version of the Lambda function you just created:
 
-* Return back to DeepLens `Projects` console.  Click on `Edit` to edit the project content.  
-* Under `Project Content`, click on `Function` (not the name of the function) to expand the project function editor.  
-* Choose the new version number that you just published (should be the latest).
-* Click `Save` to save your project edits.  Note that when you are back on the screen with the list of projects, it will also show a version number of the DeepLens project itself.  That is completely independent of the version number of the Lambda function.
+* Return back to DeepLens `Projects` console.  Click on `Edit` to edit the project content.  This button is on the far right hand side of the `Project` section.
+* Once you are on the `Edit project` page, click on `Function` (not the name of the function) in the `Project Content` section to expand the project function editor.  
+* Choose the new version number that you just published (should be the largest version number in the list).
+* Click `Save` at the bottom of the page to save your project edits.  Note that when you are back on the screen with the list of projects, it will also show a version number of the DeepLens project itself.  That is completely independent of the version number of the Lambda function.
 
 ## Re-deploy
 
@@ -168,7 +173,7 @@ Follow these steps to update your DeepLens project so that it uses the new versi
 
 ### Show some bird pictures to your DeepLens device
 
-From your DeepLens terminal, use `mplayer` again to view the device's project video stream:
+Once all three blue lights on the AWS DeepLens device are lit, your new customized bird classifier model is running.  From your DeepLens terminal, use `mplayer` again to view the device's project video stream:
 
 ```
 mplayer -demuxer lavf -lavfdopts format=mjpeg:probesize=32 /tmp/results.mjpeg
@@ -197,7 +202,9 @@ Let's look at the detailed steps.
 
 Go to the AWS Lambda console and select the `IdentifySpeciesAndNotify` function.  Click on the `Monitoring` tab.  Click on the `View logs in CloudWatch` button on the upper right corner of the screen above the metrics charts.
 
-In CloudWatch, open the log stream that has the most recent event time.  Scan the log for output from your Lambda function.  Log entries for invocations are bracketed by an initial entry of `START RequestId` and a closing log entry of `REPORT RequestId` which displays the duration and memory size information.  If everything worked well, you will see an entry that starts with `msg` that will show you the results of the species identification.  If not, you may see an entry that says `An error occurred`.  One common example would be that you do not have your SageMaker endpoint up and running with the correct endpoint name (i.e., `nabirds-species-identifier`).
+In CloudWatch, open the log stream that has the most recent event time.  Scan the log for output from your Lambda function.  Log entries for invocations are bracketed by an initial entry of `START RequestId` and a closing log entry of `REPORT RequestId` which displays the duration and memory size information.  If everything worked well, you will see an entry that starts with `msg` that will show you the results of the species identification.  Note that the S3 key for the cropped bird image object is also logged (e.g., `birds/10_13/15_9/1539457777_0.jpg`) and can be a useful aid in troubleshooting if required.
+
+If you do not find `msg` entries, you may see an entry that says `An error occurred`.  One common example would be that you do not have your SageMaker endpoint up and running with the correct endpoint name (i.e., `nabirds-species-identifier`).
 
 #### Using the IoT console to see the bird species results
 

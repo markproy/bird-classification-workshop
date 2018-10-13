@@ -1,6 +1,6 @@
 # Lab 6 - Configure SMS text notification
 
-In this lab, you will configure automatic SMS text notification whenever a bird species identification message is published on SNS.  Here are the steps:
+In this lab, you will configure automatic SMS text notification whenever a bird species identification message is published on SNS.  Instead of looking up results in CloudWatch, you will immediately get them as a text on your cell phone.  Here are the steps:
 
 1. Create an SNS topic
 2. Configure a new subscription to your SNS topic
@@ -10,7 +10,7 @@ In this lab, you will configure automatic SMS text notification whenever a bird 
 
 * Go to the Amazon SNS console on AWS.  
 * Click on `Create topic`.
-* Use the following topic name: `deeplens-sagemaker-birdpic-arrived` and `bird id` as the display name.
+* Use the following topic name: `deeplens-sagemaker-birdpic-arrived` and `bird id` as the display name.  The display name will show up as a prefix to your text.
 * Click `Create topic`.
 
 ## Configure new SNS subscription
@@ -51,6 +51,8 @@ Now we will enable that code to work by providing a functioning SNS topic.
 * On the `Actions` menu, click `Publish new version`. Note the new version number.  Add a comment. Click `Publish`.
 
 ## Test
+
+You can test out the notification by simply having the DeepLens detect another bird.  You should receive a text message with the species identification and confidence level.
 
 ## Navigation
 

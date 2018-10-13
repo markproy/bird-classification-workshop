@@ -48,6 +48,10 @@ If `deeplens.amazon.net` hangs when trying to connect with the device over its s
 
 If neither of those work, try using the ip address directly (e.g., `http://10.105.168.217/`).  You can find this by opening a terminal window using the directly connected keyboard and monitor.  From the terminal window, enter `ifconfig`.  In the output, look for `inet addr:` and you should be able to find the ip address of the device.
 
+### Lambda function editor spins endlessly
+
+On occasion, the Lambda function editor does not take you to the function code.  A simple browser refresh click normally solves this.
+
 ## Navigation
 
 [Home](../README.md) - [Lab 1](lab1-image-prep.md) - [Lab 2](lab2-train-model.md) - [Lab 3](lab3-host-model.md) - [Lab 4](lab4-trigger-inference-from-s3.md) - [Lab 5](lab5-deeplens-detect-and-classify.md) - [Lab 6](lab6-text-notification.md) - [Troubleshooting](troubleshooting.md)
