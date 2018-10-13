@@ -7,28 +7,36 @@ In this lab, you will use AWS DeepLens to detect birds and trigger classificatio
 Here are the steps you will use in this lab:
 
 1. Register the DeepLens device
-2. Deploy the Object Detection sample project provided with DeepLens
+2. Deploy the Object Detection sample project provided with AWS DeepLens
 3. Customize the object detection project
 4. Re-deploy the updated project
 5. Test the project
 
 ## Register the DeepLens device
 
-**TBS: Use documentation of standard registration steps.**
+Here are the steps required to register your DeepLens device.  The standard instructions provided for the product are found [here]( https://docs.aws.amazon.com/deeplens/latest/dg/deeplens-getting-started-register.html).
 
-Here are the steps required to register your DeepLens device.  Ensure you are using `us-east-1 (N.Virginia)` as your region.
+### Step 1 - Name the device and download a new certificate
 
+* Navigate to the [AWS DeepLens console](https://console.aws.amazon.com/deeplens/home?region=us-east-1#devices).
 * Name the device.  Use the name provided on a sticker on the device (e.g., `L25`).
 * Permissions.  The DeepLens required permissions should be all set for your workshop ahead of time, so you should see a green circle with a check mark next to `IAM roles for DeepLens`.  If not, please refer to [these instructions](https://docs.aws.amazon.com/deeplens/latest/dg/deeplens-getting-started-register.html).
-* Certificate.  Download the certificate to be used on the device.  You will need to upload this certificate to the device in an upcoming step.
+* Certificate.  Download the certificate to be used on the device.  Do not open the zip file, but simply download it and remember where you saved it.  You will need to upload this certificate to the device in an upcoming step.
 * Click `Next`.
+
+### Step 2 - Upload the certificate to the device
+
 * Use paper clip to enable the device softAP WiFi.  You will connect to the device WiFi to upload the certificate.
 * Once the middle light on the device is blinking, connect to the device WiFi.  The SSID is shown on the sticker on the device (e.g., `AMDC-UB82`).
 * Once you are connected to the device WiFi, click `Next` to continue the setup.
 * Under the `Network connection` section, ensure that it is configured to a `Wired connection` using `Ethernet-USB Adapter`. If it is not, click `Edit` and then choose `Use Ethernet`.
-* In the `Certificate` section, you need to upload the certificate that you downloaded earlier.  Click `Edit` even if it looks like there is already a certificate attached.  If there is one already listed, it is from an earlier registration and it will **not** work for your new registration.  After clicking `Edit`, click `Browse` and locate the certificate zip file (e.g., `certificates-deeplens_JVHM9GHxSqRE84fw.zip`) you downloaded earlier.  Click `Save` to return to the main configuration screen.
+* In the `Certificate` section, you need to upload the certificate that you downloaded earlier.  Click `Edit` even if it looks like there is already a certificate attached.  If there is one already listed, it is from an earlier registration and it will **not** work for your new registration.  
+* After clicking `Edit`, click `Browse` and locate the certificate zip file (e.g., `certificates-deeplens_JVHM9GHxSqRE84fw.zip`) you downloaded earlier.  Click `Save` to return to the main configuration screen.
 * Leave the device password as is.  For this workshop, you will see the password on a sticker on the device.
 * Click `Finish`.  This will disconnect you from the device WiFi, and will complete the registration on the device.
+
+### Step 3 - Complete the device registration
+
 * Re-connect to your network (non-device WiFi, or Ethernet).
 * Now you will return to the console by clicking `AWS management console`.
 * Click `Devices` on the left hand panel of the DeepLens console in the `Resources` section.
