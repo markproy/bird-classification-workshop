@@ -4,7 +4,7 @@ In this lab, you will prepare the images for training.  We will be using SageMak
 
 **have them create an S3 bucket or provide one for them**
 
-**deeplens-sagemaker-20181128-test1**
+**deeplens-sagemaker-20181128-test1 naming convention so that DeepLens can write to it**
 
 These are the high level steps you will take for Lab 1, all of which will be accomplished using a SageMaker notebook:
 
@@ -14,7 +14,7 @@ These are the high level steps you will take for Lab 1, all of which will be acc
 
 ## Using a SageMaker notebook to perform the lab
 
-Prior to the workshop, a SageMaker notebook instance called `BirdClassificationWorkshop` was created in your account.  Open the SageMaker console and click on `Notebook instances` in the left hand panel.  If the `Status` of the instance is `InService`, click on `Open` to open the notebook instance.  If not, click on `Start` to first start the instance before opening it.
+Prior to the workshop, a SageMaker notebook instance called `BirdClassificationWorkshop` was created in your account.  Open the [Amazon SageMaker console[(https://console.aws.amazon.com/sagemaker/)] and click on `Notebook instances` in the left hand panel.  If the `Status` of the instance is `InService`, click on `Open` to open the notebook instance.  If not, click on `Start` to first start the instance before opening it.
 
 Once you have opened the instance, open the Jupyter notebook called `LabNotebook.ipynb` in the `bird-classification-workshop` folder in the `Files` tab of the instance.
 

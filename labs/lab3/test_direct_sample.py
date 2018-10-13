@@ -7,6 +7,7 @@ import numpy as np   # for interpreting results from the SageMaker inference
 import pandas as pd  # for getting absolute class_id from the relative class_id
 from os import walk  # for getting files from a directory
 
+DEFAULT_ENDPOINT_NAME = 'nabirds-species-identifier'
 
 # Getting access to sagemaker runtime
 runtime = boto3.client(service_name='runtime.sagemaker')
@@ -100,8 +101,7 @@ def nabird_classify_image(image_as_bytes, endpoint_name):
 try:
     epn = os.environ['ENDPOINT_NAME']
 except Exception as e:
-    print('must set ENDPOINT_NAME environment variable before calling this function')
-    raise e
+    epn = DEFAULT_ENDPOINT_NAME
 
 if (len(sys.argv) <= 1):
     print('need to pass a base directory, as in ''python test_CUB.py ~/ML/birds/CUB_200_2011/CUB_200_2011/images''')

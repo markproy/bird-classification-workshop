@@ -63,25 +63,24 @@ For each channel, use the following settings:
 * S3 data distribution type: `FullyReplicated`.
 * URI: `s3://<bucket-name>/train/`, replacing `<bucket-name>` with the name of your S3 bucket.
 
-For `S3 output path`, use `s3://<bucket-name>/output`, replacing `<bucket-name>` with the name of your S3 bucket.  This is the place where SageMaker will place the resulting model artifacts for the trained image classification model.
+For `S3 output path`, use `s3://<bucket-name>/`, replacing `<bucket-name>` with the name of your S3 bucket.  This is the base path of the place where SageMaker will place the resulting model artifacts for the trained image classification model.  Under this base path, SageMaker will create a folder with the same name you provided for the training job, and under that it will create an `output` folder.  The artifacts will be in a file named `model.tar.gz`, and it will be used by the inference engine hosted by the SageMaker endpoint that you will create in [Lab 3](lab3-host-model.md).
+
+Once all of your parameters for the job have been entered, click `Create training job`.  If your training job fails for any reason, you can easily `Clone` the training job, making any necessary changes before finally clicking `Create training job` for the new job.
 
 ### Other mechanisms for creating trained models using SageMaker
 
-In the prior section, you created a training job from the console by eventually clicking `Create training job`.  Note that you can train models using SageMaker from a Jupyter notebook, or from a CI/CD pipeline, or using the AWS CLI as well.
+In the prior section, you created a training job from the SageMaker console by eventually clicking `Create training job`.  Note that you can train models using SageMaker from a Jupyter notebook, or from a CI/CD pipeline, or using the AWS CLI as well.
 
 ## View the results of the training
 
-Click on training job to view details.
-
-Click on `view logs`.
-
-Pick the latest log stream.
-
-Should see logging of progress for each epoch.  Pay attention to `Validation-accuracy`, as it should be steadily increasing.
+* Click on training job to view details.
+* Click on `View logs` in the `Monitoring` section towards the bottom of the page of job details.  Note that it could take a couple of minutes before the job is executing and the log files are available for viewing.
+* Pick the latest log stream.
+* You will see logging of progress for each epoch of the training job.  Pay attention to `Validation-accuracy`, as it should be steadily increasing.  If you had more time available, you could significantly increase the number of epochs and see additional accuracy improvements.
 
 **Provide script or Jupyter notebook to view the accuracy progress by epoch.**
 
-Results are saved in `model.tar.gz` in the specified output directory.  Navigate to the S3 console and drill down into your S3 bucket to find the model artifacts.  That file will be used to create a model for inference.
+As stated earlier, the training model artifacts are saved in `model.tar.gz` in the specified output directory.  Navigate to the S3 console, and drill down into your S3 bucket to find the model artifacts.  That file will be used to create a model for inference.
 
 ## Navigation
 
