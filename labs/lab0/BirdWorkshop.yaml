@@ -1,0 +1,239 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: 'AWS CloudFormation Template for the Bird Classification
+Workshop.  This template creates all the necessary IAM roles, plus it
+creates a SageMaker notebook instance for use with some of the labs.
+Note that the account must also raise resource limits for GPU usage
+from SageMaker.'
+
+Parameters:
+  ZipFileURL:
+    ConstraintDescription: must be an S3 presigned URL
+    Description: An S3 presigned URL to a zip file containing the bird images for the workshop
+    Type: String
+
+Resources:
+
+  # The notebook instance will give workshop participants an easy way to
+  # execute the labs involving preparing the data, as well as training and
+  # testing the image classification model.
+
+  SageMakerNotebook:
+    Type: AWS::SageMaker::NotebookInstance
+    Properties:
+      NotebookInstanceName: BirdClassificationWorkshop
+      InstanceType: ml.t2.medium
+      RoleArn: !GetAtt SageMakerExecutionRole.Arn
+      LifecycleConfigName: !GetAtt SMLifecycleConfig.NotebookInstanceLifecycleConfigName
+
+  # The lifecycle configuration for the notebook is used on creation of
+  # the notebook to clone a Github repository, and download and unpack
+  # some training / testing images.
+
+  SMLifecycleConfig:
+    Type: AWS::SageMaker::NotebookInstanceLifecycleConfig
+    Properties:
+      OnCreate:
+        - Content:
+            Fn::Base64: !Sub |
+              #!/bin/bash -xe
+              echo ++++++++++++++++++++++
+              echo Beginning OnCreate script for lifecycle of SageMaker notebook instance
+
+              # clone the workshop git repository
+              echo Cloning the workshop git repository...
+              cd /home/ec2-user/SageMaker
+              git clone https://fbfd8b1f0692e5f155c19117204f0f9a7723c22b@github.com/markproy/bird-classification-workshop
+
+              # download the images and unpack them
+              echo Downloading the workshop bird images...
+              cd bird-classification-workshop
+              pwd
+              curl ${ZipFileURL} -J -L -o ./sample_images.zip
+              ls -l
+
+              echo Unpackaging the workshop bird images...
+              cd labs/lab1
+              source ./unzip_images.sh
+              ls -l ../../images
+
+              echo Setting permissions so ec2-user can rwx...
+              cd ../..  # go to the root of the repo
+              setfacl -R -m u:ec2-user:rwx .
+
+              echo Completed OnCreate script execution!
+              echo -----------------------
+
+  # The SageMaker instance will need to access S3, the SageMaker
+  # runtime, and will also be used to update Lambda function packages.
+
+  SageMakerExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/AmazonS3FullAccess
+      - arn:aws:iam::aws:policy/AmazonSageMakerFullAccess
+      - arn:aws:iam::aws:policy/AWSLambdaFullAccess
+      Path: /service-role/
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          -
+            Effect: Allow
+            Principal:
+              Service:
+                - sagemaker.amazonaws.com
+            Action:
+              - sts:AssumeRole
+
+  # Create a role that will be needed by a Lambda function that
+  # workshop participants will create. THe Lambda needs access to
+  # CloudWatch, S3, and SNS.
+
+  LambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: deeplens-workshop-lambda-role
+      Path: /service-role/
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/AmazonSageMakerFullAccess
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          -
+            Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        -
+          PolicyName: lambda-s3-execution-permissions
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              -
+                Effect: Allow
+                Action:
+                - s3:GetObject
+                Resource:
+                - arn:aws:s3:::*
+        -
+          PolicyName: lambda-sns-execution-permissions
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              -
+                Effect: Allow
+                Action:
+                - sns:Publish
+                Resource:
+                - arn:aws:sns:*:*:*
+        -
+          PolicyName: lambda-basic-execution-permissions
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              -
+                Effect: Allow
+                Action:
+                - logs:CreateLogGroup
+                - logs:CreateLogStream
+                - logs:PutLogEvents
+                Resource:
+                - arn:aws:logs:*:*:*
+
+  # Create the Service Role and the policies required for working with
+  # AWS DeepLens.  Will create 5 roles, and each will only reference
+  # AWS managed policies.
+
+  AWSDeepLensGreengrassGroupRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: AWSDeepLensGreengrassGroupRole
+      Path: /service-role/
+      ManagedPolicyArns: # permit S3 full access, lets DeepLens save S3 objects
+      - arn:aws:iam::aws:policy/AmazonS3FullAccess
+      - arn:aws:iam::aws:policy/AWSDeepLensLambdaFunctionAccessPolicy
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          -
+            Effect: Allow
+            Principal:
+              Service:
+                - greengrass.amazonaws.com
+            Action:
+              - sts:AssumeRole
+
+  AWSDeepLensGreengrassRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: AWSDeepLensGreengrassRole
+      Path: /service-role/
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/service-role/AWSGreengrassResourceAccessRolePolicy
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          -
+            Effect: Allow
+            Principal:
+              Service:
+                - greengrass.amazonaws.com
+            Action:
+              - sts:AssumeRole
+
+  AWSDeepLensLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: AWSDeepLensLambdaRole
+      Path: /service-role/
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/AWSLambdaFullAccess
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          -
+            Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+
+  AWSDeepLensServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: AWSDeepLensServiceRole
+      Path: /service-role/
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/service-role/AWSDeepLensServiceRolePolicy
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          -
+            Effect: Allow
+            Principal:
+              Service:
+                - deeplens.amazonaws.com
+            Action:
+              - sts:AssumeRole
+
+  AWSDeepLensSageMakerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: AWSDeepLensSageMakerRole
+      Path: /service-role/
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/AmazonSageMakerFullAccess
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          -
+            Effect: Allow
+            Principal:
+              Service:
+                - sagemaker.amazonaws.com
+            Action:
+              - sts:AssumeRole

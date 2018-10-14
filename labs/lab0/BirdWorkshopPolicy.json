@@ -1,0 +1,270 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowIotConsoleAccess",
+            "Effect": "Allow",
+            "Action": "iot:*",
+            "Resource": "*"
+        },
+        {
+            "Sid": "AWSLambdaFullAccess",
+            "Effect": "Allow",
+            "Action": [
+                "cloudformation:DescribeChangeSet",
+                "cloudformation:DescribeStackResources",
+                "cloudformation:DescribeStacks",
+                "cloudformation:GetTemplate",
+                "cloudformation:ListStackResources",
+                "cloudwatch:*",
+                "cognito-identity:ListIdentityPools",
+                "cognito-sync:GetCognitoEvents",
+                "cognito-sync:SetCognitoEvents",
+                "dynamodb:*",
+                "ec2:DescribeSecurityGroups",
+                "ec2:DescribeSubnets",
+                "ec2:DescribeVpcs",
+                "events:*",
+                "iam:GetPolicy",
+                "iam:GetPolicyVersion",
+                "iam:GetRole",
+                "iam:GetRolePolicy",
+                "iam:ListAttachedRolePolicies",
+                "iam:ListRolePolicies",
+                "iam:ListRoles",
+                "iam:PassRole",
+                "iot:AttachPrincipalPolicy",
+                "iot:AttachThingPrincipal",
+                "iot:CreateKeysAndCertificate",
+                "iot:CreatePolicy",
+                "iot:CreateThing",
+                "iot:CreateTopicRule",
+                "iot:DescribeEndpoint",
+                "iot:GetTopicRule",
+                "iot:ListPolicies",
+                "iot:ListThings",
+                "iot:ListTopicRules",
+                "iot:ReplaceTopicRule",
+                "kinesis:DescribeStream",
+                "kinesis:ListStreams",
+                "kinesis:PutRecord",
+                "kms:ListAliases",
+                "lambda:*",
+                "logs:*",
+                "s3:*",
+                "sns:ListSubscriptions",
+                "sns:ListSubscriptionsByTopic",
+                "sns:ListTopics",
+                "sns:Publish",
+                "sns:Subscribe",
+                "sns:Unsubscribe",
+                "sqs:ListQueues",
+                "sqs:SendMessage",
+                "tag:GetResources",
+                "xray:PutTelemetryRecords",
+                "xray:PutTraceSegments"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "AmazonS3FullAccess",
+            "Effect": "Allow",
+            "Action": "s3:*",
+            "Resource": "*"
+        },
+        {
+            "Sid": "CloudWatchFullAccess1",
+            "Action": [
+                "autoscaling:Describe*",
+                "cloudwatch:*",
+                "logs:*",
+                "sns:*",
+                "iam:GetPolicy",
+                "iam:GetPolicyVersion",
+                "iam:GetRole"
+            ],
+            "Effect": "Allow",
+            "Resource": "*"
+        },
+        {
+            "Sid": "CloudWatchFullAccess2",
+            "Effect": "Allow",
+            "Action": "iam:CreateServiceLinkedRole",
+            "Resource": "arn:aws:iam::*:role/aws-service-role/events.amazonaws.com/AWSServiceRoleForCloudWatchEvents*",
+            "Condition": {
+                "StringLike": {
+                    "iam:AWSServiceName": "events.amazonaws.com"
+                }
+              }
+        },
+        {
+            "Sid": "DeepLensS3ObjectAccess",
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket",
+                "s3:GetObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::deeplens*/*",
+                "arn:aws:s3:::deeplens*"
+            ]
+        },
+        {
+            "Sid": "DeepLensGreenGrassCloudWatchAccess",
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogStream",
+                "logs:DescribeLogStreams",
+                "logs:PutLogEvents",
+                "logs:CreateLogGroup"
+            ],
+            "Resource": "arn:aws:logs:*:*:log-group:/aws/greengrass/*"
+        },
+        {
+            "Sid": "DeepLensAccess",
+            "Effect": "Allow",
+            "Action": "deeplens:*",
+            "Resource": "*"
+        },
+        {
+            "Sid": "DeepLensKinesisVideoAccess",
+            "Effect": "Allow",
+            "Action": [
+                "kinesisvideo:DescribeStream",
+                "kinesisvideo:CreateStream",
+                "kinesisvideo:GetDataEndpoint",
+                "kinesisvideo:PutMedia"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "DeepLensRoles",
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreateRole",
+                "iam:CreatePolicy",
+                "iam:ListPolicies",
+                "iam:AttachRolePolicy",
+                "iam:DetachRolePolicy",
+                "iam:DeleteRole"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "AmazonSNSFullAccess",
+            "Action": "sns:*",
+            "Effect": "Allow",
+            "Resource": "*"
+        },
+        {
+            "Sid": "AmazonSageMakerFullAccess1",
+            "Effect": "Allow",
+            "Action": "sagemaker:*",
+            "Resource": "*"
+        },
+        {
+            "Sid": "AmazonSageMakerFullAccess2",
+            "Effect": "Allow",
+            "Action": [
+                "ecr:GetAuthorizationToken",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage",
+                "ecr:BatchCheckLayerAvailability",
+                "cloudwatch:PutMetricData",
+                "cloudwatch:PutMetricAlarm",
+                "cloudwatch:DescribeAlarms",
+                "cloudwatch:DeleteAlarms",
+                "ec2:CreateNetworkInterface",
+                "ec2:CreateNetworkInterfacePermission",
+                "ec2:DeleteNetworkInterface",
+                "ec2:DeleteNetworkInterfacePermission",
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:DescribeVpcs",
+                "ec2:DescribeDhcpOptions",
+                "ec2:DescribeSubnets",
+                "ec2:DescribeSecurityGroups",
+                "ec2:DescribeVpcEndpoints",
+                "application-autoscaling:DeleteScalingPolicy",
+                "application-autoscaling:DeleteScheduledAction",
+                "application-autoscaling:DeregisterScalableTarget",
+                "application-autoscaling:DescribeScalableTargets",
+                "application-autoscaling:DescribeScalingActivities",
+                "application-autoscaling:DescribeScalingPolicies",
+                "application-autoscaling:DescribeScheduledActions",
+                "application-autoscaling:PutScalingPolicy",
+                "application-autoscaling:PutScheduledAction",
+                "application-autoscaling:RegisterScalableTarget",
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:DescribeLogStreams",
+                "logs:GetLogEvents",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "AmazonSageMakerFullAccess3",
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:DeleteObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::*SageMaker*",
+                "arn:aws:s3:::*Sagemaker*",
+                "arn:aws:s3:::*sagemaker*"
+            ]
+        },
+        {
+            "Sid": "AmazonSageMakerFullAccess4",
+            "Effect": "Allow",
+            "Action": [
+                "s3:CreateBucket",
+                "s3:GetBucketLocation",
+                "s3:ListBucket",
+                "s3:ListAllMyBuckets"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "AmazonSageMakerFullAccess5",
+            "Effect": "Allow",
+            "Action": "s3:GetObject",
+            "Resource": "*",
+            "Condition": {
+                "StringEqualsIgnoreCase": {
+                    "s3:ExistingObjectTag/SageMaker": "true"
+                }
+            }
+        },
+        {
+            "Sid": "AmazonSageMakerFullAccess6",
+            "Action": "iam:CreateServiceLinkedRole",
+            "Effect": "Allow",
+            "Resource": "arn:aws:iam::*:role/aws-service-role/sagemaker.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_SageMakerEndpoint",
+            "Condition": {
+                "StringLike": {
+                    "iam:AWSServiceName": "sagemaker.application-autoscaling.amazonaws.com"
+                }
+            }
+        },
+        {
+            "Sid": "AmazonSageMakerFullAccess7",
+            "Effect": "Allow",
+            "Action": "iam:PassRole",
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "iam:PassedToService": "sagemaker.amazonaws.com"
+                }
+            }
+        },
+        {
+            "Sid": "AllowSupportForLimitIncrease",
+            "Effect": "Allow",
+            "Action": "support:*",
+            "Resource": "*"
+        }
+    ]
+}
