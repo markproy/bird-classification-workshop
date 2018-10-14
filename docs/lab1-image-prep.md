@@ -22,11 +22,11 @@ To create the S3 bucket, first navigate to the [S3 console](https://console.aws.
 
 Name the bucket with a prefix of `deeplens-sagemaker-`.  To ensure uniqueness, add on a date formatted as `yyyy-mm-dd`, and then add your name.  For example, your bucket name could be `deeplens-sagemaker-20181126-roymark`.  Under `Region`, select `US East (N. Virginia)` to align with the notebook region.  Select `Create` in the bottom left corner to create the bucket.
 
-You will use this S3 bucket name in multiple labs, including the very next step in which you will reference the bucket name in the first cell of your SageMaker notebook.
+You will use this S3 bucket name in multiple labs, including the very next step of this lab.  In that step, you will reference the bucket name in the first cell of your SageMaker notebook.
 
 ## Step 2 through 4 - Explore the dataset, Package images, Upload images
 
-Prior to the workshop, a SageMaker notebook instance called `BirdClassificationWorkshop` was created in your account.  Open the [Amazon SageMaker console[(https://console.aws.amazon.com/sagemaker/)] and click on `Notebook instances` in the left hand panel.  If the `Status` of the instance is `InService`, click on `Open` to open the notebook instance.  If not, click on `Start` to first start the instance before opening it.
+Prior to the workshop, a SageMaker notebook instance called `BirdClassificationWorkshop` was created in your account.  Open the [Amazon SageMaker console](https://console.aws.amazon.com/sagemaker/) and click on `Notebook instances` in the left hand panel.  If the `Status` of the instance is `InService`, click on `Open` to open the notebook instance.  If not, click on `Start` to first start the instance before opening it.
 
 Once you have opened the instance, open the Jupyter notebook called `LabNotebook.ipynb` in the `bird-classification-workshop` folder in the `Files` tab of the instance.
 
