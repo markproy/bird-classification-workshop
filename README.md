@@ -13,12 +13,8 @@ The workshop is composed of the following 6 labs:
 * [Lab 2](docs/lab2-train-model.md) - Train the classification model using Amazon SageMaker
 * [Lab 3](docs/lab3-host-model.md) - Host the trained model and identify your first bird!
 * [Lab 4](docs/lab4-trigger-inference-from-s3.md) - Trigger an inference as new pictures arrive in S3
-* [Lab 5](docs/lab5-deeplens-detect-and-classify.md) - Use AWS DeepLens to detect birds and trigger classification
+* [Lab 5](docs/lab5-deeplens-detect-and-classify.md) - Use AWS DeepLens to detect birds and trigger species identification
 * [Lab 6](docs/lab6-text-notification.md) - Configure SMS text notification with identified species (optional)
-
-### Prerequisites
-
-If you are setting up this workshop for others, or if you are executing this workshop in your own AWS account (versus attending a workshop at which you are given access to a temporary AWS account that is pre-configured), read [these instructions](docs/lab0-environment.md).
 
 ### Cleaning up
 
@@ -39,3 +35,7 @@ After you are done, it is important to clean up resources in your account so tha
 **This material is based upon work supported by the National Science Foundation under Grant No. 1010818.**
 
 **Any requests for further use of this data should be directed** [here](http://dl.allaboutbirds.org/nabirds).
+
+### Additional setup if you are leading a workshop
+
+If you are setting up this workshop for others, or if you are executing this workshop in your own AWS account (versus attending a workshop at which you are given access to a temporary AWS account that is pre-configured), read [these instructions](docs/lab0-environment.md).
