@@ -106,7 +106,7 @@ if ((obj_name == 'bird') and (time_window > S3_PUSH_THROTTLE_SECONDS)):
     # crop and push, add a buffer around the bounding box area that
     # the single shot detection model provides, so that we don't end up
     # trimming any body parts of the bird
-    crop_img = frame_without_boxes[(ymin - (3 * BIRD_BOX_THICKNESS)):(ymax + (3 * BIRD_BOX_THICKNESS)), 
+    crop_img = frame_without_boxes[(ymin - (3 * BIRD_BOX_THICKNESS)):(ymax + (3 * BIRD_BOX_THICKNESS)),
                                    (xmin - (3 * BIRD_BOX_THICKNESS)):(xmax + (3 * BIRD_BOX_THICKNESS))]
     push_to_s3(crop_img, i)
 
@@ -166,13 +166,13 @@ Follow these steps to update your DeepLens project so that it uses the new versi
 * Choose the new version number that you just published (should be the largest version number in the list).
 * Click `Save` at the bottom of the page to save your project edits.  Note that when you are back on the screen with the list of projects, it will also show a version number of the DeepLens project itself.  That is completely independent of the version number of the Lambda function.
 
-## Re-deploy
+## Re-deploy the updated project
 
 * Select your project.
 * Click on `Deploy to device`.  
 * Select your device.  Click `Review`. Confirm that you want to overwrite the project that is already deployed on the device. Click `Deploy`. This process then takes a couple of minutes to complete the deployment and then another minute for the project to run, which is indicated by the top blue light staying lit.  Note that the project viewer window that was running on your DeepLens attached monitor will go away when the deployment is complete since the old project will have been removed.
 
-## Test
+## Test the project
 
 ### Show some bird pictures to your DeepLens device
 
@@ -184,9 +184,7 @@ mplayer -demuxer lavf -lavfdopts format=mjpeg:probesize=32 /tmp/results.mjpeg
 
 Hold a bird picture in front of the DeepLens.  Hold it steady.  Keep it about 8 to 12 inches from the device.  You should see it in the `mplayer` window, and you should see that the bird is detected and highlighted with a thick purple bounding box.
 
-**insert picture here**
-
-### Check to see that the cropped image was saved to S3
+### Verify that the cropped image was saved to S3
 
 Now check to see if the project was successful cropping the image and saving it to S3.  Go to your bucket.  Be sure to click the S3 refresh symbol (to the right of the name of the current region).  Otherwise, you will not be seeing the latest state of the S3 bucket.
 
@@ -197,11 +195,9 @@ Navigate to the `birds` folder.  You will see a new folder created for today's d
 There are two ways that you can find out what bird species was identified:
 
 1. Review the logs for the `IdentifySpeciesAndNotify` Lambda function.
-2. Use the AWS IoT console.  **ensure IoT permissions in user's IAM policy.**
+2. Use the AWS IoT console.  
 
-Let's look at the detailed steps.
-
-#### Reviewing Lambda logs for species
+#### Option 1 - Reviewing Lambda logs for species
 
 Go to the AWS Lambda console and select the `IdentifySpeciesAndNotify` function.  Click on the `Monitoring` tab.  Click on the `View logs in CloudWatch` button on the upper right corner of the screen above the metrics charts.
 
@@ -209,7 +205,7 @@ In CloudWatch, open the log stream that has the most recent event time.  Scan th
 
 If you do not find `msg` entries, you may see an entry that says `An error occurred`.  One common example would be that you do not have your SageMaker endpoint up and running with the correct endpoint name (i.e., `nabirds-species-identifier`).
 
-#### Using the IoT console to see the bird species results
+#### Option 2 - Using the IoT console to see the bird species results
 
 From the DeepLens device page of the console, copy the IoT subscription topic and navigate to the IoT console.  Paste in the subscription topic.  Now show another bird to the device.  You should see the results in the IoT console.
 

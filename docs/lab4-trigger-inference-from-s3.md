@@ -5,11 +5,9 @@ In this lab, you will configure your s3 bucket to automatically trigger an infer
 Here are the steps involved:
 
 1. Create a Lambda function to identify bird species
-2. Configure your S3 bucket to trigger your Lambda function
-3. Test by adding an image to S3
-4. Extend the function to publish to SNS
+2. Test by adding an image to S3
 
-## Create a Lambda function to identify bird species
+## Step 1 - Create a Lambda function to identify bird species
 
 ### Create or select an IAM role for your Lambda function
 
@@ -31,7 +29,7 @@ You have successfully created a hello world Lambda function with the appropriate
 * Select `S3` in the left hand panel list of possible triggers. It is near the bottom.
 * You'll see an `S3` box added to the design panel on the right, and it will say `Configuration required`.  
 * Scroll down to the `Configure triggers` section of the designer.
-* The first configuration step is to identify which S3 bucket will serve as the event source.  Choose your S3 bucket from the dropdown list (e.g., `deeplens-sagemaker-e788ef9b-68b4-496d-b9f7-513cf0e0e09e`) (**TBS: come up with standard S3 nomenclature**)
+* The first configuration step is to identify which S3 bucket will serve as the event source.  Choose your S3 bucket from the dropdown list (e.g., `deeplens-sagemaker-20181126-roymark`).
 * Next, ensure `Object Created(All)` is selcted as the `Event Type`.
 * Enter a `Prefix` of `birds/` and a `Suffix` of `.jpg`.
 * Ensure `Enable trigger` is selected (it is by default).
@@ -106,13 +104,13 @@ mySNSTopicARN = os.environ['SNS_TOPIC_ARN']
 response = sns.publish(TopicArn=mySNSTopicARN, Message=msg)
 ```
 
-### Adding numpy support for a Lambda function
+### Adding 'numpy' support for a Lambda function
 
 The code for this lambda function is provided in `labs/lab4/lambda/lambda_function.py` .  When your Lambda function has an external dependency that is not provided in the default Lambda environment (e.g., Python's `numpy` package), you need to provide those external dependencies in a [Lambda deployment package](https://docs.aws.amazon.com/lambda/latest/dg/lambda-python-how-to-create-deployment-package.html).  
 
 You provide the dependent code by creating a deployment package.  The packaging work in our case is to provide the Python numpy package, and the workshop has done the necessary work for you.  
 
-Note that when deployment packages are used, the function cannot be edited using the Lambda console. Instead, you need to use your own editor of choice.  In this workshop, if you want to make any code changes to the Lambda function, you can navigate to the code in your SageMaker Jupyter notebook in the Files tab.  Click through the folders to get to `labs/lab4/lambda/lambda_function.py`.  If you make any changes, simply click on `Save` on the `File` menu to save the changes before deploying the code in the next step.
+Note that when deployment packages are used, the function cannot be edited using the Lambda console. Instead, you need to use your own editor of choice.  In this workshop, if you want to make any code changes to the Lambda function, you can navigate to the code in your SageMaker Jupyter notebook in the `Files` tab.  Click through the folders to get to `labs/lab4/lambda/lambda_function.py`.  If you make any changes, simply click on `Save` on the `File` menu to save the changes before deploying the code in the next step.
 
 ### Updating the Lambda function
 
@@ -159,9 +157,9 @@ adding: numpy-1.15.0.dist-info/INSTALLER (stored 0%)
 }
 ```
 
-## Test by adding an image to S3
+## Step 2 - Test by adding an image to S3
 
-### Step 1 - Copy a test image to S3
+### Copy a test image to S3
 Copy a test image to s3.  The workshop has a set of test images you can use in the `test_images` folder.  You can use the S3 console to upload an image, or use the AWS CLI as in the following command:
 
 ```
@@ -170,7 +168,7 @@ aws s3 cp ../../test_images/northern-cardinal.jpg s3://<bucket-name>/birds/north
 
 You may have to refresh the S3 console to see the new file in your bucket.  Also, to ensure the Lambda function is triggered, you need to ensure you use the `birds/` prefix for the target object in the S3 bucket.
 
-### Step 2 - Review CloudWatch logs for the Lambda function
+### Review CloudWatch logs for the Lambda function
 
 Go to the Lambda console.  Click the `Monitoring` tab.  You should see the `Invocations` count go up.  Note that the metrics are not updated instantaneously.  It could take a couple of minutes and a refresh before you see the charts updated.
 
