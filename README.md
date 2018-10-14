@@ -18,7 +18,7 @@ The workshop is composed of the following 6 labs:
 
 ### Cleaning up
 
-After you are done, it is important to clean up resources in your account so that you will not be billed unexpectedly.  If you used an AWS account that was supplied to you just for the purposes of this workshop, then you can skip this step.
+After you are done, it is important to clean up resources in your account so that you will not be billed unexpectedly.  If you used an AWS account that was supplied to you just for the purposes of this workshop, then you can skip this step.  Otherwise, take the following steps:
 
 * Delete the SageMaker endpoint
 * Stop the SageMaker notebook instance
