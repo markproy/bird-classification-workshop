@@ -1,6 +1,8 @@
 # Lab 3 - Host the inference model and identify your first bird!
 
-In this lab, you will host the inference model and identify your first bird!  Here are the steps:
+In this lab, you will host the inference model and identify your first bird!  
+
+Here are the steps:
 
 1. Create a SageMaker model from the training artifacts
 2. Create a SageMaker endpoint configuration
@@ -44,10 +46,10 @@ Return to your SageMaker Jupyter notebook and click on the `New` button on the u
 
 In this section, you will use some images that your model has never seen before and run tests against the inference endpoint you created earlier in this lab.
 
-You will be executing the following [test script](../labs/lab3/test_direct_sample.py).  You will not be able to test against the endpoint until its status moves from `Creating` to `InService`.  Once the endpoint is in service, navigate to the Lab 2 folder from the terminal window, and run the test using Python:
+You will be executing the following [test script](../labs/lab3/test_direct_sample.py).  You will not be able to test against the endpoint until its status moves from `Creating` to `InService`.  Once the endpoint is in service, navigate to the Lab 3 folder from the terminal window, and run the test using Python:
 
 ```
-cd ~SageMaker/bird-classification-workshop/labs/lab3
+cd ~/SageMaker/bird-classification-workshop/labs/lab3
 python test_direct_sample.py ../../test_images/northern-cardinal.jpg
 ```
 
