@@ -38,14 +38,6 @@ This workshop leverages the [NABirds]( http://dl.allaboutbirds.org/nabirds) data
 
 The full dataset contains nearly 50,000 images, and the compressed download file is around 9 GB.  In addition to a long download time, training a neural network using a dataset of this size would take many hours.  That is not feasible in a 2-hour workshop.  If you would like to work with the full dataset later on to continue your learning, you can go [here](http://dl.allaboutbirds.org/nabirds) to register to download it yourself for non-commercial research purposes.
 
-## Package the images (move this pic to the notebook)
-
-The following figure illustrates the process of packaging the images.
-
-![](./screenshots/prepare_images.png)
-
-For this workshop, we have provided a script to do the packaging.  The script invokes the `im2rec` utility to create packaged RecordIO files.  You will perform this in the SageMaker notebook.
-
 ## Navigation
 
 Go to the [Next Lab](lab2-train-model.md)
