@@ -30,7 +30,7 @@ Prior to the workshop, a SageMaker notebook instance called `BirdClassificationW
 
 Once you have opened the instance, open the Jupyter notebook called `LabNotebook.ipynb` in the `bird-classification-workshop` folder in the `Files` tab of the instance.
 
-Follow the instructions in the notebook to complete this step and steps 3 and 4.
+Follow the instructions in the notebook to complete the remaining steps.
 
 ## Acknowledgement to Cornell Lab of Ornithology for the NABirds images
 

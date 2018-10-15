@@ -23,7 +23,8 @@ After you are done, it is important to clean up resources in your account so tha
 * Delete the SageMaker endpoint
 * Stop the SageMaker notebook instance
 * Delete SageMaker notebook instance
-* Delete any S3 buckets that you created just for this workshop
+* Delete any objects you created in your S3 bucket
+* Delete the S3 bucket that you created just for this workshop
 * Delete the DeepLens project you created
 * Delete the SNS topic you created
 * Delete the Lambda functions you created
