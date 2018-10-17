@@ -5,11 +5,12 @@ creates a SageMaker notebook instance for use with some of the labs.
 Note that the account must also raise resource limits for GPU usage
 from SageMaker.'
 
-Parameters:
-  ZipFileURL:
-    ConstraintDescription: must be an S3 presigned URL
-    Description: An S3 presigned URL to a zip file containing the bird images for the workshop
-    Type: String
+#Parameters:
+#  ZipFileURL:
+#    ConstraintDescription: must be an S3 presigned URL
+#    Description: An S3 presigned URL to a zip file containing the bird images for the workshop
+#    Type: String
+#    Default: https://bit.ly/2QQqi6v
 
 Resources:
 
@@ -48,7 +49,8 @@ Resources:
               echo Downloading the workshop bird images...
               cd bird-classification-workshop
               pwd
-              curl ${ZipFileURL} -J -L -o ./sample_images.zip
+              # curl ${ZipFileURL} -J -L -o ./sample_images.zip
+              curl "https://bit.ly/2QQqi6v" -J -L -o ./sample_images.zip
               ls -l
 
               echo Unpackaging the workshop bird images...
