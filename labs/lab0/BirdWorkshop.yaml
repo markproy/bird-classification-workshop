@@ -5,6 +5,25 @@ creates a SageMaker notebook instance for use with some of the labs.
 Note that the account must also raise resource limits for GPU usage
 from SageMaker.'
 
+Parameters:
+  ZipFileURL:
+    ConstraintDescription: must be an S3 presigned URL
+    Description: An S3 presigned URL to a zip file containing the bird images for the workshop
+    Type: String
+    Default: https://bit.ly/2QQqi6v
+
+  S3Bucket:
+    ConstraintDescription: must be an existing S3 bucket containing the Lambda function for stopping the SageMaker notebook
+    Description: An existing S3 bucket containing the Lambda function for stopping the SageMaker notebook
+    Type: String
+    Default: s3://roymark-aws-ml
+
+  S3Key:
+    ConstraintDescription: must be a key referring to the S3 object that is the Lambda package
+    Description: A key referring to the S3 object that is the Lambda package
+    Type: String
+    Default: nabirds/sm-notebook-stopper.zip
+
 Resources:
 
   # The notebook instance will give workshop participants an easy way to
@@ -54,9 +73,6 @@ Resources:
               cd ../..  # go to the root of the repo
               setfacl -R -m u:ec2-user:rwx .
 
-              echo Stopping this instance so that we do not pay for it before the workshop
-              aws sagemaker stop-notebook-instance --notebook-instance-name BirdClassificationWorkshop
-
               echo Completed OnCreate script execution!
               echo -----------------------
 
@@ -81,6 +97,40 @@ Resources:
                 - sagemaker.amazonaws.com
             Action:
               - sts:AssumeRole
+
+  SMNotebookStopper:
+    Type: Custom::NotebookStopper
+    Properties:
+      ServiceToken: !GetAtt SMNotebookStopperFunction.Arn
+
+  SMNotebookStopperFunction:
+    Type: AWS::Lambda::Function
+    DependsOn: SageMakerNotebook
+    Properties:
+      Description: Stops the notebook instance created earlier so that no additional fees are incurred until used
+      Code:
+        ZipFile: |
+          import json
+          import cfnresponse
+          import boto3
+          runtime = boto3.client(service_name='runtime.sagemaker')
+          def notebook_stopper(event, context):
+            print('made it to the handler...')
+            client = boto3.client('sagemaker')
+            try:
+              stop_resp = client.stop_notebook_instance(NotebookInstanceName='BirdClassificationWorkshop')
+            except Exception as e:
+              print(e)
+              print('Error stopping BirdClassificationWorkshop notebook instance')
+              raise e
+            responseValue = 'success'
+            responseData = {}
+            responseData['Data'] = responseValue
+            cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData, "CustomResourcePhysicalID")
+      Handler: index.notebook_stopper
+      Runtime: python3.6
+      Timeout: 30
+      Role: !GetAtt LambdaRole.Arn
 
   # Create a role that will be needed by a Lambda function that
   # workshop participants will create. THe Lambda needs access to
