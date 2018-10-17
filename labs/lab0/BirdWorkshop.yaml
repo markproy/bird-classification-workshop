@@ -55,7 +55,7 @@ Resources:
               setfacl -R -m u:ec2-user:rwx .
 
               echo Stopping this instance so that we don't pay for it before the workshop
-#              aws sagemaker stop-notebook-instance --notebook-instance-name BirdClassificationWorkshop
+              # aws sagemaker stop-notebook-instance --notebook-instance-name BirdClassificationWorkshop
 
               echo Completed OnCreate script execution!
               echo -----------------------
