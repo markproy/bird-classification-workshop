@@ -10,7 +10,7 @@ Parameters:
     ConstraintDescription: must be an S3 presigned URL
     Description: An S3 presigned URL to a zip file containing the bird images for the workshop
     Type: String
-    Default: https://bit.ly/2QQqi6v
+    Default: https://bit.ly/2yvbBzb
 
   S3Bucket:
     ConstraintDescription: must be an existing S3 bucket containing the Lambda function for stopping the SageMaker notebook
@@ -71,7 +71,7 @@ Resources:
               echo Downloading the workshop bird images...
               cd bird-classification-workshop
               pwd
-              curl 'https://bit.ly/2yvbBzb' -J -L -o ./sample_images.zip
+              curl $(ZipFileURL) -J -L -o ./sample_images.zip
               ls -l
 
               echo Unpackaging the workshop bird images...
