@@ -126,6 +126,9 @@ Resources:
           runtime = boto3.client(service_name='runtime.sagemaker')
           def notebook_stopper(event, context):
             print('made it to the handler...')
+            print('event object:\n' + str(event))
+            print('\ncontext object:\n' + str(context))
+            
             client = boto3.client('sagemaker')
             try:
               stop_resp = client.stop_notebook_instance(NotebookInstanceName='BirdClassificationWorkshop')
