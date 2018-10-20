@@ -2,14 +2,17 @@
 
 In this lab, you will prepare the images for training.  We will be using SageMaker's [Image Classification algorithm](https://docs.aws.amazon.com/sagemaker/latest/dg/image-classification.html) against these images.  This algorithm performs supervised learning, taking an image as input and classifying it into one of many output categories.  In this workshop, the output categories are species of birds like Cardinal and Goldfinch.  The algorithm uses a convolutional neural network called ResNet, and is best trained with a dataset of images packaged in [Apache MXNet RecordIO](https://mxnet.incubator.apache.org/architecture/note_data_loading.html) format.  
 
-These are the high level steps you will take for Lab 1.  You will complete Steps 2 through 4 using a SageMaker notebook:
+These are the high level steps you will take for Lab 1.  You will complete Steps 2 through 4 using an Amazon SageMaker notebook:
 
-1. Create an S3 bucket for use throughout the workshop
-2. Explore the dataset of bird images
-3. Use the [im2rec](https://mxnet.incubator.apache.org/faq/recordio.html) utility to package the images
-4. Upload the packaged images to S3 for training
+1. Start the Amazon SageMaker notebook instance
+2. Create an S3 bucket for use throughout the workshop
+3. Use a SageMaker notebook to explore the dataset of bird images, package the images using  the [im2rec](https://mxnet.incubator.apache.org/faq/recordio.html) utility, and upload the packaged images to S3 for training
 
-## Step 1 - Create an S3 bucket for use throughout the workshop
+## Step 1 - Start the notebook instance
+
+Prior to the workshop, a SageMaker notebook instance called `BirdClassificationWorkshop` was created in your account.  Open the [Amazon SageMaker console](https://console.aws.amazon.com/sagemaker/) in a new browser tab, and click on `Notebook instances` in the left hand panel.  If the `Status` of the instance is `InService`, click on `Open` to open the notebook instance.  If not, click on `Start` to first start the instance before opening it.  It can take a couple of minutes to start, so while that is happening, proceed to step 2.
+
+## Step 2 - Create an S3 bucket for use throughout the workshop
 
 You will need an S3 bucket throughout the workshop.  It will be used for:
 
@@ -22,15 +25,11 @@ To create the S3 bucket, first navigate to the [S3 console](https://console.aws.
 
 Name the bucket with a prefix of `deeplens-sagemaker-`.  To ensure uniqueness, add on a date formatted as `yyyy-mm-dd`, and then add your name.  For example, your bucket name could be `deeplens-sagemaker-20181126-roymark`.  Under `Region`, select `US East (N. Virginia)` to align with the notebook region.  Select `Create` in the bottom left corner to create the bucket.
 
-You will use this S3 bucket name in multiple labs, including the very next step of this lab.  In that step, you will reference the bucket name in the first cell of your SageMaker notebook.
+Remember the name of your new bucket.  You will use this S3 bucket name in multiple labs, including the very next step of this lab.  In that step, you will reference the bucket name in the first cell of your SageMaker notebook.
 
-## Step 2 through 4 - Explore the dataset, Package images, Upload images
+## Step 3 - Use the SageMaker Notebook to explore the dataset, package images, upload images
 
-Prior to the workshop, a SageMaker notebook instance called `BirdClassificationWorkshop` was created in your account.  Open the [Amazon SageMaker console](https://console.aws.amazon.com/sagemaker/) in a new browser tab, and click on `Notebook instances` in the left hand panel.  If the `Status` of the instance is `InService`, click on `Open` to open the notebook instance.  If not, click on `Start` to first start the instance before opening it.
-
-Once you have opened the instance, open the Jupyter notebook called `LabNotebook.ipynb` in the `bird-classification-workshop` folder in the `Files` tab of the instance.
-
-Follow the instructions in the notebook to complete the remaining steps.
+Once you have opened the instance, navigate to the `bird-classification-workshop` folder, and open the Jupyter notebook called `LabNotebook.ipynb`.  Follow the instructions in the notebook to complete the remaining steps.
 
 ## Acknowledgement to Cornell Lab of Ornithology for the NABirds images
 
