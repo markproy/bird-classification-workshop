@@ -10,7 +10,7 @@ These are the high level steps you will take for Lab 1.  You will complete Steps
 
 ## Step 1 - Start the notebook instance
 
-Prior to the workshop, a SageMaker notebook instance called `BirdClassificationWorkshop` was created in your account.  Open the [Amazon SageMaker console](https://console.aws.amazon.com/sagemaker/) in a new browser tab, and click on `Notebook instances` in the left hand panel.  If the `Status` of the instance is `InService`, click on `Open` to open the notebook instance.  If not, click on `Start` to first start the instance before opening it.  It can take a couple of minutes to start, so while that is happening, proceed to step 2.
+Prior to the workshop, a SageMaker notebook instance called `BirdClassificationWorkshop` was created in your account.  Open the [Amazon SageMaker console](https://console.aws.amazon.com/sagemaker/) in a new browser tab, and click on `Notebook instances` in the left hand panel.  If the `Status` of the instance is `InService`, click on `Open` to open the notebook instance.  If not, click on `Start` to first start the instance before opening it.  It will take a few minutes to start the notebook instance, so while that is happening, proceed to step 2 (creating your S3 bucket).
 
 ## Step 2 - Create an S3 bucket for use throughout the workshop
 
