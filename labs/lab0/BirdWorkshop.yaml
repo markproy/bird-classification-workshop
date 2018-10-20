@@ -71,7 +71,7 @@ Resources:
               echo Downloading the workshop bird images...
               cd bird-classification-workshop
               pwd
-              curl $(ZipFileURL) -J -L -o ./sample_images.zip
+              curl ${ZipFileURL} -J -L -o ./sample_images.zip
               ls -l
 
               echo Unpackaging the workshop bird images...
