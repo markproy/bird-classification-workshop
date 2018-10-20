@@ -52,16 +52,26 @@ Resources:
               echo ++++++++++++++++++++++
               echo Beginning OnCreate script for lifecycle of SageMaker notebook instance
 
+              # install the latest version of mxnet and opencv, as we will use these
+              # from python scripts in this workshop
+              pip install mxnet --user
+              pip install opencv-python --user
+
+              # for some reason, boto3 can get errors with certain versions of the AWS CLI.
+              # To avoid hitting errors like 'serviceID not defined in the medata ...', we install
+              # a specific AWS CLI verion.
+              pip install awscli==1.16.9 awsebcli==3.14.4 --user
+
               # clone the workshop git repository
               echo Cloning the workshop git repository...
               cd /home/ec2-user/SageMaker
-              git clone https://fbfd8b1f0692e5f155c19117204f0f9a7723c22b@github.com/markproy/bird-classification-workshop
+              git clone https://github.com/markproy/bird-classification-workshop
 
               # download the images and unpack them
               echo Downloading the workshop bird images...
               cd bird-classification-workshop
               pwd
-              curl "https://bit.ly/2QQqi6v" -J -L -o ./sample_images.zip
+              curl 'https://bit.ly/2yvbBzb' -J -L -o ./sample_images.zip
               ls -l
 
               echo Unpackaging the workshop bird images...
