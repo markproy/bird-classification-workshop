@@ -28,11 +28,13 @@ Parameters:
     ConstraintDescription: either Stopped or InService
     Description: the desired state of the SageMaker notebook instance upon creation
     Type: String
+    Default: Stopped
     AllowedValues:
       - Stopped
       - InService
-    Default: Stopped
 
+Conditions:
+  CreateProdResources: !Equals [ !Ref EnvType, prod ]
 Conditions:
   CreateStoppedInstance: !Equals [ !Ref NotebookInstanceState, Stopped ]
 
@@ -64,7 +66,6 @@ Resources:
 
   SMLifecycleConfig:
     Type: AWS::SageMaker::NotebookInstanceLifecycleConfig
-    Conditions: CreateStoppedInstance
     Properties:
       OnCreate:
         - Content:
@@ -131,14 +132,14 @@ Resources:
 
   SMNotebookStopper:
     Type: Custom::NotebookStopper
-    Conditions: CreateStoppedInstance
+    Condition: CreateStoppedInstance
     Properties:
       ServiceToken: !GetAtt SMNotebookStopperFunction.Arn
 
   SMNotebookStopperFunction:
     Type: AWS::Lambda::Function
+    Condition: CreateStoppedInstance
     DependsOn: SageMakerNotebook
-    Conditions: CreateStoppedInstance
     Properties:
       Description: Stops the notebook instance created earlier so that no additional fees are incurred until used
       Code:
