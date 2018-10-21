@@ -158,7 +158,7 @@ Resources:
             responseData = {}
             responseData['Data'] = responseValue
 
-            if event['RequestType'] == 'Create'):
+            if event['RequestType'] == 'Create':
               client = boto3.client('sagemaker')
               try:
                 stop_resp = client.stop_notebook_instance(NotebookInstanceName='BirdClassificationWorkshop')
