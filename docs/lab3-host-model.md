@@ -42,11 +42,11 @@ Here are the steps:
 
 ## Test your model from a SageMaker terminal window
 
-Return to your SageMaker Jupyter notebook and click on the `New` button on the upper right hand side of the notebook in the `Files` tab.  Select `Terminal` from the dropdown list.  This will open a new terminal window running on your SageMaker notebook instance.  From that window, you have direct access to the full set of lab materials such as the raw input images you explored in [Lab 1](lab1-image-prep.md), along with the packaged RecordIO files you created in that same lab.
+Return to your SageMaker notebook instance, and in the `Files` tab of the instance, click on the `New` button on the upper right hand side of the instance.  Select `Terminal` from the `New` dropdown list.  This will open a new terminal window running on your SageMaker notebook instance.  From that window, you have direct access to the full set of lab materials such as the raw input images you explored in [Lab 1](lab1-image-prep.md), along with the packaged RecordIO files you created in that same lab.
 
-In this section, you will use some images that your model has never seen before and run tests against the inference endpoint you created earlier in this lab.
+In this section, you will use some images that your model has never seen before, and you will run tests against the inference endpoint you created earlier in this lab.
 
-You will be executing the following [test script](../labs/lab3/test_direct_sample.py).  You will not be able to test against the endpoint until its status moves from `Creating` to `InService`.  Once the endpoint is in service, navigate to the Lab 3 folder from the terminal window, and run the test using Python:
+You will be executing the following [test script](../labs/lab3/test_direct_sample.py).  You will not be able to test against the endpoint until its status moves from `Creating` to `InService`.  Once the endpoint is in service, return to the terminal window, navigate to the Lab 3 folder, and run the test using Python.  Here are the commands you will execute from the terminal window:
 
 ```
 cd ~/SageMaker/bird-classification-workshop/labs/lab3
@@ -62,6 +62,14 @@ Bird is a: Northern Cardinal (0.98)[772]
 ```
 
 Try the other images provided in the `test_images` folder and see how accurate your model is predicting its species.
+
+```
+python test_direct_sample.py ../../test_images/eastern-bluebird.jpg
+python test_direct_sample.py ../../test_images/american-goldfinch.jpg
+python test_direct_sample.py ../../test_images/purple-martin.jpg
+```
+
+In this lab, you directly invoked the SageMaker endpoint from a command line Python script.  In the next lab, you will create a Lambda function to do an invocation that can be called from any client application.  Once it is packaged as a Lambda function, you could use it from behind Amazon's API Gateway, call it from a web application, or even trigger it based on events such as an S3 object creation.
 
 ## Navigation
 
