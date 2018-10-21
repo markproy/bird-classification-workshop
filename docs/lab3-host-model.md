@@ -13,30 +13,32 @@ Here are the steps:
 
 ### Create the model using the console
 
-* Click on `Models` in the `Inference` section of the left hand panel of the SageMaker console.
+* Go to the SageMaker console.
+* In the `Inference` section of the left hand panel of the SageMaker console, click on `Models`.
 * Click on `Create model`.
-* Give the model a name such as `birds`.
+* Give the model the name `birds`.
 * Leave the model with the default IAM role such as `AmazonSageMaker-ExecutionRole-20180926T121970`.
 * Leave the Network setting as `No VPC`.
 * Set the Primary container to the location of SageMaker's inference code image for `us-east-1` which is:
  `811284229777.dkr.ecr.us-east-1.amazonaws.com/image-classification:1`.
-* Set the location of model artifacts to the full path of the trained model created in Lab 2 (something like: `s3://<bucket-name>/<job-name>/output/model.tar.gz`, remembering to replace `<bucket-name>` with the name of your bucket and `<job-name>` with the name of your training job from [Lab 2](lab2-train-model.md).  To ensure you get the precise URI, you can copy it from the `Output` section of the training job details page.
-* Click `Create model`, and it will now show up in your list of models.
+* Set the location of model artifacts to the full path of the trained model created in Lab 2 (something like: `s3://<bucket-name>/<job-name>/output/model.tar.gz`, remembering to replace `<bucket-name>` with the name of your bucket and `<job-name>` with the name of your training job from [Lab 2](lab2-train-model.md).  To ensure you get the precise URI, you can copy it from the `Output` section of the training job details page as mentioned at the end of Lab 2.
+* Leave environment variables and tags as blank, as they are not needed for this workshop.
+* Click `Create model`, and your new model will now show up in your list of models.
 
 ## Create a SageMaker endpoint configuration
 
-* Click on `Endpoint configurations` in the `Inference` section of the left hand panel of the SageMaker console.
+* In the `Inference` section of the left hand panel of the SageMaker console, click on `Endpoint configurations` .
 * Click on `Create endpoint configuration`.
-* Give the endpoint configuration a name such as `birds`.
+* Give the endpoint configuration the name `birds`.
 * Click on `Add model` and pick the model you just created in the previous step.
 * Click on `Save`.
 * Click on `Create endpoint configuration`, and your new endpoint configuration will now show up in the list of endpoint configurations.
 
 ## Create a SageMaker endpoint
 
-* Click on `Endpoints` in the `Inference` section of the left hand panel of the SageMaker console.
+* In the `Inference` section of the left hand panel of the SageMaker console, click on `Endpoints`.
 * Click on `Create endpoint`.
-* Give it a specific name that will be referenced from other labs: `nabirds-species-identifier`.
+* Give it the name `nabirds-species-identifier`.  This name will be referenced from the remaining labs, so it is important to get it exact.
 * In the `Endpoint configuration` section, select the endpoint configuration that you just created in the previous step.
 * Click on `Create endpoint` at the bottom of the page, and SageMaker will create an endpoint for you.  The creation process will take several minutes.  Note that once the endpoint is in the running state, you will be billed until the endpoint is deleted.
 

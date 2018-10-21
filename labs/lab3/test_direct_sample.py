@@ -17,7 +17,7 @@ runtime = boto3.client(service_name='runtime.sagemaker')
 object_categories = ['Purple Martin','Northern Cardinal','American Goldfinch','Eastern Bluebird']
 
 TOP_K = 2                   # identifies number of species to message about when uncertain. Could move this to lambda env var.
-CERTAINTY_THRESHOLD = 0.85  # the confidence level under which we will return multiple options. Could move this to lambda env var.
+CERTAINTY_THRESHOLD = 0.70  # the confidence level under which we will return multiple options. Could move this to lambda env var.
 
 leaf_classes_df = pd.read_csv('leaf_classes_sample.txt', names=['class_id'], header=None)
 
