@@ -28,7 +28,7 @@ Parameters:
     ConstraintDescription: either Stopped or InService
     Description: the desired state of the SageMaker notebook instance upon creation
     Type: String
-    Default: Stopped
+    Default: InService
     AllowedValues:
       - Stopped
       - InService
