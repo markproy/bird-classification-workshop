@@ -41,7 +41,7 @@ Here are the steps required to register your DeepLens device.  The standard inst
 * After clicking `Edit`, click `Browse` and locate the certificate zip file (e.g., `certificates-deeplens_JVHM9GHxSqRE84fw.zip`) you downloaded earlier.  Depending on the version of the software running on the AWS DeepLens, you may also need to then click `Upload zip file`.  
 * Once the file upload is complete, click `Save` to return to the main configuration screen, or click `Finish`.  This will disconnect you from the device WiFi, and will complete the registration on the device.
 
-### Step 3 - Complete the device registration
+### Step 4 - Complete the device registration
 
 * Re-connect to your network (non-device WiFi, or Ethernet).
 * Return to the AWS DeepLens console by clicking `AWS management console`.

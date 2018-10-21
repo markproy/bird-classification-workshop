@@ -9,7 +9,7 @@ In this lab, you will configure automatic SMS text notification whenever a bird 
 
 ## Create an SNS topic
 
-* Go to the Amazon SNS console on AWS.  
+* Go to the [Amazon SNS console](https://console.aws.amazon.com/sns) on AWS.  
 * Click on `Create topic`.
 * Use the following topic name: `deeplens-sagemaker-birdpic-arrived` and `birds` as the display name.  The display name will show up as a prefix to your text.
 * Click `Create topic`.
@@ -46,8 +46,8 @@ response = sns.publish(TopicArn=mySNSTopicARN, Message=msg)
 Now we will enable that code to work by providing a functioning SNS topic.
 
 * Copy the SNS topic ARN.  You will be pasting it into an environment variable shortly.
-* Go to the Lambda console on AWS.
-* On the Lambda console, click on `Functions` in the left hand panel, and navigate to the `IdentifySpeciesAndNotify` function by clicking on that function name.
+* Go to the [Lambda console](https://console.aws.amazon.com/lambda/) on AWS.
+* On the Lambda console, click on `Functions` in the left hand panel, and navigate to the `IdentifySpeciesAndNotify` function (not the DeepLens object detection function) by clicking on that function name.
 * Scroll down to the `Environment variables` section.
 * Add `SNS_TOPIC_ARN` as a new key, and paste in the ARN of your SNS topic as the value.
 * Click `Save` to record the updated variables.
