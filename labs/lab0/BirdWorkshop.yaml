@@ -24,11 +24,31 @@ Parameters:
     Type: String
     Default: nabirds/sm-notebook-stopper.zip
 
+  NotebookInstanceState:
+    ConstraintDescription: either Stopped or InService
+    Description: the desired state of the SageMaker notebook instance upon creation
+    Type: String
+    AllowedValues:
+      - Stopped
+      - InService
+    Default: Stopped
+
+Conditions:
+  CreateStoppedInstance: !Equals [ !Ref NotebookInstanceState, Stopped ]
+
 Resources:
 
   # The notebook instance will give workshop participants an easy way to
   # execute the labs involving preparing the data, as well as training and
   # testing the image classification model.
+
+  SageMakerNotebook:
+    Type: AWS::SageMaker::NotebookInstance
+    Properties:
+      NotebookInstanceName: BirdClassificationWorkshop
+      InstanceType: ml.t2.medium
+      RoleArn: !GetAtt SageMakerExecutionRole.Arn
+      LifecycleConfigName: !GetAtt SMLifecycleConfig.NotebookInstanceLifecycleConfigName
 
   SageMakerNotebook:
     Type: AWS::SageMaker::NotebookInstance
@@ -44,6 +64,7 @@ Resources:
 
   SMLifecycleConfig:
     Type: AWS::SageMaker::NotebookInstanceLifecycleConfig
+    Conditions: CreateStoppedInstance
     Properties:
       OnCreate:
         - Content:
@@ -110,16 +131,18 @@ Resources:
 
   SMNotebookStopper:
     Type: Custom::NotebookStopper
+    Conditions: CreateStoppedInstance
     Properties:
       ServiceToken: !GetAtt SMNotebookStopperFunction.Arn
 
   SMNotebookStopperFunction:
     Type: AWS::Lambda::Function
     DependsOn: SageMakerNotebook
+    Conditions: CreateStoppedInstance
     Properties:
       Description: Stops the notebook instance created earlier so that no additional fees are incurred until used
       Code:
-        ZipFile: |
+        ZipFile: !Sub |
           import json
           from cfnresponse import send, SUCCESS
 
@@ -134,7 +157,7 @@ Resources:
             responseData = {}
             responseData['Data'] = responseValue
 
-            if event['RequestType'] == 'Create':
+            if event['RequestType'] == 'Create'):
               client = boto3.client('sagemaker')
               try:
                 stop_resp = client.stop_notebook_instance(NotebookInstanceName='BirdClassificationWorkshop')
