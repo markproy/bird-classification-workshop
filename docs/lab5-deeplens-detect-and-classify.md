@@ -141,6 +141,17 @@ response = s3.put_object(ACL='public-read',
                          Key=key)
 ```
 
+### Before customizing the function, enable S3 update access
+
+Your DeepLens project will be saving cropped images to your S3 bucket.  By default, your function is not permitted to do so.  To enable this access, you will attach the `AmazonS3FullAccess` policy to the `AWSDeepLensGreengrassGroupRole` IAM role.  Here are the steps to attach this policy:
+
+* Open the IAM console.
+* Click on `Roles`.
+* Click on the `AWSDeepLensGreengrassGroupRole`.
+* Click on `Attach policies`.
+* Search for `AmazonS3FullAccess` in the search bar.
+* Select that policy, and click on `Attach policy`.
+
 ### Detailed steps for customizing the project function
 
 Here are the steps to follow to customize the project.
@@ -165,7 +176,9 @@ S3_PUSH_THROTTLE_SECONDS = 4
 
 Follow these steps to update your DeepLens project so that it uses the new version of the Lambda function you just created:
 
-* Return back to DeepLens `Projects` console.  Click on `Edit` to edit the project content.  This button is on the far right hand side of the `Project` section.
+* Return back to the DeepLens `Projects` console.  
+* Click on the name of your project.
+* From the project details page, click on `Edit` to edit the project content.  This button is on the far right hand side of the `Project` section.
 * Once you are on the `Edit project` page, click on `Function` (not the name of the function) in the `Project Content` section to expand the project function editor.  
 * Choose the new version number that you just published (should be the largest version number in the list).
 * Click `Save` at the bottom of the page to save your project edits.  Note that when you are back on the screen with the list of projects, it will also show a version number of the DeepLens project itself.  That is completely independent of the version number of the Lambda function.
@@ -194,6 +207,14 @@ Now check to see if the project was successful cropping the image and saving it 
 
 Navigate to the `birds` folder.  You will see a new folder created for today's date (`mm_dd` format such as `11_26` for November 26th).  Within that folder, there will be subfolders for each minute in which there was a bird pushed (`hh_mm`, where the hours are in military time and `mm` represents minutes, for example `18_05` for 6:05pm).  Preview the jpg file to see the cropped image that was saved from the DeepLens to S3.
 
+If you do not find new cropped images in your S3 bucket, it is possible you did not provide S3 update access to your DeepLens device.  If that is the case, you may see an error such as this in your log:
+
+```
+[INFO]-Lambda.py:92,Invoking Lambda function "arn:aws:lambda:::function:GGRouter" with Greengrass Message "Pushing to S3 failed: An error occurred (AccessDenied) when calling the PutObject operation: Access Denied"
+```
+
+Another possible issue is that you have a typo in your environment variable for `BUCKET_NAME`.  Reviewing CloudWatch logs should help you determine the root cause.
+
 ### Now find out what species was identified
 
 There are two ways that you can find out what bird species was identified:
@@ -206,6 +227,8 @@ There are two ways that you can find out what bird species was identified:
 Go to the AWS Lambda console and select the `IdentifySpeciesAndNotify` function.  Click on the `Monitoring` tab.  Click on the `View logs in CloudWatch` button on the upper right corner of the screen above the metrics charts.
 
 In CloudWatch, open the log stream that has the most recent event time.  Scan the log for output from your Lambda function.  Log entries for invocations are bracketed by an initial entry of `START RequestId` and a closing log entry of `REPORT RequestId` which displays the duration and memory size information.  If everything worked well, you will see an entry that starts with `msg` that will show you the results of the species identification.  Note that the S3 key for the cropped bird image object is also logged (e.g., `birds/10_13/15_9/1539457777_0.jpg`) and can be a useful aid in troubleshooting if required.
+
+Note that CloudWatch may create a new log stream in your log group.  So, if you are not seeing new log entries in the log stream, you may want to return to the list of log streams and choose another.
 
 If you do not find `msg` entries, you may see an entry that says `An error occurred`.  One common example would be that you do not have your SageMaker endpoint up and running with the correct endpoint name (i.e., `nabirds-species-identifier`).
 

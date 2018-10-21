@@ -32,6 +32,8 @@ Before configuring the Lambda function and testing the end to end process, first
 * At the bottom of the page, click on `Publish message`.
 * You should see a text message arrive on your cell phone.
 
+Before extending the Lambda function, you will need to copy the ARN of your SNS topic.  You will be adding it as an environment variable to your function.
+
 ## Extend the Lambda function to publish to SNS
 
 In [Lab 4](lab4-trigger-inference-from-s3.md), you created a Lambda function called `IdentifySpeciesAndNotify`.  It already has code that attempts to publish the species identification message to SNS:
