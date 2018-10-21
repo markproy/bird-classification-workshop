@@ -48,7 +48,9 @@ Return to your SageMaker notebook instance, and in the `Files` tab of the instan
 
 In this section, you will use some images that your model has never seen before, and you will run tests against the inference endpoint you created earlier in this lab.
 
-You will be executing the following [test script](../labs/lab3/test_direct_sample.py).  You will not be able to test against the endpoint until its status moves from `Creating` to `InService`.  Once the endpoint is in service, return to the terminal window, navigate to the Lab 3 folder, and run the test using Python.  Here are the commands you will execute from the terminal window:
+You will be executing the following [test script](../labs/lab3/test_direct_sample.py).  You will not be able to test against the endpoint until its status moves from `Creating` to `InService`.  
+
+Once the endpoint is in service, return to the terminal window, navigate to the Lab 3 folder, and run the test using Python.  Here are the commands you will execute from the terminal window:
 
 ```
 cd ~/SageMaker/bird-classification-workshop/labs/lab3
@@ -70,6 +72,10 @@ python test_direct_sample.py ../../test_images/eastern-bluebird.jpg
 python test_direct_sample.py ../../test_images/american-goldfinch.jpg
 python test_direct_sample.py ../../test_images/purple-martin.jpg
 ```
+
+Celebrate!  You have reached a major milestone in this workshop.  You have now demonstrated an end-to-end application of machine learning, computer vision, deep learning, and image classification in less than an hour.  **Well done!**
+
+You started with a collection of a few hundred labeled bird images.  You then packaged them for training, trained SageMaker's image classification algorithm, and then hosted the trained model in a SageMaker endpoint.  Now you have demonstrated how the hosted model is able to make predictions by taking a new bird image and identifying its species with reasonable accuracy after very little work.
 
 In this lab, you directly invoked the SageMaker endpoint from a command line Python script.  In the next lab, you will create a Lambda function to do an invocation that can be called from any client application.  Once it is packaged as a Lambda function, you could use it from behind Amazon's API Gateway, call it from a web application, or even trigger it based on events such as an S3 object creation.
 
