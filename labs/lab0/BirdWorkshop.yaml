@@ -145,10 +145,9 @@ Resources:
       Code:
         ZipFile: !Sub |
           import json
-          from cfnresponse import send, SUCCESS
-
+          import cfnresponse
           import boto3
-          runtime = boto3.client(service_name='runtime.sagemaker')
+
           def notebook_stopper(event, context):
             print('made it to the handler...')
             print('event object:\n' + str(event))
@@ -167,7 +166,8 @@ Resources:
                 print('Error stopping BirdClassificationWorkshop notebook instance')
                 raise e
 
-            send(event, context, SUCCESS, responseData, "CustomResourcePhysicalID")
+            cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData, "CustomResourcePhysicalID")
+
       Handler: index.notebook_stopper
       Runtime: python3.6
       Timeout: 30
