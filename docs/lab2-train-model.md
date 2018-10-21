@@ -132,7 +132,7 @@ Here is some sample output from a single epoch:
 ...
 ```
 
-As stated earlier, once the job is complete, the training model artifacts are saved in `model.tar.gz` in the specified output directory.  Navigate to the S3 console, and drill down into your S3 bucket to find the model artifacts.  That file will be used to create a model for inference in the next lab.
+As stated earlier, once the job is complete (console will show a green `Completed` status), the training model artifacts are saved in `model.tar.gz` in the specified output directory.  Navigate to the S3 console, and drill down into your S3 bucket to find the model artifacts.  That file will be used to create a model for inference in the next lab.
 
 ## Navigation
 

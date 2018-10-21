@@ -20,7 +20,7 @@ Now check the lambda logs for the project.  Click on the project.  Click on lamb
 
 If the Lambda function is failing immediately when the DeepLens tries to load it, you may get errors in the `python_runtime` log.  From the `Device` page of the DeepLens console, navigate to the Greengrass logs (link near the bottom of the page).  From CloudWatch, choose the log group called `/aws/greengrass/GreengrassSystem/python_runtime`.  Open the log stream in this log group that has the latest event time.  If you had forgotten to add the environment variables to your Lambda function, your function would be failing to load.  The `python_runtime` log would show an error about its inability to find the `BUCKET_NAME` environment variable.
 
-#### Other remediation steps
+#### Other DeepLens remediation steps
 
 Try restarting greengrass.  
 
@@ -34,7 +34,7 @@ If that does not work, navigate to the device in the DeepLens console and click 
 
 If that does not work, click on `Deregister the device`.  Then go back and repeat device registration and deploying the project.
 
-### S3 access denied
+### S3 access denied for Lab 5
 
 You have not given permission to the Lambda function to create objects in s3.
 
@@ -51,6 +51,22 @@ If neither of those work, try using the ip address directly (e.g., `http://10.10
 ### Lambda function editor spins endlessly
 
 On occasion, the Lambda function editor does not take you to the function code.  A simple browser refresh click normally solves this.
+
+### Lab 2 model training fails with 'Multiple RecordIO files found in the train channel'
+
+If you receive this error, you most likely incorrectly named the S3 locations for your data channels.  If you left off the folder names, SageMaker would find multiple `.rec` files when it was only expecting one per channel.
+
+### Lab 3 Endpoint not found
+
+When you try to test your trained model, you may get an error like the following:
+
+```
+botocore.errorfactory.ValidationError: An error occurred (ValidationError) when calling the InvokeEndpoint operation: Endpoint nabirds-species-identifier of account 355151823911 not found.
+```
+
+There are a couple of possible root causes for this error.  One is that you may not have named your SageMaker endpoint properly (should be `nabirds-species-identifier`).  If so, you can delete the endpoint and recreate it.
+
+A second possible cause is that your endpoint has not yet moved to the `InService` state.  See the Lab 3 documentation for more details.
 
 ## Navigation
 

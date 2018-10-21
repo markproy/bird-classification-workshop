@@ -68,6 +68,7 @@ Bird is a: Northern Cardinal (0.98)[772]
 Try the other images provided in the `test_images` folder and see how accurate your model is predicting its species.
 
 ```
+ls ../../test_images
 python test_direct_sample.py ../../test_images/eastern-bluebird.jpg
 python test_direct_sample.py ../../test_images/american-goldfinch.jpg
 python test_direct_sample.py ../../test_images/purple-martin.jpg
