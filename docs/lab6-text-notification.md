@@ -5,6 +5,7 @@ In this lab, you will configure automatic SMS text notification whenever a bird 
 1. Create an SNS topic
 2. Configure a new subscription to your SNS topic
 3. Test that bird species identification texts are sent to your phone
+4. Extend the Lambda function to send a message to your new SNS topic
 
 ## Create an SNS topic
 
@@ -33,7 +34,7 @@ Before configuring the Lambda function and testing the end to end process, first
 
 ## Extend the Lambda function to publish to SNS
 
-In [Lab 4](lab4-trigger-inference-from-s3.md), you created a Lambda function called `IdentifySpeciesAndNotify`.  It has code already built in that attempts to publish the species identification message to SNS:
+In [Lab 4](lab4-trigger-inference-from-s3.md), you created a Lambda function called `IdentifySpeciesAndNotify`.  It already has code that attempts to publish the species identification message to SNS:
 
 ```
 mySNSTopicARN = os.environ['SNS_TOPIC_ARN']

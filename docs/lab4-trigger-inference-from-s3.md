@@ -163,7 +163,7 @@ adding: numpy-1.15.0.dist-info/INSTALLER (stored 0%)
 Copy a test image to s3.  The workshop has a set of test images you can use in the `test_images` folder.  You can use the S3 console to upload an image, or use the AWS CLI as in the following command:
 
 ```
-aws s3 cp ../../test_images/northern-cardinal.jpg s3://<bucket-name>/birds/northern-cardinal.jpg`
+aws s3 cp ../../test_images/northern-cardinal.jpg s3://<bucket-name>/birds/`
 ```
 
 You may have to refresh the S3 console to see the new file in your bucket.  Also, to ensure the Lambda function is triggered, you need to ensure you use the `birds/` prefix for the target object in the S3 bucket.
@@ -194,7 +194,14 @@ Review the logs.  Look for log entries containing `msg` to see the results of th
 
 Try copying another test image and then go back to the Lambda logs and refresh.
 
+```
+aws s3 cp ../../test_images/eastern-bluebird.jpg s3://<bucket-name>/birds/`
+aws s3 cp ../../test_images/purple-martin.jpg s3://<bucket-name>/birds/`
+```
+
 If you are not finding `msg` entries, you should look for error messages that will help you troubleshoot the problem.
+
+You have now enabled an S3 trigger that will drive invocations of your bird species identifier automatically.  In the next lab, you will integrate an existing off the shelf AWS DeepLens object detection model, extending it to copy cropped images to your S3 bucket whenever it detects a bird via its camera.
 
 ## Navigation
 

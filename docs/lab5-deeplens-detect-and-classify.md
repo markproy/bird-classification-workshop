@@ -19,22 +19,24 @@ Here are the steps required to register your DeepLens device.  The standard inst
 ### Step 1 - Name the device and download a new certificate
 
 * Power up your AWS DeepLens device.
-* Navigate to the [AWS DeepLens console](https://console.aws.amazon.com/deeplens/home?region=us-east-1#devices).
+* Navigate to the [AWS DeepLens console](https://console.aws.amazon.com/deeplens/home?region=us-east-1#devices) and go to the `Devices` section.
+* Click on `Register device` to begin a new device registration.
 * Name the device.  Use the name provided on a sticker on the device (e.g., `L25`).
 * Permissions.  The DeepLens required permissions should be all set for your workshop ahead of time, so you should see a green circle with a check mark next to `IAM roles for DeepLens`.  If not, please refer to [these instructions](https://docs.aws.amazon.com/deeplens/latest/dg/deeplens-getting-started-register.html).
-* Certificate.  Download the certificate to be used on the device.  Do not open the zip file, but simply download it and remember where you saved it.  You will need to upload this certificate to the device in an upcoming step.
+* Certificate.  Download the certificate to be used on the device.  Do not open the zip file, but simply download it, and remember where you saved it.  You will need to upload this certificate to the device in an upcoming step.
 * Click `Next`.
 
 ### Step 2 - Connect to the DeepLens softAP WiFi
 
-* Use paper clip to enable the device softAP WiFi.  You will connect to the device WiFi to upload the certificate.
+* Use a paper clip to enable the device softAP WiFi.  You insert the paper clip in the small hole in the back of the device above the power cable.  Pressing in the paper clip, you will feel a small click.  Within five seconds, the middle blue light on the front of the DeepLens device should begin blinking.
+* You will now connect to the device WiFi to upload the certificate.
 * Once the middle light on the device is blinking, connect to the device WiFi.  The SSID is shown on the sticker on the device (e.g., `AMDC-UB82`).  Note that if you are connected to your work VPN, you should disconnect before trying to connect to the DeepLens WiFi.
-* Once you are connected to the device WiFi, click `Next` to continue the setup.  This will take you to a configuration page running on the DeepLens device.  If you have errors when trying to connect, review the [troubleshooting steps](troubleshooting.md).
+* Once you have connected your laptop to the device WiFi, click `Next` to continue the setup.  This will take you to a configuration page running on the DeepLens device.  If you have errors when trying to connect, review the [troubleshooting steps](troubleshooting.md).
 
 ### Step 3 - Upload the certificate to the device
 
-* Under the `Network connection` section, ensure that it is configured to a `Wired connection` using `Ethernet-USB Adapter`. If it is not, click `Edit` and then choose `Use Ethernet`.
-* In the `Certificate` section, you need to upload the certificate that you downloaded earlier.  Click `Edit` even if it looks like there is already a certificate attached.  If there is one already listed, it is from an earlier registration and it will **not** work for your new registration.  
+* Under the `Network connection` section, ensure the network is configured to a `Wired connection` using `Ethernet-USB Adapter`. If it is not, click `Edit` and then choose `Use Ethernet`.
+* In the `Certificate` section, you need to upload the certificate that you downloaded earlier.  Click `Edit` even if it looks like there is already a certificate attached.  If there is one already listed, it is from an earlier registration (since your device may have been used in an earlier workshop), and that certificate will **not** work for your new registration.  
 * Leave the device password as is.  For this workshop, you will see the password on a sticker on the device.
 * After clicking `Edit`, click `Browse` and locate the certificate zip file (e.g., `certificates-deeplens_JVHM9GHxSqRE84fw.zip`) you downloaded earlier.  Depending on the version of the software running on the AWS DeepLens, you may also need to then click `Upload zip file`.  
 * Once the file upload is complete, click `Save` to return to the main configuration screen, or click `Finish`.  This will disconnect you from the device WiFi, and will complete the registration on the device.
@@ -42,9 +44,9 @@ Here are the steps required to register your DeepLens device.  The standard inst
 ### Step 3 - Complete the device registration
 
 * Re-connect to your network (non-device WiFi, or Ethernet).
-* Now you will return to the console by clicking `AWS management console`.
+* Return to the AWS DeepLens console by clicking `AWS management console`.
 * Click `Devices` on the left hand panel of the DeepLens console in the `Resources` section.
-* For your device, you should see `Registration status` of `Registered`, and a `Device status` of `Online`.  
+* For your device, you should see a `Registration status` of `Registered`, and a `Device status` of `Online`.  
 * It is possible that the `Device status` says `Deployment in progress`.  If so, give it a couple of minutes.  If that status will not change, try the [troubleshooting steps](troubleshooting.md).
 * If your `Device status` is `Update available`, scroll down to the `Device Details` section and click `Update` to update the device software.
 
@@ -62,7 +64,7 @@ Here are the detailed steps you will follow to deploy the project:
 * On the `Projects` console, click `Create new project`.
 * Use a project template called `Object detection`.  Click `Next`, and then click `Create`.  Project creation could take a few seconds.  You will know that the project is fully created when you see `Description`, `Creation time`, and `Last updated` are populated in the console.  Once you see a green banner at the top of the page indicating a successful creation, click your web browser refresh button if those fields are still blank.
 
-### Step 2 - Deploy it to the device
+### Step 2 - Deploy the project to the device
 
 * Once the project is created, select it, and click `Deploy to device`. Pick the device you registered in the previous step. Click `Review`. Click `Deploy`.
 * You will see the status at the top of the page in a blue box, and it will indicate `Deployment of project is in progress`.  A percent completion of the model download will be displayed.  Once the model is downloaded, the device will create a Greengrass deployment.  This progress will be indicated in the blue banner at the top of the page.  After a few minutes, you will see the status bar change from blue to green indicating `Deployment of project succeeded`.
@@ -77,6 +79,7 @@ Once the desktop is displayed, right click on the desktop and select `Open Termi
 ```
 mplayer -demuxer lavf -lavfdopts format=mjpeg:probesize=32 /tmp/results.mjpeg
 ```
+
 This will bring up a new window showing you what the device is seeing.  For the Object Detection project, it will also show you blue bounding boxes and confidence levels each time it identifies one of the 20 objects it has been trained to detect (e.g., person, sofa, tv monitor).
 
 ## Customize the object detection project to identify birds
@@ -142,7 +145,7 @@ response = s3.put_object(ACL='public-read',
 
 Here are the steps to follow to customize the project.
 
-* Click on `Projects` in the `Resources` section of the left hand panel of the AWS DeepLens console.
+* In the `Resources` section of the left hand panel of the AWS DeepLens console, click on `Projects`.
 * Click on the name of the project you created earlier.  The console will take you to the details page for that project.
 * Click on the **name of the function** (e.g., `deeplens-object-detection/versions/1`), which will take you to the Lambda console.
 * Once you are in the Lambda console for the function, click on `Go to $LATEST` so that you can edit the function in the console.
@@ -154,6 +157,7 @@ BUCKET_NAME = <your bucket>
 DETECTION_THRESHOLD = 0.55
 S3_PUSH_THROTTLE_SECONDS = 4
 ```
+
 * Click `Save` to save the project with the updated function code and environment variables.
 * On the `Actions` menu, click `Publish new version`. Note the new version number.  Add a comment. Click `Publish`.
 
@@ -188,7 +192,7 @@ Hold a bird picture in front of the DeepLens.  Hold it steady.  Keep it about 8 
 
 Now check to see if the project was successful cropping the image and saving it to S3.  Go to your bucket.  Be sure to click the S3 refresh symbol (to the right of the name of the current region).  Otherwise, you will not be seeing the latest state of the S3 bucket.
 
-Navigate to the `birds` folder.  You will see a new folder created for today's date (`mm_dd` format).  Within that folder, there will be subfolders for each minute in which there was a bird pushed (`hh_mm`, where the hours are in military time and `mm` represents minutes).  Preview the jpg file to see the cropped image that was saved from the DeepLens to S3.
+Navigate to the `birds` folder.  You will see a new folder created for today's date (`mm_dd` format such as `11_26` for November 26th).  Within that folder, there will be subfolders for each minute in which there was a bird pushed (`hh_mm`, where the hours are in military time and `mm` represents minutes, for example `18_05` for 6:05pm).  Preview the jpg file to see the cropped image that was saved from the DeepLens to S3.
 
 ### Now find out what species was identified
 
