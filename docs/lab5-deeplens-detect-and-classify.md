@@ -48,7 +48,7 @@ Here are the steps required to register your DeepLens device.  The standard inst
 * Click `Devices` on the left hand panel of the DeepLens console in the `Resources` section.
 * For your device, you should see a `Registration status` of `Registered`, and a `Device status` of `Online`.  
 * It is possible that the `Device status` says `Deployment in progress`.  If so, give it a couple of minutes.  If that status will not change, try the [troubleshooting steps](troubleshooting.md).
-* If your `Device status` is `Update available`, scroll down to the `Device Details` section and click `Update` to update the device software.
+* If your `Device status` is `Update available`, scroll down to the `Device Details` section and click `Update` to update the device software.  This could take a few minutes and may trigger a reboot of the device.
 
 ## Deploy off the shelf object detection project
 
@@ -149,7 +149,7 @@ Here are the steps to follow to customize the project.
 * Click on the name of the project you created earlier.  The console will take you to the details page for that project.
 * Click on the **name of the function** (e.g., `deeplens-object-detection/versions/1`), which will take you to the Lambda console.
 * Once you are in the Lambda console for the function, click on `Go to $LATEST` so that you can edit the function in the console.
-* Paste in the updated function from [labs/lab5/greengrassHelloWorld.py](../labs/lab5/greengrassHelloWorld.py).
+* Remove the hello world code and replace it with the function code from [labs/lab5/greengrassHelloWorld.py](../labs/lab5/greengrassHelloWorld.py).
 * Set the environment variables.  Note that if you forget to add these environment variables, your project will deploy successfully but will not run.  The top blue light will never turn on.  Here are the three environment variables you need to set:
 
 ```

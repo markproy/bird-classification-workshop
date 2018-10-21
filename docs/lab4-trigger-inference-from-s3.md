@@ -19,7 +19,7 @@ This Lambda function requires an IAM role with access to SNS, S3, and SageMaker.
 * Next, choose to create your function via `Blueprints`.
 * Search for the blueprint called `hello-world-python3`.  Select that blueprint and click on `Configure` at the bottom of the page.
 * Name the new function `IdentifySpeciesAndNotify`.  
-* For IAM role, pick `Choose an existing role` and then pick `service-role/deeplens-workshop-lambda-role` which was created earlier.
+* For IAM role, pick `Choose an existing role` and then pick `service-role/deeplens-workshop-lambda-role` which was created on your behalf before the workshop.
 * Click `Create function` at the bottom of the page.
 
 You have successfully created a hello world Lambda function with the appropriate permissions.  You will now customize that function to do what we need it to do in the subsequent steps.
@@ -160,7 +160,7 @@ adding: numpy-1.15.0.dist-info/INSTALLER (stored 0%)
 ## Step 2 - Test by adding an image to S3
 
 ### Copy a test image to S3
-Copy a test image to s3.  The workshop has a set of test images you can use in the `test_images` folder.  You can use the S3 console to upload an image, or use the AWS CLI as in the following command:
+Copy a test image to S3.  The workshop has a set of test images you can use in the `test_images` folder.  You can use the S3 console to upload an image, or use the AWS CLI as in the following command:
 
 ```
 aws s3 cp ../../test_images/northern-cardinal.jpg s3://<bucket-name>/birds/`
