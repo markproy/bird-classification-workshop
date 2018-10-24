@@ -12,18 +12,6 @@ Parameters:
     Type: String
     Default: https://bit.ly/2yvbBzb
 
-  S3Bucket:
-    ConstraintDescription: must be an existing S3 bucket containing the Lambda function for stopping the SageMaker notebook
-    Description: An existing S3 bucket containing the Lambda function for stopping the SageMaker notebook
-    Type: String
-    Default: s3://roymark-aws-ml
-
-  S3Key:
-    ConstraintDescription: must be a key referring to the S3 object that is the Lambda package
-    Description: A key referring to the S3 object that is the Lambda package
-    Type: String
-    Default: nabirds/sm-notebook-stopper.zip
-
   NotebookInstanceState:
     ConstraintDescription: either Stopped or InService
     Description: the desired state of the SageMaker notebook instance upon creation
@@ -43,14 +31,6 @@ Resources:
   # The notebook instance will give workshop participants an easy way to
   # execute the labs involving preparing the data, as well as training and
   # testing the image classification model.
-
-  SageMakerNotebook:
-    Type: AWS::SageMaker::NotebookInstance
-    Properties:
-      NotebookInstanceName: BirdClassificationWorkshop
-      InstanceType: ml.t2.medium
-      RoleArn: !GetAtt SageMakerExecutionRole.Arn
-      LifecycleConfigName: !GetAtt SMLifecycleConfig.NotebookInstanceLifecycleConfigName
 
   SageMakerNotebook:
     Type: AWS::SageMaker::NotebookInstance
