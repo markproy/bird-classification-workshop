@@ -1,0 +1,160 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: 'AWS CloudFormation Template for the Bird Classification
+Workshop.  This template creates all the necessary IAM roles, plus it
+creates a SageMaker notebook instance for use with some of the labs.
+Note that the account must also raise resource limits for GPU usage
+from SageMaker.'
+
+Parameters:
+  UserSuffix:
+    ConstraintDescription: a short string suffix to add to the end of a resource, 01 for example
+    Description: A suffix that will be added to the end of a resource name to make it unique in an account
+    Type: String
+    Default: '01'
+
+  ZipFileURL:
+    ConstraintDescription: must be an S3 presigned URL
+    Description: An S3 presigned URL to a zip file containing the bird images for the workshop
+    Type: String
+    Default: https://bit.ly/2yvbBzb
+
+  NotebookInstanceState:
+    ConstraintDescription: either Stopped or InService
+    Description: the desired state of the SageMaker notebook instance upon creation
+    Type: String
+    Default: InService
+    AllowedValues:
+      - Stopped
+      - InService
+
+Conditions:
+  CreateProdResources: !Equals [ !Ref EnvType, prod ]
+Conditions:
+  CreateStoppedInstance: !Equals [ !Ref NotebookInstanceState, Stopped ]
+
+Resources:
+
+  # The notebook instance will give workshop participants an easy way to
+  # execute the labs involving preparing the data, as well as training and
+  # testing the image classification model.
+
+  SageMakerNotebook:
+    Type: AWS::SageMaker::NotebookInstance
+    Properties:
+      NotebookInstanceName: !Sub BirdClassificationWorkshop${UserSuffix}
+      InstanceType: ml.t2.medium
+      RoleArn: !GetAtt SageMakerExecutionRole.Arn
+      LifecycleConfigName: !GetAtt SMLifecycleConfig.NotebookInstanceLifecycleConfigName
+
+  # The lifecycle configuration for the notebook is used on creation of
+  # the notebook to clone a Github repository, and download and unpack
+  # some training / testing images.
+
+  SMLifecycleConfig:
+    Type: AWS::SageMaker::NotebookInstanceLifecycleConfig
+    Properties:
+      OnCreate:
+        - Content:
+            Fn::Base64: !Sub |
+              #!/bin/bash -xe
+              echo ++++++++++++++++++++++
+              echo Beginning OnCreate script for lifecycle of SageMaker notebook instance
+
+              # install the latest version of mxnet and opencv, as we will use these
+              # from python scripts in this workshop
+              pip install mxnet --user
+              pip install opencv-python --user
+
+              # for some reason, boto3 can get errors with certain versions of the AWS CLI.
+              # To avoid hitting errors like 'serviceID not defined in the medata ...', we install
+              # a specific AWS CLI verion.
+              pip install awscli==1.16.9 awsebcli==3.14.4 --user
+
+              # clone the workshop git repository
+              echo Cloning the workshop git repository...
+              cd /home/ec2-user/SageMaker
+              git clone https://github.com/markproy/bird-classification-workshop
+
+              # download the images and unpack them
+              echo Downloading the workshop bird images...
+              cd bird-classification-workshop
+              pwd
+              curl ${ZipFileURL} -J -L -o ./sample_images.zip
+              ls -l
+
+              echo Unpackaging the workshop bird images...
+              cd labs/lab1
+              source ./unzip_images.sh
+              ls -l ../../images
+
+              echo Setting permissions so ec2-user can rwx...
+              cd ../..  # go to the root of the repo
+              setfacl -R -m u:ec2-user:rwx .
+
+              echo Completed OnCreate script execution!
+              echo -----------------------
+
+  # The SageMaker instance will need to access S3, the SageMaker
+  # runtime, and will also be used to update Lambda function packages.
+
+  SageMakerExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/AmazonS3FullAccess
+      - arn:aws:iam::aws:policy/AmazonSageMakerFullAccess
+      - arn:aws:iam::aws:policy/AWSLambdaFullAccess
+      Path: /service-role/
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          -
+            Effect: Allow
+            Principal:
+              Service:
+                - sagemaker.amazonaws.com
+            Action:
+              - sts:AssumeRole
+
+  SMNotebookStopper:
+    Type: Custom::NotebookStopper
+    Condition: CreateStoppedInstance
+    Properties:
+      ServiceToken: !GetAtt SMNotebookStopperFunction.Arn
+
+  SMNotebookStopperFunction:
+    Type: AWS::Lambda::Function
+    Condition: CreateStoppedInstance
+    DependsOn: SageMakerNotebook
+    Properties:
+      Description: Stops the notebook instance created earlier so that no additional fees are incurred until used
+      Code:
+        ZipFile: !Sub |
+          import json
+          import cfnresponse
+          import boto3
+
+          def notebook_stopper(event, context):
+            print('made it to the handler...')
+            print('event object:\n' + str(event))
+            print('\ncontext object:\n' + str(context))
+
+            responseValue = 'success'
+            responseData = {}
+            responseData['Data'] = responseValue
+
+            if event['RequestType'] == 'Create':
+              client = boto3.client('sagemaker')
+              try:
+                stop_resp = client.stop_notebook_instance(NotebookInstanceName='BirdClassificationWorkshop${UserSuffix}')
+              except Exception as e:
+                print(e)
+                print('Error stopping BirdClassificationWorkshop notebook instance')
+                raise e
+
+            cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData, "CustomResourcePhysicalID")
+
+      Handler: index.notebook_stopper
+      Runtime: python3.6
+      Timeout: 30
+      Role: !GetAtt LambdaRole.Arn
