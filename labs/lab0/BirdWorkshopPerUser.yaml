@@ -158,3 +158,61 @@ Resources:
       Runtime: python3.6
       Timeout: 30
       Role: !GetAtt LambdaRole.Arn
+
+  # Create a role that will be needed by a Lambda function that
+  # workshop participants will create. THe Lambda needs access to
+  # CloudWatch, S3, and SNS.
+
+  LambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub deeplens-workshop-lambda-role-${UserSuffix}
+      Path: /service-role/
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/AmazonSageMakerFullAccess
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          -
+            Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        -
+          PolicyName: lambda-s3-execution-permissions
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              -
+                Effect: Allow
+                Action:
+                - s3:GetObject
+                Resource:
+                - arn:aws:s3:::*
+        -
+          PolicyName: lambda-sns-execution-permissions
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              -
+                Effect: Allow
+                Action:
+                - sns:Publish
+                Resource:
+                - arn:aws:sns:*:*:*
+        -
+          PolicyName: lambda-basic-execution-permissions
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              -
+                Effect: Allow
+                Action:
+                - logs:CreateLogGroup
+                - logs:CreateLogStream
+                - logs:PutLogEvents
+                Resource:
+                - arn:aws:logs:*:*:*
