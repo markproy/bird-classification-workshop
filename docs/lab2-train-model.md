@@ -36,8 +36,8 @@ The remaining 3 settings before the hyperparameters should be left at their defa
 
 For SageMaker's Image Classification algorithm, there are more than two dozen hyperparameters.  For the purposes of this workshop, we will leave most of them at their default values.  Change only the following hyperparameters:
 
-* **checkpoint_frequency**: 20.  A checkpoint saves the state of the neural network, so you could resume training from that state.  This is useful for large scale training, but is not important for this workshop.  We will set it to be the same exact number as the number of epochs.  That is, there will only be a single checkpoint, once all the training epochs for the lab have completed.
-* **epochs**: 20.  For this size dataset on the selected instance type, 20 epochs will allow the job to complete in around 6 minutes with reasonable accuracy.  If you had more time available, you could improve the accuracy by doubling the number of epochs.
+* **checkpoint_frequency**: 25.  A checkpoint saves the state of the neural network, so you could resume training from that state.  This is useful for large scale training, but is not important for this workshop.  We will set it to be the same exact number as the number of epochs.  That is, there will only be a single checkpoint, once all the training epochs for the lab have completed.
+* **epochs**: 25.  For this size dataset on the selected instance type, this number of epochs will allow the job to complete in around 7 minutes with reasonable accuracy.  If you had more time available, you could improve the accuracy by doubling the number of epochs.
 * **mini_batch_size**: 24.  This hyperparameter tells the algorithm how many images to process in a single mini batch.
 * **num_classes**: 4.  If you were to use the full NABirds dataset, this would be 555.
 * **num_training_samples**: 322.  If you were to use the full NABirds dataset, this would be > 40,000.

@@ -23,12 +23,5 @@ sagemaker create-training-job \
 --input-data-config ChannelName=train,DataSource=$train_source,ContentType=application/x-recordio,CompressionType=None,RecordWrapperType=None ChannelName=validation,DataSource=$val_source,ContentType=application/x-recordio,CompressionType=None,RecordWrapperType=None \
 --output-data-config S3OutputPath=$bucket$prefix \
 --hyper-parameters \
-      '{"augmentation_type": "crop", "beta_1": "0.9", "beta_2": "0.999", "checkpoint_frequency": "20", "epochs": "20", "eps": "1e-8", "gamma": "0.9", "image_shape": "3,224,224", "learning_rate": "0.1", "lr_scheduler_factor": "0.1", "mini_batch_size": "24", "momentum": "0.9", "multi_label": "0", "num_classes": "4", "num_layers": "152", "num_training_samples": "322", "optimizer": "sgd", "precision_dtype": "float32", "top_k": "2", "use_pretrained_model": "0", "use_weighted_loss": "0", "weight_decay": "0.0001" }' \
+      '{"augmentation_type": "crop", "beta_1": "0.9", "beta_2": "0.999", "checkpoint_frequency": "25", "epochs": "25", "eps": "1e-8", "gamma": "0.9", "image_shape": "3,224,224", "learning_rate": "0.1", "lr_scheduler_factor": "0.1", "mini_batch_size": "24", "momentum": "0.9", "multi_label": "0", "num_classes": "4", "num_layers": "152", "num_training_samples": "322", "optimizer": "sgd", "precision_dtype": "float32", "top_k": "2", "use_pretrained_model": "0", "use_weighted_loss": "0", "weight_decay": "0.0001" }' \
 --stopping-condition MaxRuntimeInSeconds=1800
-
-#augmentation_type=crop,beta_1=0.9,beta_2=0.999,checkpoint_frequency=20,\
-#epochs=20,eps=1e-8,gamma=0.9,image_shape=3\,224\,224,learning_rate=0.1,lr_scheduler_factor=0.1,\
-#mini_batch_size=24,momentum=0.9,multi_label=0,num_classes=4,num_layers=152,\
-#num_training_samples=322,optimizer=sgd,precision_dtype=float32,top_k=2,\
-#use_pretrained_model=0,use_weighted_loss=0,weight_decay=0.0001 \
-#--stopping-condition MaxRuntimeInSeconds=1800
