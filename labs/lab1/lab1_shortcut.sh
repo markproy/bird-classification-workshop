@@ -11,6 +11,7 @@ fi
 
 BUCKET_NAME=$1  # name of bucket you created, something like deeplens-sagemaker-20181126-smithjohn
 TRAIN_RATIO=0.75
+PREFIX=/birds
 
 # install prerequisite packages
 pip install mxnet
@@ -42,9 +43,9 @@ echo Here are the resulting files:
 ls -l *.rec
 
 echo Copying the packaged RecordIO files to S3...
-aws s3 cp nabirds_sample_train.rec s3://$BUCKET_NAME/train/nabirds_sample_train.rec
-aws s3 cp nabirds_sample_val.rec s3://$BUCKET_NAME/validation/nabirds_sample_val.rec
+aws s3 cp nabirds_sample_train.rec s3://$BUCKET_NAME$PREFIX/train/nabirds_sample_train.rec
+aws s3 cp nabirds_sample_val.rec s3://$BUCKET_NAME$PREFIX/validation/nabirds_sample_val.rec
 
 echo Here are the resulting files in S3:
-aws s3 ls s3://$BUCKET_NAME/train/
-aws s3 ls s3://$BUCKET_NAME/validation/
+aws s3 ls s3://$BUCKET_NAME$PREFIX/train/
+aws s3 ls s3://$BUCKET_NAME$PREFIX/validation/
