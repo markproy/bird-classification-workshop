@@ -6,7 +6,7 @@
 if [ $# -lt 2 ]
 then
   echo Pass the bucket and the user suffix, as in:
-  echo   bash shortcut.sh s3://deeplens-sagemaker-20181126-smithjohn 01
+  echo   bash lab2_shortcut.sh s3://deeplens-sagemaker-20181126-smithjohn 01
   exit 1
 fi
 
@@ -24,7 +24,7 @@ echo role is $EXECUTION_ROLE_ARN
 REGION=us-east-1
 TRAINING_IMAGE=811284229777.dkr.ecr.us-east-1.amazonaws.com/image-classification:1
 
-PREFIX=/birds-test
+PREFIX=
 TRAINING_JOB_NAME=birds-`date '+%Y-%m-%d-%H-%M-%S'`
 
 TRAINING_DATA=$BUCKET$PREFIX/train
