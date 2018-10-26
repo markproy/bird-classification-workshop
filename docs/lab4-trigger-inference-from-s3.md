@@ -18,7 +18,7 @@ This Lambda function requires an IAM role with access to SNS, S3, and SageMaker.
 * Use the Lambda console and click on `Create function` to get started.
 * Next, choose to create your function via `Blueprints`.
 * Search for the blueprint called `hello-world-python3`.  Select that blueprint and click on `Configure` at the bottom of the page.
-* Name the new function `IdentifySpeciesAndNotify`.  
+* Name the new function with `IdentifySpeciesAndNotify` as a prefix and your user number (e.g. `01`) as a suffix.  For example, `IdentifySpeciesAndNotify09`.  
 * For IAM role, pick `Choose an existing role` and then pick `service-role/deeplens-workshop-lambda-role` which was created on your behalf before the workshop.
 * Click `Create function` at the bottom of the page.
 
@@ -30,7 +30,7 @@ You have successfully created a hello world Lambda function with the appropriate
 * You'll see an `S3` box added to the design panel on the right, and it will say `Configuration required`.  
 * Scroll down to the `Configure triggers` section of the designer.
 * The first configuration step is to identify which S3 bucket will serve as the event source.  Choose your S3 bucket from the dropdown list (e.g., `deeplens-sagemaker-20181126-roymark`).
-* Next, ensure `Object Created(All)` is selcted as the `Event Type`.
+* Next, ensure `Object Created (All)` is selcted as the `Event Type`.
 * Enter a `Prefix` of `birds/` and a `Suffix` of `.jpg`.
 * Ensure `Enable trigger` is selected (it is by default).
 * Lastly, click `Add` to add the S3 trigger.
@@ -40,9 +40,9 @@ The function is now available, and will be triggered when new objects arrive in 
 
 ### Add environment variables
 
-* At the top of the Lambda designer panel, click on the box with the name of the function (i.e., `IdentifySpeciesAndNotify`).
+* At the top of the Lambda designer panel, click on the box with the name of the function (i.e., `IdentifySpeciesAndNotify07`).
 * Scroll down past the function code below until you reach the `Environment variables` section.
-* Enter a new environment variable with `SAGEMAKER_ENDPOINT_NAME` as its key, and `nabirds-species-identifier` for its value.  This tells the function which SageMaker endpoint to use when performing an inference to identify a bird species.  The value must match the name of the endpoint you supplied in [Lab 3](lab3-host-model.md).
+* Enter a new environment variable with `SAGEMAKER_ENDPOINT_NAME` as its key, and `nabirds-species-identifier-07` for its value.  This tells the function which SageMaker endpoint to use when performing an inference to identify a bird species.  The value must match the name of the endpoint you supplied in [Lab 3](lab3-host-model.md).
 * Click `Save` to save your function including the new settings.
 
 ### Update the Python code for your function
@@ -114,11 +114,11 @@ Note that when deployment packages are used, the function cannot be edited using
 
 ### Updating the Lambda function
 
-From your SageMaker terminal window, deploying the package is very straightforward, as we have provided a simple shell script to execute:
+From your SageMaker terminal window, deploying the package is very straightforward, as we have provided a simple shell script to execute.  Note that the only parameter you need to supply is the user suffix you are using for the workshop (e.g., `06`).
 
 ```
 cd ~/SageMaker/bird-classification-workshop/labs/lab4
-source ./deploy_lambda.sh
+bash deploy_lambda.sh 06
 ```
 
 The script first creates a zip file containing the code as well as the `numpy` Python package.  It then uses the AWS CLI to deploy the package to Lambda.  This is made possible by having the proper IAM role for the SageMaker notebook instance that lets you update the function code using the Lambda service.  You should receive output similar to the following:
@@ -128,8 +128,8 @@ The script first creates a zip file containing the code as well as the `numpy` P
 adding: numpy-1.15.0.dist-info/METADATA (deflated 57%)
 adding: numpy-1.15.0.dist-info/INSTALLER (stored 0%)
 {
-    "FunctionName": "IdentifySpeciesAndNotify",
-    "FunctionArn": "arn:aws:lambda:us-east-1:033464141587:function:IdentifySpeciesAndNotify",
+    "FunctionName": "IdentifySpeciesAndNotify06",
+    "FunctionArn": "arn:aws:lambda:us-east-1:033464141587:function:IdentifySpeciesAndNotify06",
     "Runtime": "python3.6",
     "Role": "arn:aws:iam::033464141587:role/service-role/deeplens-workshop-lambda-role",
     "Handler": "lambda_function.lambda_handler",
@@ -147,7 +147,7 @@ adding: numpy-1.15.0.dist-info/INSTALLER (stored 0%)
     },
     "Environment": {
         "Variables": {
-            "SAGEMAKER_ENDPOINT_NAME": "nabirds-species-identifier"
+            "SAGEMAKER_ENDPOINT_NAME": "nabirds-species-identifier-06"
         }
     },
     "TracingConfig": {

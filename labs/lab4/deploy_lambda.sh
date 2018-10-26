@@ -11,7 +11,17 @@
 # This script assumes you've already done this step and those packages are
 # provided in the same subdirectory as the lambda function.
 
-FUNCTION_NAME=IdentifySpeciesAndNotify
+# this script should be run in a terminal window inside your SageMaker notebook
+# that was created as part of the workshop.
+
+if [ $# -lt 1 ]
+then
+  echo Pass the user suffix, as in:
+  echo   bash deploy_lambda.sh 01
+  exit 1
+fi
+
+FUNCTION_NAME=IdentifySpeciesAndNotify$1
 PACKAGE_FILE_PREFIX=package
 
 # First, create the lambda package as a zip file
