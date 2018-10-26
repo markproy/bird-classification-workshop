@@ -2,8 +2,12 @@
 
 # notebook instances should be cleaned up by simply deleting the CloudFormation stack, but just in case
 echo Removing workshop specific SageMaker notebook instances...
-aws sagemaker list-notebook-instances --name-contains ''BirdClassificationWorkshop0'' --output text | cut -f 6 | xargs -I{} aws sagemaker delete-notebook-instance --notebook-instance-name {}
-aws sagemaker list-notebook-instances --name-contains ''BirdClassificationWorkshop1'' --output text | cut -f 6 | xargs -I{} aws sagemaker delete-notebook-instance --notebook-instance-name {}
+aws sagemaker list-notebook-instances --name-contains ''BirdClassificationWorkshop0'' \
+  --query "NotebookInstances[*].NotebookInstanceName" --output text | \
+  xargs -I{} aws sagemaker delete-notebook-instance --notebook-instance-name {}
+aws sagemaker list-notebook-instances --name-contains ''BirdClassificationWorkshop1'' \
+  --query "NotebookInstances[*].NotebookInstanceName" --output text | \
+  xargs -I{} aws sagemaker delete-notebook-instance --notebook-instance-name {}
 
 # models, endpoint configs, and endpoints are all created on the fly in the workshop
 # delete all of these, so we leave a clean environment
