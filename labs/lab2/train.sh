@@ -2,9 +2,10 @@
 
 # Fill in the values of these four variables
 arn_role=arn:aws:iam::355151823911:role/service-role/AmazonSageMaker-ExecutionRole-20180515T132694
-training_image=811284229777.dkr.ecr.us-east-1.amazonaws.com/image-classification:1
 bucket=s3://roymark-aws-ml
+
 region=us-east-1
+training_image=811284229777.dkr.ecr.us-east-1.amazonaws.com/image-classification:1
 
 prefix=/birds-test
 training_job_name=birds-`date '+%Y-%m-%d-%H-%M-%S'`

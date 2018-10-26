@@ -43,7 +43,7 @@ Resources:
     Properties:
       NotebookInstanceName: !Sub BirdClassificationWorkshop${UserSuffix}
       InstanceType: ml.t2.medium
-      RoleArn: !GetAtt SageMakerExecutionRole.Arn
+      RoleArn: !GetAtt SageMakerExecutionRoleWS.Arn
       LifecycleConfigName: !GetAtt SMLifecycleConfig.NotebookInstanceLifecycleConfigName
 
   # The lifecycle configuration for the notebook is used on creation of
@@ -97,7 +97,7 @@ Resources:
   # The SageMaker instance will need to access S3, the SageMaker
   # runtime, and will also be used to update Lambda function packages.
 
-  SageMakerExecutionRole:
+  SageMakerExecutionRoleWS:
     Type: AWS::IAM::Role
     Properties:
       ManagedPolicyArns:
