@@ -14,7 +14,9 @@ Here are the steps you will use in this lab:
 
 ## Register the DeepLens device
 
-Here are the steps required to register your DeepLens device.  The standard instructions provided for the product are found [here]( https://docs.aws.amazon.com/deeplens/latest/dg/deeplens-getting-started-register.html).
+Here are the steps required to register your DeepLens device.  Confirm with your instructor whether device registration has already been done on your behalf.  If so, you can skip ahead to deploying the object detection project.
+
+The standard instructions provided for the product are found [here]( https://docs.aws.amazon.com/deeplens/latest/dg/deeplens-getting-started-register.html).
 
 ### Step 1 - Name the device and download a new certificate
 
@@ -50,13 +52,13 @@ Here are the steps required to register your DeepLens device.  The standard inst
 * It is possible that the `Device status` says `Deployment in progress`.  If so, give it a couple of minutes.  If that status will not change, try the [troubleshooting steps](troubleshooting.md).
 * If your `Device status` is `Update available`, scroll down to the `Device Details` section and click `Update` to update the device software.  This could take a few minutes and may trigger a reboot of the device.
 
-## Deploy off the shelf object detection project
+## Deploy the sample object detection project
 
 The following figure illustrates the composition of an AWS DeepLens project.
 
 ![](./screenshots/deeplens_project.png)
 
-Here are the detailed steps you will follow to deploy the project:
+Here are the detailed steps you will follow to deploy a project based on the Object Detection project template provided with the DeepLens.
 
 ### Step 1 - Create a project
 
@@ -207,7 +209,7 @@ Now check to see if the project was successful cropping the image and saving it 
 
 Navigate to the `birds` folder.  You will see a new folder created for today's date (`mm_dd` format such as `11_26` for November 26th).  Within that folder, there will be subfolders for each minute in which there was a bird pushed (`hh_mm`, where the hours are in military time and `mm` represents minutes, for example `18_05` for 6:05pm).  Preview the jpg file to see the cropped image that was saved from the DeepLens to S3.
 
-If you do not find new cropped images in your S3 bucket, it is possible you did not provide S3 update access to your DeepLens device.  If that is the case, you may see an error such as this in your log:
+If you do not find new cropped images in your S3 bucket, it is possible you did not provide S3 update access to your DeepLens device.  If that is the case, you may see a `Pushing to S3 failed` error such as this in your log:
 
 ```
 [INFO]-Lambda.py:92,Invoking Lambda function "arn:aws:lambda:::function:GGRouter" with Greengrass Message "Pushing to S3 failed: An error occurred (AccessDenied) when calling the PutObject operation: Access Denied"
@@ -219,7 +221,7 @@ Another possible issue is that you have a typo in your environment variable for 
 
 There are two ways that you can find out what bird species was identified:
 
-1. Review the logs for the `IdentifySpeciesAndNotify` Lambda function.
+1. Review the logs for the `IdentifySpeciesAndNotify` (plus your suffix) Lambda function.
 2. Use the AWS IoT console.  
 
 #### Option 1 - Reviewing Lambda logs for species
@@ -230,7 +232,7 @@ In CloudWatch, open the log stream that has the most recent event time.  Scan th
 
 Note that CloudWatch may create a new log stream in your log group.  So, if you are not seeing new log entries in the log stream, you may want to return to the list of log streams and choose another.
 
-If you do not find `msg` entries, you may see an entry that says `An error occurred`.  One common example would be that you do not have your SageMaker endpoint up and running with the correct endpoint name (i.e., `nabirds-species-identifier`).
+If you do not find `msg` entries, you may see an entry that says `An error occurred`.  One common example would be that you do not have your SageMaker endpoint up and running with the correct endpoint name (i.e., `nabirds-species-identifier` with your suffix).
 
 #### Option 2 - Using the IoT console to see the bird species results
 

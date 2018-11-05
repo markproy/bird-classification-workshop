@@ -2,7 +2,7 @@
 
 In this lab, you will prepare the images for training.  We will be using SageMaker's [Image Classification algorithm](https://docs.aws.amazon.com/sagemaker/latest/dg/image-classification.html) against these images.  This algorithm performs supervised learning, taking an image as input and classifying it into one of many output categories.  In this workshop, the output categories are species of birds like Cardinal and Goldfinch.  The algorithm uses a convolutional neural network called ResNet, and is best trained with a dataset of images packaged in [Apache MXNet RecordIO](https://mxnet.incubator.apache.org/architecture/note_data_loading.html) format.  
 
-These are the high level steps you will take for Lab 1.  You will complete Steps 2 through 4 using an Amazon SageMaker notebook:
+These are the high level steps you will take for Lab 1:
 
 1. Start the Amazon SageMaker notebook instance
 2. Create an S3 bucket for use throughout the workshop
@@ -10,7 +10,9 @@ These are the high level steps you will take for Lab 1.  You will complete Steps
 
 ## Step 1 - Start the notebook instance
 
-Prior to the workshop, a SageMaker notebook instance called `BirdClassificationWorkshop` was created in your account.  Open the [Amazon SageMaker console](https://console.aws.amazon.com/sagemaker/) in a new browser tab, and click on `Notebook instances` in the left hand panel.  If the `Status` of the instance is `InService`, click on `Open` to open the notebook instance.  If not, click on `Start` to first start the instance before opening it.  It will take a few minutes to start the notebook instance, so while that is happening, proceed to step 2 (creating your S3 bucket).
+Prior to the workshop, a SageMaker notebook instance called `BirdClassificationWorkshop` was created in your account.  Note that the notebook instance name may have a suffix so that it can be uniquely identified if you are sharing an account for this workshop.  If so, choose the one with your assigned suffix.
+
+Open the [Amazon SageMaker console](https://console.aws.amazon.com/sagemaker/) in a new browser tab, and click on `Notebook instances` in the left hand panel.  If the `Status` of the instance is `InService`, click on `Open` to open the notebook instance.  If not, click on `Start` to first start the instance before opening it.  It will take a few minutes to start the notebook instance, so while that is happening, proceed to step 2 (creating your S3 bucket).
 
 ## Step 2 - Create an S3 bucket for use throughout the workshop
 

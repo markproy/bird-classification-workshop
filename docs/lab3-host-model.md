@@ -16,7 +16,7 @@ Here are the steps:
 * Go to the SageMaker console.
 * In the `Inference` section of the left hand panel of the SageMaker console, click on `Models`.
 * Click on `Create model`.
-* Give the model the name `birds`.
+* Give the model the name `birds` with a suffix provided to you for the workshop.
 * Leave the model with the default IAM role such as `AmazonSageMaker-ExecutionRole-20180926T121970`.
 * Leave the Network setting as `No VPC`.
 * Set the Primary container to the location of SageMaker's inference code image for `us-east-1` which is:
@@ -29,7 +29,7 @@ Here are the steps:
 
 * In the `Inference` section of the left hand panel of the SageMaker console, click on `Endpoint configurations` .
 * Click on `Create endpoint configuration`.
-* Give the endpoint configuration the name `birds`.
+* Give the endpoint configuration the name `birds` with a suffix provided to you for the workshop.
 * Click on `Add model` and pick the model you just created in the previous step.
 * Click on `Save`.
 * Click on `Create endpoint configuration`, and your new endpoint configuration will now show up in the list of endpoint configurations.
@@ -38,9 +38,9 @@ Here are the steps:
 
 * In the `Inference` section of the left hand panel of the SageMaker console, click on `Endpoints`.
 * Click on `Create endpoint`.
-* Give it the name `nabirds-species-identifier`.  This name will be referenced from the remaining labs, so it is important to get it exact.
+* Give it the name `nabirds-species-identifier` with a suffix provided to you for the workshop.  You will refer to this endpoint name later in the workshop.
 * In the `Endpoint configuration` section, select the endpoint configuration that you just created in the previous step.
-* Click on `Create endpoint` at the bottom of the page, and SageMaker will create an endpoint for you.  The creation process will take several minutes.  Note that once the endpoint is in the running state, you will be billed until the endpoint is deleted.
+* Click on `Create endpoint` at the bottom of the page, and SageMaker will create an endpoint for you.  The creation process will take several minutes.  Note that once the endpoint is in the running state, your account will be billed until the endpoint is deleted.
 
 ## Test your model from a SageMaker terminal window
 
@@ -48,9 +48,9 @@ Return to your SageMaker notebook instance, and in the `Files` tab of the instan
 
 In this section, you will use some images that your model has never seen before, and you will run tests against the inference endpoint you created earlier in this lab.
 
-You will be executing the following [test script](../labs/lab3/test_direct_sample.py).  You will not be able to test against the endpoint until its status moves from `Creating` to `InService`.  
+You will be executing the following [test script](../labs/lab3/test_direct_sample.py), once the status of the endpoint changes from `Creating` to `InService`.  
 
-Once the endpoint is in service, return to the terminal window, navigate to the Lab 3 folder, and run the test using Python.  Here are the commands you will execute from the terminal window:
+Once the endpoint is in service, return to the terminal window, navigate to the Lab 3 folder, and run the test script using Python.  Here are the commands you will execute from the terminal window:
 
 ```
 cd ~/SageMaker/bird-classification-workshop/labs/lab3
@@ -65,7 +65,7 @@ You should see output like the following:
 Bird is a: Northern Cardinal (0.98)[772]
 ```
 
-Try the other images provided in the `test_images` folder and see how accurate your model is predicting its species.
+Try the other images provided in the `test_images` folder and see how accurate your model is predicting bird species.
 
 ```
 ls ../../test_images
@@ -76,11 +76,13 @@ python test_direct_sample.py ../../test_images/purple-martin.jpg
 
 ## Congratulations on your deep learning progress!
 
-Celebrate!  You have reached a major milestone in this workshop.  You have now demonstrated an end-to-end application of machine learning / computer vision / deep learning / image classification in less than an hour.  **Well done!**
+Celebrate!  You have reached a major milestone in this workshop.  You have now demonstrated an end-to-end application of machine learning / computer vision / deep learning / image classification in less than an hour.  
+
+**Well done!**
 
 You started with a collection of a few hundred labeled bird images.  You then packaged them for training, trained SageMaker's image classification algorithm, and then hosted the trained model in a SageMaker endpoint.  Now you have demonstrated how the hosted model is able to make predictions by taking a new bird image and identifying its species with reasonable accuracy after very little work.
 
-In this lab, you directly invoked the SageMaker endpoint from a command line Python script.  In the next lab, you will create a Lambda function to do a SageMaker endpoint invocation.  The Lambda function can be called from any client application.  Once it is packaged as a Lambda function, you could use it from behind Amazon's API Gateway, call it from a web application, or even trigger it based on events such as an S3 object creation.
+In this lab, you directly invoked the SageMaker endpoint from a command line Python script.  In the next lab, you will create a Lambda function to perform a SageMaker endpoint invocation.  The Lambda function can be called from any client application.  Once it is packaged as a Lambda function, you could use it from behind Amazon's API Gateway, call it from a web application, or even trigger it based on events such as an S3 object creation.
 
 ## Navigation
 

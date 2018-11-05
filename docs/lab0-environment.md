@@ -27,12 +27,10 @@ When it is created, Open it.  Click on New conda_python3.
 In the first cell, paste this command and execute it (shift enter):
 
 ```
-! git clone https://fbfd8b1f0692e5f155c19117204f0f9a7723c22b@github.com/markproy/bird-classification-workshop
+! git clone https://markproy/bird-classification-workshop
 ```
 
 Upload the `sample_images.zip` file to the `bird-classification-workshop` folder.  It is 91MB, and will take several minutes to upload.
-
-Navigate on the Files tab to open the Jupyter notebook in `bird-classification-workshop/LabNotebook.ipynb`.
 
 ### Preparing the AWS CLI (command line interface)
 

@@ -1,11 +1,11 @@
 # Lab 4 - Trigger inference as new pictures arrive in s3
 
-In this lab, you will configure your s3 bucket to automatically trigger an inference on your endpoint using images as they arrive in the bucket. Remembering back to the [workshop overview](../README.md), your AWS DeepLens model will be pushing cropped bird images to S3 as it detects them.  The event handling you create in this lab will ensure each bird gets identified using the custom image classification model you created in the first few labs.
+In this lab, you will configure your S3 bucket to automatically trigger an inference on your endpoint using images as they arrive in the bucket. Remembering back to the [workshop overview](../README.md), your AWS DeepLens model will be pushing cropped bird images to S3 as it detects them.  The event handling you create in this lab will ensure each bird gets identified using the custom image classification model you created in the first few labs.
 
 Here are the steps involved:
 
 1. Create a Lambda function to identify bird species
-2. Test by adding an image to S3
+2. Test the function by adding an image to S3
 
 ## Step 1 - Create a Lambda function to identify bird species
 
@@ -36,13 +36,13 @@ You have successfully created a hello world Lambda function with the appropriate
 * Lastly, click `Add` to add the S3 trigger.
 * Click `Save` to save the initial version of the Lambda function.  
 
-The function is now available, and will be triggered when new objects arrive in that bucket.  However, the code for the Lambda function is still simply the default code from the AWS-supplied blueprint.  You will supply the real code required later on in this lab.
+The function is now available, and will be triggered when new objects arrive in your S3 bucket.  However, the code for the Lambda function is still simply the default code from the AWS-supplied blueprint.  You will supply the real code required later on in this lab.
 
 ### Add environment variables
 
 * At the top of the Lambda designer panel, click on the box with the name of the function (i.e., `IdentifySpeciesAndNotify07`).
 * Scroll down past the function code below until you reach the `Environment variables` section.
-* Enter a new environment variable with `SAGEMAKER_ENDPOINT_NAME` as its key, and `nabirds-species-identifier-07` for its value.  This tells the function which SageMaker endpoint to use when performing an inference to identify a bird species.  The value must match the name of the endpoint you supplied in [Lab 3](lab3-host-model.md).
+* Enter a new environment variable with `SAGEMAKER_ENDPOINT_NAME` as its key, and `nabirds-species-identifier-07` for its value.  This tells the function which SageMaker endpoint to use when performing an inference to identify a bird species.  The name of the endpoint must match the name you defined in [Lab 3](lab3-host-model.md).
 * Click `Save` to save your function including the new settings.
 
 ### Update the Python code for your function
@@ -51,7 +51,7 @@ Before updating the Lambda function to have the required code to predict bird sp
 
 #### Code for Invoking the SageMaker endpoint
 
-In the following section of the code, we take the cropped image from S3 as an array of bytes and pass it as the payload to the SageMaker endpoint identified in the Lambda function environment variable.  The inference result comes back as an array of probabilities, each one corresponding to the likelihood that the image represents a bird of that species.
+In the following lines of code, we take the cropped image from S3 as an array of bytes and pass it as the payload to the SageMaker endpoint identified in the Lambda function environment variable.  The inference result comes back as an array of probabilities, each one corresponding to the likelihood that the image represents a bird of that species.
 
 ```
 payload = s3_object_response['Body'].read()
@@ -79,7 +79,7 @@ sorted_transposed_results = transposed_full_results[transposed_full_results[:,1]
 
 #### Code for Creating a human readable message with the results
 
-Given the sorted results, it is straightforward to then construct a message that summarizes what the model predicted.  This can be logged or pushed to SNS (and on to SMS).  If the model's prediction confidence is beyond a configurable threshold, the message definitively states the bird species.  Otherwise, it shows the confidence level of the top two species.  The S3 object key is included in the message to support viewing of the cropped image that was used as input.  A useful extension to this lab would be to provide a signed URL as part of the message that would let the user be one click away from seeing the bird that was sent to the model inference.
+Given the sorted results, it is straightforward to then construct a message that summarizes what the model predicted.  This can be logged or pushed to SNS (and on to SMS).  If the model's prediction confidence is beyond a configurable threshold, the message definitively states the bird species.  Otherwise, it shows the confidence level of the top two most likely species.  The S3 object key is included in the message to support viewing of the cropped image that was used as input.  A useful extension to this lab would be to provide a signed URL as part of the message that would let the user be one click away from seeing the bird that was sent to the model inference.
 
 ```
 msg = ''
@@ -160,21 +160,22 @@ adding: numpy-1.15.0.dist-info/INSTALLER (stored 0%)
 ## Step 2 - Test by adding an image to S3
 
 ### Copy a test image to S3
-Copy a test image to S3.  The workshop has a set of test images you can use in the `test_images` folder.  You can use the S3 console to upload an image, or use the AWS CLI as in the following command:
+
+In this step, you will copy a test image to S3.  The workshop has a set of test images you can use in the `test_images` folder.  You can use the S3 console to upload an image, or use the AWS CLI as in the following command (remembering to use your specific S3 bucket name in place of `<bucket-name>`):
 
 ```
 aws s3 cp ../../test_images/northern-cardinal.jpg s3://<bucket-name>/birds/`
 ```
 
-You may have to refresh the S3 console to see the new file in your bucket.  Also, to ensure the Lambda function is triggered, you need to ensure you use the `birds/` prefix for the target object in the S3 bucket.
+To ensure the Lambda function is triggered, you need to ensure you use the `birds/` prefix for the target object within your S3 bucket.  If you are looking for the image via the S3 console, you may have to refresh the  console to see the new file in your bucket.  
 
 ### Review CloudWatch logs for the Lambda function
 
-Go to the Lambda console.  Click the `Monitoring` tab.  You should see the `Invocations` count go up.  Note that the metrics are not updated instantaneously.  It could take a couple of minutes and a refresh before you see the charts updated.
+In this step, you confirm that the S3 trigger is properly invoking your species identifier.  Go to the Lambda console.  Click the `Monitoring` tab.  You should see the `Invocations` count is no longer 0.  Note that the metrics are not updated instantaneously.  It could take a couple of minutes and a refresh before you see the charts updated.
 
 Now click `View logs in CloudWatch`.  Click on the most recently updated Log Stream. You can identify that by looking at the `Last Event Time` column.
 
-Review the logs.  Look for log entries containing `msg` to see the results of the SageMaker inference.  As you interpret the logs, you will see that each invocation of the function is bracketed by a `START` message at the beginning of the invocation, and a `REPORT` message after completion of the invocation.  Here is a sample set of log output:
+Review the logs.  Look for log entries containing `msg` to see readable results of the SageMaker inference.  As you interpret the logs, you will see that each invocation of the function is bracketed by a `START` message at the beginning of the invocation, and a `REPORT` message after completion of the invocation.  Here is a sample set of log output:
 
 ```
 ...
@@ -192,7 +193,7 @@ Review the logs.  Look for log entries containing `msg` to see the results of th
 ...
 ```
 
-Try copying another test image and then go back to the Lambda logs and refresh.
+Try copying another test image or two, and then go back to the Lambda logs and refresh.
 
 ```
 aws s3 cp ../../test_images/eastern-bluebird.jpg s3://<bucket-name>/birds/`
@@ -201,7 +202,7 @@ aws s3 cp ../../test_images/purple-martin.jpg s3://<bucket-name>/birds/`
 
 If you are not finding `msg` entries, you should look for error messages that will help you troubleshoot the problem.
 
-You have now enabled an S3 trigger that will drive invocations of your bird species identifier automatically.  In the next lab, you will integrate an existing off the shelf AWS DeepLens object detection model, extending it to copy cropped images to your S3 bucket whenever it detects a bird via its camera.
+You have now enabled an S3 trigger that will drive invocations of your bird species identifier automatically.  In the next lab, you will integrate an existing off the shelf AWS DeepLens model for Object Detection.  You will extend that model to copy cropped images to your S3 bucket whenever it detects a bird via its camera.  This is coarse grained object detection, which then triggers fine grained species identification.
 
 ## Navigation
 
