@@ -10,7 +10,7 @@ These are the high level steps you will take for Lab 1:
 
 ## Step 1 - Start the notebook instance
 
-Prior to the workshop, a SageMaker notebook instance called `BirdClassificationWorkshop` was created in your account.  Note that the notebook instance name may have a suffix so that it can be uniquely identified if you are sharing an account for this workshop.  If so, choose the one with your assigned suffix.
+Prior to the workshop, a SageMaker notebook instance called `BirdClassificationWorkshop` was created in your account.  Note that the notebook instance name may have a suffix, so that it can be uniquely identified if you are sharing an account for this workshop.  If so, choose the one with your assigned suffix.
 
 Open the [Amazon SageMaker console](https://console.aws.amazon.com/sagemaker/) in a new browser tab, and click on `Notebook instances` in the left hand panel.  If the `Status` of the instance is `InService`, click on `Open` to open the notebook instance.  If not, click on `Start` to first start the instance before opening it.  It will take a few minutes to start the notebook instance, so while that is happening, proceed to step 2 (creating your S3 bucket).
 
@@ -27,7 +27,7 @@ To create the S3 bucket, first navigate to the [S3 console](https://console.aws.
 
 Name the bucket with a prefix of `deeplens-sagemaker-`.  To ensure uniqueness, add on a date formatted as `yyyy-mm-dd`, and then add your name.  For example, your bucket name could be `deeplens-sagemaker-20181126-roymark`.  Under `Region`, select `US East (N. Virginia)` to align with the notebook region.  Select `Create` in the bottom left corner to create the bucket.
 
-Remember the name of your new bucket.  You will use this S3 bucket name in multiple labs, including the very next step of this lab.  In that step, you will reference the bucket name in the first cell of your SageMaker notebook.
+Save the name of your new bucket.  You will use this S3 bucket name in multiple labs, including the very next step of this lab.  In that step, you will reference the bucket name in the first cell of your SageMaker notebook.
 
 ## Step 3 - Use the SageMaker Notebook to explore the dataset, package images, upload images
 

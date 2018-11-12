@@ -64,7 +64,9 @@ Here are the detailed steps you will follow to deploy a project based on the Obj
 
 * Click `Deploy a project`.
 * On the `Projects` console, click `Create new project`.
-* Use a project template called `Object detection`.  Click `Next`, and then click `Create`.  Project creation could take a few seconds.  You will know that the project is fully created when you see `Description`, `Creation time`, and `Last updated` are populated in the console.  Once you see a green banner at the top of the page indicating a successful creation, click your web browser refresh button if those fields are still blank.
+* Use a project template called `Object detection`.  Click `Next`.
+* Update the `Project name` to be unique.  By default, it is called `Object-detection`, but you need to add your user suffix (e.g., `Object-detection05-03`).
+* Now that you have a unique project name, click `Create` at the bottom of the page.  Project creation could take a few seconds.  You will know that the project is fully created when you see `Description`, `Creation time`, and `Last updated` are populated in the console.  Once you see a green banner at the top of the page indicating a successful creation, click your web browser refresh button if those fields are still blank.
 
 ### Step 2 - Deploy the project to the device
 
@@ -160,7 +162,7 @@ Here are the steps to follow to customize the project.
 
 * In the `Resources` section of the left hand panel of the AWS DeepLens console, click on `Projects`.
 * Click on the name of the project you created earlier.  The console will take you to the details page for that project.
-* Click on the **name of the function** (e.g., `deeplens-object-detection/versions/1`), which will take you to the Lambda console.
+* Click on the **name of the function** (e.g., `deeplens-object-detection03-06/versions/1`), which will take you to the Lambda console.
 * Once you are in the Lambda console for the function, click on `Go to $LATEST` so that you can edit the function in the console.
 * Remove the hello world code and replace it with the function code from [labs/lab5/greengrassHelloWorld.py](../labs/lab5/greengrassHelloWorld.py).
 * Set the environment variables.  Note that if you forget to add these environment variables, your project will deploy successfully but will not run.  The top blue light will never turn on.  Here are the three environment variables you need to set:

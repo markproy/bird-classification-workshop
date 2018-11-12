@@ -7,7 +7,7 @@ import numpy as np   # for interpreting results from the SageMaker inference
 import pandas as pd  # for getting absolute class_id from the relative class_id
 from os import walk  # for getting files from a directory
 
-DEFAULT_ENDPOINT_NAME = 'nabirds-species-identifier-01'
+DEFAULT_ENDPOINT_NAME = 'nabirds-species-identifier01'
 
 # Getting access to sagemaker runtime
 runtime = boto3.client(service_name='runtime.sagemaker')

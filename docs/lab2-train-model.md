@@ -21,7 +21,7 @@ Here are the detailed steps to train the model by creating a job from the consol
 
 To create a job using the console, first click on `Training Jobs` on the left panel of the [SageMaker console](https://console.aws.amazon.com/sagemaker/home?region=us-east-1).  Then click on `Create Training Job`.  Then, fill in the details of the job:
 
-* Give the job a name: `birds` with a suffix provided to you for the workshop.
+* Give the job a name: `birds` with a suffix provided to you for the workshop (e.g., your job name could be `birds13-07`).  You will use the same name for your model and endpoint configuration in the next lab.
 * Leave the IAM role as the default (something like `AmazonSageMaker-ExecutionRole-20180926T21970`).  If no default is provided, choose `Create a new role`.  SageMaker will ask you what level of S3 permissions to provide for this job.  For ease of use in the workshop, simply pick `Any S3 bucket` as the setting.  For production usage, you would want to be more specific.
 * For the `Algorithm` setting, choose `Image classification` from the list of built in SageMaker algorithms.
 * In the `Resource configuration` section, choose the `ml.p3.2xlarge` instance type.  Note that prior to this workshop, your workshop account had its resource limit increased (from 0 to 1) for using a p3 series instance type.  The p2 and p3 instance families provide GPU's, which are required for SageMaker's image classification algorithm.  If you were using your own AWS account, you may need to increase your resource limit as well.  The default resource limit is 0.

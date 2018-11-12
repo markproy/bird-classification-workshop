@@ -9,14 +9,14 @@ Here are the steps:
 3. Create a SageMaker endpoint
 4. Test your model using the endpoint
 
-## Create a SageMaker model
+## Step 1 - Create a SageMaker model
 
 ### Create the model using the console
 
 * Go to the SageMaker console.
 * In the `Inference` section of the left hand panel of the SageMaker console, click on `Models`.
 * Click on `Create model`.
-* Give the model the name `birds` with a suffix provided to you for the workshop.
+* Give the model the name `birds` with a suffix provided to you for the workshop. For consistency in this workshop, the name of your SageMaker model will be the same as the name of your training job and your endpoint configuration.
 * Leave the model with the default IAM role such as `AmazonSageMaker-ExecutionRole-20180926T121970`.
 * Leave the Network setting as `No VPC`.
 * Set the Primary container to the location of SageMaker's inference code image for `us-east-1` which is:
@@ -25,7 +25,7 @@ Here are the steps:
 * Leave environment variables and tags as blank, as they are not needed for this workshop.
 * Click `Create model`, and your new model will now show up in your list of models.
 
-## Create a SageMaker endpoint configuration
+## Step 2 - Create a SageMaker endpoint configuration
 
 * In the `Inference` section of the left hand panel of the SageMaker console, click on `Endpoint configurations` .
 * Click on `Create endpoint configuration`.
@@ -34,15 +34,15 @@ Here are the steps:
 * Click on `Save`.
 * Click on `Create endpoint configuration`, and your new endpoint configuration will now show up in the list of endpoint configurations.
 
-## Create a SageMaker endpoint
+## Step 3 - Create a SageMaker endpoint
 
 * In the `Inference` section of the left hand panel of the SageMaker console, click on `Endpoints`.
 * Click on `Create endpoint`.
-* Give it the name `nabirds-species-identifier` with a suffix provided to you for the workshop.  You will refer to this endpoint name later in the workshop.
+* Give it the name `nabirds-species-identifier` with a suffix provided to you for the workshop (e.g., `nabirds-species-identifier12-04`).  Remember this endpoint name, as you will refer to it in the next step, and in the next two labs.
 * In the `Endpoint configuration` section, select the endpoint configuration that you just created in the previous step.
 * Click on `Create endpoint` at the bottom of the page, and SageMaker will create an endpoint for you.  The creation process will take several minutes.  Note that once the endpoint is in the running state, your account will be billed until the endpoint is deleted.
 
-## Test your model from a SageMaker terminal window
+## Step 4 - Test your model from a SageMaker terminal window
 
 Return to your SageMaker notebook instance, and in the `Files` tab of the instance, click on the `New` button on the upper right hand side of the instance.  Select `Terminal` from the `New` dropdown list.  This will open a new terminal window running on your SageMaker notebook instance.  From that window, you have direct access to the full set of lab materials such as the raw input images you explored in [Lab 1](lab1-image-prep.md), along with the packaged RecordIO files you created in that same lab.
 
@@ -50,11 +50,13 @@ In this section, you will use some images that your model has never seen before,
 
 You will be executing the following [test script](../labs/lab3/test_direct_sample.py), once the status of the endpoint changes from `Creating` to `InService`.  
 
-Once the endpoint is in service, return to the terminal window, navigate to the Lab 3 folder, and run the test script using Python.  Here are the commands you will execute from the terminal window:
+Once the endpoint is in service, return to the terminal window, navigate to the Lab 3 folder, and run the test script using Python.  The Python test script takes two parameters.  The first is the filename of a test image.  The second is the name of the SageMaker endpoint you created in Step 3 above (including the suffix you are using for uniquely naming resources in this workshop).
+
+Here are the commands you will execute from the terminal window.  Make sure you replace the suffix parameter with the suffix provided to you for the workshop.
 
 ```
 cd ~/SageMaker/bird-classification-workshop/labs/lab3
-python test_direct_sample.py ../../test_images/northern-cardinal.jpg
+python test_direct_sample.py ../../test_images/northern-cardinal.jpg nabirds-species-identifier09-05
 ```
 
 This will invoke the SageMaker endpoint, parse the results, create and print a message telling you which bird species was identified.  If the confidence level was low, it will tell you the top 2 candidates.  Confidence levels are also printed.
@@ -69,9 +71,9 @@ Try the other images provided in the `test_images` folder and see how accurate y
 
 ```
 ls ../../test_images
-python test_direct_sample.py ../../test_images/eastern-bluebird.jpg
-python test_direct_sample.py ../../test_images/american-goldfinch.jpg
-python test_direct_sample.py ../../test_images/purple-martin.jpg
+python test_direct_sample.py ../../test_images/eastern-bluebird.jpg nabirds-species-identifier09-05
+python test_direct_sample.py ../../test_images/american-goldfinch.jpg  nabirds-species-identifier09-05
+python test_direct_sample.py ../../test_images/purple-martin.jpg  nabirds-species-identifier09-05
 ```
 
 ## Congratulations on your deep learning progress!

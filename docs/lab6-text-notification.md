@@ -11,7 +11,8 @@ In this lab, you will configure automatic SMS text notification whenever a bird 
 
 * Go to the [Amazon SNS console](https://console.aws.amazon.com/sns) on AWS.  
 * Click on `Create topic`.
-* Use the following topic name: `deeplens-sagemaker-birdpic-arrived` plus your suffix.  Use `birds` as the display name.  The display name will show up as a prefix to your text.
+* Use the following topic name: `deeplens-sagemaker-birdpic-arrived` plus your suffix.
+* Use `birds` as the display name.  The display name will show up as a prefix to your text.
 * Click `Create topic`.
 
 ## Configure new SNS subscription
