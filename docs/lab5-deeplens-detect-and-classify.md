@@ -163,9 +163,9 @@ Here are the steps to follow to customize the DeepLens project to use a brand ne
 * Navigate to the [Lambda console](https://console.aws.amazon.com/lambda/home).
 * Use the Lambda console and click on `Create function` to get started.
 * Next, choose to create your function via `Blueprints`.
-* Search for the blueprint called `hello-world-python`.  Ensure you are not using Python3, as DeepLens does not yet support that runtime.  Select that blueprint and click on `Configure` at the bottom of the page.
+* Search for the blueprint called `greengrass-hello-world`.  Select that blueprint and click on `Configure` at the bottom of the page.
 * Name the new function `deeplens-bird-detection` plus user suffix (e.g. `01-07`).  For example, `deeplens-bird-detection01-07`.  
-* For IAM role, pick `Choose an existing role` and then pick `service-role/deeplens-workshop-lambda-role` which was created on your behalf before the workshop.
+* For IAM role, pick `Choose an existing role` and then pick `service-role/deeplens-workshop-lambda-role` (plus your suffix) which was created on your behalf before the workshop.
 * Click `Create function` at the bottom of the page.
 * Remove the hello world code and replace it with the function code from [labs/lab5/greengrassHelloWorld.py](../labs/lab5/greengrassHelloWorld.py).
 * Set the environment variables.  Note that if you forget to add these environment variables, your project will deploy successfully but will not run.  The top blue light will never turn on.  Here are the three environment variables you need to set:
