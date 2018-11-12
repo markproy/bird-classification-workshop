@@ -156,14 +156,17 @@ Your DeepLens project will be saving cropped images to your S3 bucket.  By defau
 * Search for `AmazonS3FullAccess` in the search bar.
 * Select that policy, and click on `Attach policy`.
 
-### Detailed steps for customizing the project function
+### Detailed steps for creating a new custom DeepLens function
 
-Here are the steps to follow to customize the project.
+Here are the steps to follow to customize the DeepLens project to use a brand new Lambda function.
 
-* In the `Resources` section of the left hand panel of the AWS DeepLens console, click on `Projects`.
-* Click on the name of the project you created earlier.  The console will take you to the details page for that project.
-* Click on the **name of the function** (e.g., `deeplens-object-detection03-06/versions/1`), which will take you to the Lambda console.
-* Once you are in the Lambda console for the function, click on `Go to $LATEST` so that you can edit the function in the console.
+* Navigate to the [Lambda console](https://console.aws.amazon.com/lambda/home).
+* Use the Lambda console and click on `Create function` to get started.
+* Next, choose to create your function via `Blueprints`.
+* Search for the blueprint called `hello-world-python`.  Ensure you are not using Python3, as DeepLens does not yet support that runtime.  Select that blueprint and click on `Configure` at the bottom of the page.
+* Name the new function `deeplens-bird-detection` plus user suffix (e.g. `01-07`).  For example, `deeplens-bird-detection01-07`.  
+* For IAM role, pick `Choose an existing role` and then pick `service-role/deeplens-workshop-lambda-role` which was created on your behalf before the workshop.
+* Click `Create function` at the bottom of the page.
 * Remove the hello world code and replace it with the function code from [labs/lab5/greengrassHelloWorld.py](../labs/lab5/greengrassHelloWorld.py).
 * Set the environment variables.  Note that if you forget to add these environment variables, your project will deploy successfully but will not run.  The top blue light will never turn on.  Here are the three environment variables you need to set:
 
@@ -176,22 +179,25 @@ S3_PUSH_THROTTLE_SECONDS = 4
 * Click `Save` to save the project with the updated function code and environment variables.
 * On the `Actions` menu, click `Publish new version`. Note the new version number.  Add a comment. Click `Publish`.
 
-### Updating the DeepLens project to use the new version of the function
+### Updating the DeepLens project to use the new function
 
-Follow these steps to update your DeepLens project so that it uses the new version of the Lambda function you just created:
+Follow these steps to update your DeepLens project so that it uses the new Lambda function you just created:
 
 * Return back to the DeepLens `Projects` console.  
 * Click on the name of your project.
 * From the project details page, click on `Edit` to edit the project content.  This button is on the far right hand side of the `Project` section.
-* Once you are on the `Edit project` page, click on `Function` (not the name of the function) in the `Project Content` section to expand the project function editor.  
-* Choose the new version number that you just published (should be the largest version number in the list).
+* Once you are on the `Edit project` page, click on `Remove` to remove the original Lambda function in the `Project Content` section.
+* Click on `Add function`, and choose the new Lambda function you just created from the list of available functions.
 * Click `Save` at the bottom of the page to save your project edits.  Note that when you are back on the screen with the list of projects, it will also show a version number of the DeepLens project itself.  That is completely independent of the version number of the Lambda function.
 
 ## Re-deploy the updated project
 
 * Select your project.
 * Click on `Deploy to device`.  
-* Select your device.  Click `Review`. Confirm that you want to overwrite the project that is already deployed on the device. Click `Deploy`. This process then takes a couple of minutes to complete the deployment and then another minute for the project to run, which is indicated by the top blue light staying lit.  Note that the project viewer window that was running on your DeepLens attached monitor will go away when the deployment is complete since the old project will have been removed.
+* Select your device.  Click `Review`.
+* Confirm that you want to overwrite the project that is already deployed on the device.
+* Click `Deploy`.
+* This process then takes a couple of minutes to complete the deployment and then another minute for the project to run, which is indicated by the top blue light staying lit.  Note that the project viewer window that was running on your DeepLens attached monitor will go away when the deployment is complete since the old project will have been removed.
 
 ## Test the project
 

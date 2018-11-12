@@ -15,6 +15,7 @@ This Lambda function requires an IAM role with access to SNS, S3, and SageMaker.
 
 ### Create a 'hello world' Lambda function
 
+* Navigate to the [Lambda console](https://console.aws.amazon.com/lambda/home).
 * Use the Lambda console and click on `Create function` to get started.
 * Next, choose to create your function via `Blueprints`.
 * Search for the blueprint called `hello-world-python3`.  Select that blueprint and click on `Configure` at the bottom of the page.
