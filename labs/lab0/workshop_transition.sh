@@ -29,6 +29,15 @@ aws --profile ${Profile} --region us-east-1 s3 ls | cut -d" " -f 3 | xargs -I{} 
   echo removing {} with --profile ${Profile}
 
 
+echo -e "\nRemoving all SageMaker notebook instances except ones for the Bird workshop..."
+# need to 'cut -f 7' when some notebooks have lifecycle configurations instead of 'cut -f 6'.
+aws --profile ${Profile} --region us-east-1 \
+  sagemaker list-notebook-instances --output text | cut -f 7 | xargs -I{} \
+  ./delete_if_not_bird.sh ${Profile} {}
+#  aws sagemaker delete-notebook-instance --notebook-instance-name {}
+
+
+
 echo -e "\nRemoving SageMaker models, endpoints, and endpoint configurations"
 aws --profile ${Profile} --region us-east-1 sagemaker list-models --output text | \
   cut -f 4 | xargs -I{} \

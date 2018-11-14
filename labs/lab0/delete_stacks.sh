@@ -29,5 +29,5 @@ do
   echo $UserSuffix
 
   aws --profile ${Profile} --region us-east-1 \
-    cloudformation delete-stack --stack-name BW${UserSuffix}
+    cloudformation delete-stack --stack-name bw${UserSuffix}
 done
