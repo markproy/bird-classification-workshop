@@ -1,0 +1,10 @@
+arn:aws:iam::aws:policy/AWSLambdaFullAccess
+arn:aws:iam::aws:policy/AmazonS3FullAccess
+arn:aws:iam::aws:policy/CloudWatchFullAccess
+arn:aws:iam::aws:policy/AWSDeepLensLambdaFunctionAccessPolicy
+arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess
+arn:aws:iam::aws:policy/AmazonDynamoDBFullAccesswithDataPipeline
+arn:aws:iam::aws:policy/service-role/AWSDeepLensServiceRolePolicy
+arn:aws:iam::aws:policy/AWSIoTFullAccess
+arn:aws:iam::aws:policy/AWSGreengrassFullAccess
+arn:aws:iam::aws:policy/AmazonSageMakerFullAccess

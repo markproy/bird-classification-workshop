@@ -16,7 +16,7 @@ Parameters:
     ConstraintDescription: must be an S3 presigned URL
     Description: An S3 presigned URL to a zip file containing the bird images for the workshop
     Type: String
-    Default: https://bit.ly/2Os8TQf
+    Default: https://bit.ly/2B5kEJ0
 
   NotebookInstanceState:
     ConstraintDescription: either Stopped or InService

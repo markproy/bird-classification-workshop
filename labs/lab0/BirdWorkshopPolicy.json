@@ -2,6 +2,177 @@
     "Version": "2012-10-17",
     "Statement": [
         {
+            "Action": [
+                "cloudwatch:DeleteAlarms",
+                "cloudwatch:DescribeAlarmHistory",
+                "cloudwatch:DescribeAlarms",
+                "cloudwatch:DescribeAlarmsForMetric",
+                "cloudwatch:GetMetricStatistics",
+                "cloudwatch:ListMetrics",
+                "cloudwatch:PutMetricAlarm",
+                "dynamodb:*",
+                "sns:CreateTopic",
+                "sns:DeleteTopic",
+                "sns:ListSubscriptions",
+                "sns:ListSubscriptionsByTopic",
+                "sns:ListTopics",
+                "sns:Subscribe",
+                "sns:Unsubscribe",
+                "sns:SetTopicAttributes"
+            ],
+            "Effect": "Allow",
+            "Resource": "*",
+            "Sid": "DDBConsole"
+        },
+        {
+            "Action": [
+                "lambda:*",
+                "iam:ListRoles"
+            ],
+            "Effect": "Allow",
+            "Resource": "*",
+            "Sid": "DDBConsoleTriggers"
+        },
+        {
+            "Action": [
+                "datapipeline:*",
+                "iam:ListRoles"
+            ],
+            "Effect": "Allow",
+            "Resource": "*",
+            "Sid": "DDBConsoleImportExport"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:GetRolePolicy",
+                "iam:PassRole"
+            ],
+            "Resource": [
+                "*"
+            ],
+            "Sid": "IAMEDPRoles"
+        },
+        {
+            "Action": [
+                "ec2:CreateTags",
+                "ec2:DescribeInstances",
+                "ec2:RunInstances",
+                "ec2:StartInstances",
+                "ec2:StopInstances",
+                "ec2:TerminateInstances",
+                "elasticmapreduce:*",
+                "datapipeline:*"
+            ],
+            "Effect": "Allow",
+            "Resource": "*",
+            "Sid": "EMR"
+        },
+        {
+            "Action": [
+                "s3:DeleteObject",
+                "s3:Get*",
+                "s3:List*",
+                "s3:Put*"
+            ],
+            "Effect": "Allow",
+            "Resource": [
+                "*"
+            ],
+            "Sid": "S3"
+        },
+        {
+            "Action": [
+                "dynamodb:*",
+                "dax:*",
+                "application-autoscaling:DeleteScalingPolicy",
+                "application-autoscaling:DeregisterScalableTarget",
+                "application-autoscaling:DescribeScalableTargets",
+                "application-autoscaling:DescribeScalingActivities",
+                "application-autoscaling:DescribeScalingPolicies",
+                "application-autoscaling:PutScalingPolicy",
+                "application-autoscaling:RegisterScalableTarget",
+                "cloudwatch:DeleteAlarms",
+                "cloudwatch:DescribeAlarmHistory",
+                "cloudwatch:DescribeAlarms",
+                "cloudwatch:DescribeAlarmsForMetric",
+                "cloudwatch:GetMetricStatistics",
+                "cloudwatch:ListMetrics",
+                "cloudwatch:PutMetricAlarm",
+                "datapipeline:ActivatePipeline",
+                "datapipeline:CreatePipeline",
+                "datapipeline:DeletePipeline",
+                "datapipeline:DescribeObjects",
+                "datapipeline:DescribePipelines",
+                "datapipeline:GetPipelineDefinition",
+                "datapipeline:ListPipelines",
+                "datapipeline:PutPipelineDefinition",
+                "datapipeline:QueryObjects",
+                "ec2:DescribeVpcs",
+                "ec2:DescribeSubnets",
+                "ec2:DescribeSecurityGroups",
+                "iam:GetRole",
+                "iam:ListRoles",
+                "sns:CreateTopic",
+                "sns:DeleteTopic",
+                "sns:ListSubscriptions",
+                "sns:ListSubscriptionsByTopic",
+                "sns:ListTopics",
+                "sns:Subscribe",
+                "sns:Unsubscribe",
+                "sns:SetTopicAttributes",
+                "lambda:CreateFunction",
+                "lambda:ListFunctions",
+                "lambda:ListEventSourceMappings",
+                "lambda:CreateEventSourceMapping",
+                "lambda:DeleteEventSourceMapping",
+                "lambda:GetFunctionConfiguration",
+                "lambda:DeleteFunction"
+            ],
+            "Effect": "Allow",
+            "Resource": "*",
+            "Sid": "DDB1"
+        },
+        {
+            "Action": [
+                "iam:PassRole"
+            ],
+            "Effect": "Allow",
+            "Resource": "*",
+            "Condition": {
+                "StringLike": {
+                    "iam:PassedToService": [
+                        "application-autoscaling.amazonaws.com",
+                        "dax.amazonaws.com"
+                    ]
+                }
+            },
+            "Sid": "DDB2"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreateServiceLinkedRole"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "iam:AWSServiceName": [
+                        "replication.dynamodb.amazonaws.com",
+                        "dax.amazonaws.com",
+                        "dynamodb.application-autoscaling.amazonaws.com"
+                    ]
+                }
+            },
+            "Sid": "DDB3"
+        },
+        {
+            "Sid": "AllowGreengrassAccess",
+            "Effect": "Allow",
+            "Action": "greengrass:*",
+            "Resource": "*"
+        },
+        {
             "Sid": "AllowIotConsoleAccess",
             "Effect": "Allow",
             "Action": "iot:*",
@@ -98,15 +269,271 @@
               }
         },
         {
+            "Sid": "DeepLensIoTThingAccess",
+            "Effect": "Allow",
+            "Action": [
+                "iot:CreateThing",
+                "iot:DeleteThing",
+                "iot:DeleteThingShadow",
+                "iot:DescribeThing",
+                "iot:GetThingShadow",
+                "iot:UpdateThing",
+                "iot:UpdateThingShadow"
+            ],
+            "Resource": [
+                "arn:aws:iot:*:*:thing/deeplens*"
+            ]
+        },
+        {
+            "Sid": "DeepLensIoTCertificateAccess",
+            "Effect": "Allow",
+            "Action": [
+                "iot:AttachThingPrincipal",
+                "iot:DetachThingPrincipal",
+                "iot:UpdateCertificate",
+                "iot:DeleteCertificate",
+                "iot:DetachPrincipalPolicy"
+            ],
+            "Resource": [
+                "arn:aws:iot:*:*:thing/deeplens*",
+                "arn:aws:iot:*:*:cert/*"
+            ]
+        },
+        {
+            "Sid": "DeepLensIoTCreateCertificateAndPolicyAccess",
+            "Effect": "Allow",
+            "Action": [
+                "iot:CreateKeysAndCertificate",
+                "iot:CreatePolicy",
+                "iot:CreatePolicyVersion"
+            ],
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Sid": "DeepLensIoTAttachCertificatePolicyAccess",
+            "Effect": "Allow",
+            "Action": [
+                "iot:AttachPrincipalPolicy"
+            ],
+            "Resource": [
+                "arn:aws:iot:*:*:policy/deeplens*",
+                "arn:aws:iot:*:*:cert/*"
+            ]
+        },
+        {
+            "Sid": "DeepLensIoTDataAccess",
+            "Effect": "Allow",
+            "Action": [
+                "iot:GetThingShadow",
+                "iot:UpdateThingShadow"
+            ],
+            "Resource": [
+                "arn:aws:iot:*:*:thing/deeplens*"
+            ]
+        },
+        {
+            "Sid": "DeepLensIoTEndpointAccess",
+            "Effect": "Allow",
+            "Action": [
+                "iot:DescribeEndpoint"
+            ],
+            "Resource": [
+                "*"
+            ]
+        },
+        {
             "Sid": "DeepLensS3ObjectAccess",
             "Effect": "Allow",
             "Action": [
-                "s3:ListBucket",
                 "s3:GetObject"
             ],
             "Resource": [
-                "arn:aws:s3:::deeplens*/*",
                 "arn:aws:s3:::deeplens*"
+            ]
+        },
+        {
+            "Sid": "DeepLensS3Buckets",
+            "Effect": "Allow",
+            "Action": [
+                "s3:DeleteBucket",
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::deeplens*"
+            ]
+        },
+        {
+            "Sid": "DeepLensCreateS3Buckets",
+            "Effect": "Allow",
+            "Action": [
+                "s3:CreateBucket"
+            ],
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Sid": "DeepLensIAMPassRoleAccess",
+            "Effect": "Allow",
+            "Action": [
+                "iam:PassRole"
+            ],
+            "Resource": [
+                "*"
+            ],
+            "Condition": {
+                "StringEquals": {
+                    "iam:PassedToService": [
+                        "greengrass.amazonaws.com",
+                        "sagemaker.amazonaws.com"
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "DeepLensIAMLambdaPassRoleAccess",
+            "Effect": "Allow",
+            "Action": [
+                "iam:PassRole"
+            ],
+            "Resource": [
+                "arn:aws:iam::*:role/AWSDeepLens*",
+                "arn:aws:iam::*:role/service-role/AWSDeepLens*"
+            ],
+            "Condition": {
+                "StringEqualsIfExists": {
+                    "iam:PassedToService": "lambda.amazonaws.com"
+                }
+            }
+        },
+        {
+            "Sid": "DeepLensGreenGrassAccess",
+            "Effect": "Allow",
+            "Action": [
+                "greengrass:AssociateRoleToGroup",
+                "greengrass:AssociateServiceRoleToAccount",
+                "greengrass:CreateResourceDefinition",
+                "greengrass:CreateResourceDefinitionVersion",
+                "greengrass:CreateCoreDefinition",
+                "greengrass:CreateCoreDefinitionVersion",
+                "greengrass:CreateDeployment",
+                "greengrass:CreateFunctionDefinition",
+                "greengrass:CreateFunctionDefinitionVersion",
+                "greengrass:CreateGroup",
+                "greengrass:CreateGroupCertificateAuthority",
+                "greengrass:CreateGroupVersion",
+                "greengrass:CreateLoggerDefinition",
+                "greengrass:CreateLoggerDefinitionVersion",
+                "greengrass:CreateSubscriptionDefinition",
+                "greengrass:CreateSubscriptionDefinitionVersion",
+                "greengrass:DeleteCoreDefinition",
+                "greengrass:DeleteFunctionDefinition",
+                "greengrass:DeleteGroup",
+                "greengrass:DeleteLoggerDefinition",
+                "greengrass:DeleteSubscriptionDefinition",
+                "greengrass:DisassociateRoleFromGroup",
+                "greengrass:DisassociateServiceRoleFromAccount",
+                "greengrass:GetAssociatedRole",
+                "greengrass:GetConnectivityInfo",
+                "greengrass:GetCoreDefinition",
+                "greengrass:GetCoreDefinitionVersion",
+                "greengrass:GetDeploymentStatus",
+                "greengrass:GetDeviceDefinition",
+                "greengrass:GetDeviceDefinitionVersion",
+                "greengrass:GetFunctionDefinition",
+                "greengrass:GetFunctionDefinitionVersion",
+                "greengrass:GetGroup",
+                "greengrass:GetGroupCertificateAuthority",
+                "greengrass:GetGroupCertificateConfiguration",
+                "greengrass:GetGroupVersion",
+                "greengrass:GetLoggerDefinition",
+                "greengrass:GetLoggerDefinitionVersion",
+                "greengrass:GetResourceDefinition",
+                "greengrass:GetServiceRoleForAccount",
+                "greengrass:GetSubscriptionDefinition",
+                "greengrass:GetSubscriptionDefinitionVersion",
+                "greengrass:ListCoreDefinitionVersions",
+                "greengrass:ListCoreDefinitions",
+                "greengrass:ListDeployments",
+                "greengrass:ListDeviceDefinitionVersions",
+                "greengrass:ListDeviceDefinitions",
+                "greengrass:ListFunctionDefinitionVersions",
+                "greengrass:ListFunctionDefinitions",
+                "greengrass:ListGroupCertificateAuthorities",
+                "greengrass:ListGroupVersions",
+                "greengrass:ListGroups",
+                "greengrass:ListLoggerDefinitionVersions",
+                "greengrass:ListLoggerDefinitions",
+                "greengrass:ListSubscriptionDefinitionVersions",
+                "greengrass:ListSubscriptionDefinitions",
+                "greengrass:ResetDeployments",
+                "greengrass:UpdateConnectivityInfo",
+                "greengrass:UpdateCoreDefinition",
+                "greengrass:UpdateDeviceDefinition",
+                "greengrass:UpdateFunctionDefinition",
+                "greengrass:UpdateGroup",
+                "greengrass:UpdateGroupCertificateConfiguration",
+                "greengrass:UpdateLoggerDefinition",
+                "greengrass:UpdateSubscriptionDefinition",
+                "greengrass:UpdateResourceDefinition"
+            ],
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Sid": "DeepLensLambdaAdminFunctionAccess",
+            "Effect": "Allow",
+            "Action": [
+                "lambda:CreateFunction",
+                "lambda:DeleteFunction",
+                "lambda:GetFunction",
+                "lambda:GetFunctionConfiguration",
+                "lambda:ListFunctions",
+                "lambda:ListVersionsByFunction",
+                "lambda:PublishVersion",
+                "lambda:UpdateFunctionCode",
+                "lambda:UpdateFunctionConfiguration"
+            ],
+            "Resource": [
+                "arn:aws:lambda:*:*:function:deeplens*"
+            ]
+        },
+        {
+            "Sid": "DeepLensLambdaUsersFunctionAccess",
+            "Effect": "Allow",
+            "Action": [
+                "lambda:GetFunction",
+                "lambda:GetFunctionConfiguration",
+                "lambda:ListFunctions",
+                "lambda:ListVersionsByFunction"
+            ],
+            "Resource": [
+                "arn:aws:lambda:*:*:function:*"
+            ]
+        },
+        {
+            "Sid": "DeepLensSageMakerWriteAccess",
+            "Effect": "Allow",
+            "Action": [
+                "sagemaker:CreateTrainingJob",
+                "sagemaker:DescribeTrainingJob",
+                "sagemaker:StopTrainingJob"
+            ],
+            "Resource": [
+                "arn:aws:sagemaker:*:*:training-job/deeplens*"
+            ]
+        },
+        {
+            "Sid": "DeepLensSageMakerReadAccess",
+            "Effect": "Allow",
+            "Action": [
+                "sagemaker:DescribeTrainingJob"
+            ],
+            "Resource": [
+                "arn:aws:sagemaker:*:*:training-job/*"
             ]
         },
         {
@@ -213,7 +640,7 @@
             "Resource": [
                 "arn:aws:s3:::*SageMaker*",
                 "arn:aws:s3:::*Sagemaker*",
-                "arn:aws:s3:::*sagemaker*"
+                "arn:aws:s3:::*SageMaker*"
             ]
         },
         {
