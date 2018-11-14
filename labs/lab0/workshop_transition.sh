@@ -24,7 +24,7 @@ Profile=$1
 echo $Profile
 set -x
 
-echo -e "\nRemoving S3 buckets..."
+echo -e "\nRemoving S3 buckets [change to not delete those marked do-not-delete]..."
 aws --profile ${Profile} --region us-east-1 s3 ls | cut -d" " -f 3 | xargs -I{} \
   echo removing {} with --profile ${Profile}
 
