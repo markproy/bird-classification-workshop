@@ -6,17 +6,24 @@
 # The second argument is the workshop Pod number.  At reInvent, there are 15 pods
 # in a room, with each pod containing 8 stations.
 
-# ./delete_stacks account1 01
-# ./delete_stacks account1 02
-# ./delete_stacks account2 03
-# ./delete_stacks account2 04
+# ./delete_stacks.sh account1 01 us-east-1
+# ./delete_stacks.sh account1 02 us-east-1
+# ./delete_stacks.sh account2 03 us-east-1
+# ./delete_stacks.sh account2 04 us-east-1
 # ...
-# ./delete_stacks account7 13
-# ./delete_stacks account7 14
-# ./delete_stacks account8 15
+# ./delete_stacks.sh account7 13 us-east-1
+# ./delete_stacks.sh account7 14 us-east-1
+# ./delete_stacks.sh account8 15 us-east-1
 
 Profile=$1
 Pod=$2
+Region=$3
+
+if [ $# -lt 3 ]
+then
+  echo Pass the aws profile name and the instance name, as in: ./delete_stacks.sh deeplens-1 04 us-east-1
+  exit 1
+fi
 
 echo $Profile
 set -x
@@ -28,6 +35,6 @@ do
   UserSuffix=${Pod}-"0${Seat}"
   echo $UserSuffix
 
-  aws --profile ${Profile} --region us-east-1 \
+  aws --profile ${Profile} --region ${Region} \
     cloudformation delete-stack --stack-name bw${UserSuffix}
 done

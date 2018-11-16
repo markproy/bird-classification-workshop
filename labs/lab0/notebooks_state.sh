@@ -10,8 +10,10 @@
 
 if [ $1 == "start" ]; then
    Command="start-notebook-instance"
+   Selection="Stopped"
 else
    Command="stop-notebook-instance"
+   Selection="InService"
 fi
 
 Profile=$2
@@ -19,9 +21,11 @@ Profile=$2
 echo $Profile
 echo $Command
 
+set -x
 aws sagemaker --profile ${Profile} --region us-east-1 list-notebook-instances \
-  --output text | cut -f 7 | \
+  --status-equals ${Selection} --output text | cut -f 7 | \
   xargs -I{} aws sagemaker --profile ${Profile} --region us-east-1 $Command --notebook-instance-name {}
 
-#  --query "NotebookInstances[*].NotebookInstanceName" \
-#--name-contains ''BirdClassificationWorkshop'' \
+#--query "NotebookInstances[?NotebookInstanceStatus=='${Selection}'].NotebookInstanceName"
+#BirdClassificationWorkshop02-01	BirdClassificationWorkshop01-08
+#how do we turn the list of instances into one command for each selected instance?

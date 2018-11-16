@@ -6,17 +6,24 @@
 # The second argument is the workshop Pod number.  At reInvent, there are 15 pods
 # in a room, with each pod containing 8 stations.
 
-# ./create_stacks.sh account1 01
-# ./create_stacks.sh account1 02
-# ./create_stacks.sh account2 03
-# ./create_stacks.sh account2 04
+# ./create_stacks.sh account1 01 us-east-1
+# ./create_stacks.sh account1 02 us-east-1
+# ./create_stacks.sh account2 03 us-east-1
+# ./create_stacks.sh account2 04 us-east-1
 # ...
-# ./create_stacks.sh account7 13
-# ./create_stacks.sh account7 14
-# ./create_stacks.sh account8 15
+# ./create_stacks.sh account7 13 us-east-1
+# ./create_stacks.sh account7 14 us-east-1
+# ./create_stacks.sh account8 15 us-east-1
+
+if [ $# -lt 3 ]
+then
+  echo Pass the aws profile name and the Pod Number, as in: ./create_stacks.sh deeplens-1 02 us-east-1
+  exit 1
+fi
 
 Profile=$1
 Pod=$2
+Region=$3
 
 echo $Profile
 
@@ -31,7 +38,7 @@ do
 
   UserName=user-${UserSuffix}
   set -x
-  aws --profile ${Profile} --region us-east-1 \
+  aws --profile ${Profile} --region ${Region} \
     cloudformation create-stack --stack-name bw${UserSuffix} \
     --template-body file://BirdWorkshopPerUser.yaml \
     --capabilities CAPABILITY_NAMED_IAM \
