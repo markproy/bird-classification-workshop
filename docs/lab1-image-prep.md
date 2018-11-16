@@ -23,7 +23,7 @@ You will need an S3 bucket throughout the workshop.  It will be used for:
 * Storing cropped images of birds detected by DeepLens
 * Triggering a Lambda function for identifying a bird species
 
-To create the S3 bucket, first navigate to the [S3 console](https://console.aws.amazon.com/s3/home?region=us-east-1) and select `+ Create bucket`.
+To create the S3 bucket, first navigate to the [S3 console](https://console.aws.amazon.com/s3) and select `+ Create bucket`.
 
 Name the bucket with a prefix of `deeplens-sagemaker-`.  To ensure uniqueness, add on a date formatted as `yyyy-mm-dd`, and then add your name.  For example, your bucket name could be `deeplens-sagemaker-20181126-roymark`.  Under `Region`, select `US East (N. Virginia)` to align with the notebook region.  Select `Create` in the bottom left corner to create the bucket.
 

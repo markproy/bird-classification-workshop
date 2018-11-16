@@ -21,7 +21,7 @@ The standard instructions provided for the product are found [here]( https://doc
 ### Step 1 - Name the device and download a new certificate
 
 * Power up your AWS DeepLens device.
-* Navigate to the [AWS DeepLens console](https://console.aws.amazon.com/deeplens/home?region=us-east-1#devices) and go to the `Devices` section.
+* Navigate to the [AWS DeepLens console](https://console.aws.amazon.com/deeplens#devices) and go to the `Devices` section.
 * Click on `Register device` to begin a new device registration.
 * Name the device.  Use the name provided on a sticker on the device (e.g., `L25`).
 * Permissions.  The DeepLens required permissions should be all set for your workshop ahead of time, so you should see a green circle with a check mark next to `IAM roles for DeepLens`.  If not, please refer to [these instructions](https://docs.aws.amazon.com/deeplens/latest/dg/deeplens-getting-started-register.html).

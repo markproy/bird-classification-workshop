@@ -6,7 +6,7 @@ Accounts using this workshop should have an IAM role configured with a specific 
 
 In addition, you should create a CloudFormation stack using [the CloudFormation template provided](../labs/lab0/BirdWorkshop.yaml).  It has a required parameter identifying publicly accessible URL to a zip file.  The zip file should contain four folders, each containing images for four specific bird species (0752, 0772, 0794, and 0842), extracted from the NABirds full dataset.  To get the full NABirds dataset, [go here](http://dl.allaboutbirds.org/nabirds).
 
-Lastly, your account must have a resource limit increase before you can execute this workshop.  The p2 and p3 instance families provide GPU's, which are required for SageMaker's image classification algorithm.  You can create the request using the [Support console](https://console.aws.amazon.com/support/home?region=us-east-1#).  Request an increase from 0 to 1 for the `ml.p3.2xlarge` instance family for SageMaker Training jobs.  
+Lastly, your account must have a resource limit increase before you can execute this workshop.  The p2 and p3 instance families provide GPU's, which are required for SageMaker's image classification algorithm.  You can create the request using the [Support console](https://console.aws.amazon.com/support).  Request an increase from 0 to 1 for the `ml.p3.2xlarge` instance family for SageMaker Training jobs.  
 
 ## Preparing your workstation
 

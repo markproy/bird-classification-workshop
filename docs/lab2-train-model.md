@@ -19,7 +19,7 @@ The following figure illustrates the training process at a high level.
 
 Here are the detailed steps to train the model by creating a job from the console.  Note that you could have also created a training job using the SageMaker API, using the Python SDK from a SageMaker notebook, or even using the AWS CLI.
 
-To create a job using the console, first click on `Training Jobs` on the left panel of the [SageMaker console](https://console.aws.amazon.com/sagemaker/home?region=us-east-1).  Then click on `Create Training Job`.  Then, fill in the details of the job:
+To create a job using the console, first click on `Training Jobs` on the left panel of the [SageMaker console](https://console.aws.amazon.com/sagemaker).  Then click on `Create Training Job`.  Then, fill in the details of the job:
 
 * Give the job a name: `birds` with a suffix provided to you for the workshop (e.g., your job name could be `birds13-07`).  You will use the same name for your model and endpoint configuration in the next lab.
 * Leave the IAM role as the default (something like `AmazonSageMaker-ExecutionRole-20180926T21970`).  If no default is provided, choose `Create a new role`.  SageMaker will ask you what level of S3 permissions to provide for this job.  For ease of use in the workshop, simply pick `Any S3 bucket` as the setting.  For production usage, you would want to be more specific.
