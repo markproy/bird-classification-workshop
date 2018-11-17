@@ -5,7 +5,7 @@
 # entry in the AWS credentials configuration file to refer to a specific IAM user.
 # The second argument is the name of a SageMaker notebook instance to possibly delete.
 
-# ./delete_if_not_bird.sh deeplens-1 some-other-instance
+# ./delete_if_not_bird.sh deeplens-1 some-other-instance us-east-1
 
 if [ $# -lt 3 ]
 then

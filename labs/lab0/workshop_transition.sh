@@ -29,7 +29,11 @@ set -x
 echo -e "\nRemoving S3 buckets [change to not delete those marked do-not-delete]..."
 aws --profile ${Profile} --region ${Region} s3 ls | cut -d" " -f 3 | xargs -I{} \
   echo removing {} with --profile ${Profile}
-
+#  aws --profile ${Profile} --region ${Region} s3 rb s3://{} --force
+#  each account has the following s3 buckets that should not be deleted. they are used for
+#  security / auditing purposes:
+#    cloudtrail-awslogs-XXXXX-YYYY-isengard-do-not-delete
+#    do-not-delete-gategarden-audit-XXXXX
 
 echo -e "\nRemoving all SageMaker notebook instances except ones for the Bird workshop..."
 # need to 'cut -f 7' when some notebooks have lifecycle configurations instead of 'cut -f 6'.

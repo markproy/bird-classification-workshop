@@ -3,16 +3,17 @@
 # this script should be run in a terminal window inside your SageMaker notebook
 # that was created as part of the workshop.
 
-if [ $# -lt 2 ]
+if [ $# -lt 3 ]
 then
   echo Pass the bucket and the user suffix, as in:
-  echo   bash lab2_shortcut.sh s3://deeplens-sagemaker-20181126-smithjohn 01
+  echo   bash lab2_shortcut.sh s3://deeplens-sagemaker-20181126-smithjohn 01-02 us-east-1
   exit 1
 fi
 
 # Fill in the values of these four variables
 BUCKET=$1
 INSTANCE_NAME=BirdClassificationWorkshop$2
+REGION=$3
 
 EXECUTION_ROLE_ARN=$(aws sagemaker describe-notebook-instance \
   --notebook-instance-name $INSTANCE_NAME \
@@ -21,10 +22,15 @@ echo role is $EXECUTION_ROLE_ARN
 
 # arn_role=$2
 
-REGION=us-east-1
-TRAINING_IMAGE=811284229777.dkr.ecr.us-east-1.amazonaws.com/image-classification:1
+if [[ ${REGION} == "us-west-2" ]]; then
+  TRAINING_IMAGE=433757028032.dkr.ecr.us-west-2.amazonaws.com/image-classification:1
+fi
 
-PREFIX=/birds
+if [[ ${REGION} == "us-east-1" ]]; then
+  TRAINING_IMAGE=811284229777.dkr.ecr.us-east-1.amazonaws.com/image-classification:1
+fi
+
+PREFIX=/birds-test
 TRAINING_JOB_NAME=birds-`date '+%Y-%m-%d-%H-%M-%S'`
 
 TRAINING_DATA=$BUCKET$PREFIX/train
