@@ -10,6 +10,7 @@
 
 if [ $# -lt 3 ]; then
   echo Pass in state, account, and region, as in: ./notebooks_state.sh start deeplens-1 us-east-1
+  exit 1
 fi
 
 if [ $1 == "start" ]; then

@@ -21,26 +21,28 @@ then
 fi
 
 Profile=$1
-Region=$3
+Region=$2
 
 echo $Profile
 set -x
 
 echo -e "\nRemoving S3 buckets [change to not delete those marked do-not-delete]..."
-aws --profile ${Profile} --region ${Region} s3 ls | cut -d" " -f 3 | xargs -I{} \
-  echo removing {} with --profile ${Profile}
-#  aws --profile ${Profile} --region ${Region} s3 rb s3://{} --force
-#  each account has the following s3 buckets that should not be deleted. they are used for
+#  each account has the following S3 buckets that should not be deleted. they are used for
 #  security / auditing purposes:
 #    cloudtrail-awslogs-XXXXX-YYYY-isengard-do-not-delete
 #    do-not-delete-gategarden-audit-XXXXX
+aws --profile ${Profile} --region ${Region} s3 ls | cut -d" " -f 3 | \
+  grep -v do-not-delete | xargs -I{} \
+  aws --profile ${Profile} --region ${Region} s3 rb s3://{} --force
+
 
 echo -e "\nRemoving all SageMaker notebook instances except ones for the Bird workshop..."
 # need to 'cut -f 7' when some notebooks have lifecycle configurations instead of 'cut -f 6'.
 aws --profile ${Profile} --region ${Region} \
-  sagemaker list-notebook-instances --output text | cut -f 7 | xargs -I{} \
-  ./delete_if_not_bird.sh ${Profile} {}
-#  aws sagemaker delete-notebook-instance --notebook-instance-name {}
+  sagemaker list-notebook-instances --output text | cut -f 7 | \
+  grep -v BirdClassificationWorkshop | xargs -I{} \
+  aws --profile ${Profile} --region ${Region} \
+    sagemaker delete-notebook-instance --notebook-instance-name {}
 
 
 
