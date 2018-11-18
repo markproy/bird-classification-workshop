@@ -10,7 +10,7 @@ These are the high level steps you will take for Lab 1:
 
 ## Step 1 - Start the notebook instance
 
-Prior to the workshop, a SageMaker notebook instance called `BirdClassificationWorkshop` was created in your account.  Note that the notebook instance name may have a suffix, so that it can be uniquely identified if you are sharing an account for this workshop.  If so, choose the one with your assigned suffix.
+Prior to the workshop, a SageMaker notebook instance called `BirdClassificationWorkshop` was created in your account.  Note that the notebook instance name may have a suffix, so that it can be uniquely identified if you are sharing an account for this workshop.  If so, choose the one with your assigned suffix (e.g., `BirdClassificationWorkshop02-08`).
 
 Open the [Amazon SageMaker console](https://console.aws.amazon.com/sagemaker/) in a new browser tab, and click on `Notebook instances` in the left hand panel.  If the `Status` of the instance is `InService`, click on `Open Jupyter` to open the notebook instance.  If not, click on `Start` to first start the instance before opening it.  It will take a few minutes to start the notebook instance, so while that is happening, proceed to step 2 (creating your S3 bucket).
 
@@ -25,13 +25,13 @@ You will need an S3 bucket throughout the workshop.  It will be used for:
 
 To create the S3 bucket, first navigate to the [S3 console](https://console.aws.amazon.com/s3) and select `+ Create bucket`.
 
-Name the bucket with a prefix of `deeplens-sagemaker-`.  To ensure uniqueness, add on a date formatted as `yyyy-mm-dd`, and then add your name.  For example, your bucket name could be `deeplens-sagemaker-20181126-roymark`.  Under `Region`, select `US East (N. Virginia)` to align with the notebook region.  Select `Create` in the bottom left corner to create the bucket.
+Name the bucket with a prefix of `deeplens-sagemaker-`.  To ensure uniqueness, add on a date formatted as `yyyy-mm-dd`, and then add your name.  For example, your bucket name could be `deeplens-sagemaker-20181126-roymark`.  Under `Region`, select `US East (N. Virginia)` to align with the notebook region and your DeepLens device.  Select `Create` in the bottom left corner to create the bucket.
 
 Save the name of your new bucket.  You will use this S3 bucket name in multiple labs, including the very next step of this lab.  In that step, you will reference the bucket name in the first cell of your SageMaker notebook.
 
 ## Step 3 - Use the SageMaker Notebook to explore the dataset, package images, upload images
 
-Once you have opened the instance, navigate to the `bird-classification-workshop` folder, and open the Jupyter notebook called `LabNotebook.ipynb`.  Follow the instructions in the notebook to complete the remaining steps.
+Once you have opened the SageMaker notebook instance, navigate to the `bird-classification-workshop` folder, and open the Jupyter notebook called `LabNotebook.ipynb`.  Follow the instructions in the notebook to complete the remaining steps for Lab 1.
 
 ## Acknowledgement to Cornell Lab of Ornithology for the NABirds images
 
