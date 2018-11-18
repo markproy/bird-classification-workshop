@@ -9,7 +9,7 @@ Here are the steps involved for this lab:
 
 ## Step 1 - Create a SageMaker training job
 
-In this section, you will create a SageMaker training job to build your bird species identification model.  The resulting model artifacts will be used in a SageMaker endpoint to provide predictions.  Detailed documentation is available for SageMaker's Image Classification [hyperparameters](https://docs.aws.amazon.com/sagemaker/latest/dg/IC-Hyperparameter.html) as well as how to [train a model](https://docs.aws.amazon.com/sagemaker/latest/dg/IC-Hyperparameter.html) using Amazon SageMaker.
+In this section, you will create a SageMaker training job to build your bird species identification model.  The resulting model artifacts will be used in a SageMaker endpoint to provide predictions.  Detailed documentation is available for SageMaker's Image Classification [hyperparameters](https://docs.aws.amazon.com/sagemaker/latest/dg/IC-Hyperparameter.html) as well as how to [train a model](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works-training.html) using Amazon SageMaker.
 
 The following figure illustrates the training process at a high level.
 
@@ -17,14 +17,15 @@ The following figure illustrates the training process at a high level.
 
 ### Create the job from the SageMaker console
 
-Here are the detailed steps to train the model by creating a job from the console.  Note that you could have also created a training job using the SageMaker API, using the Python SDK from a SageMaker notebook, or even using the AWS CLI.
+Here are the detailed steps to train the model by creating a job from the Amazon SageMaker console.  Note that you could have also created a training job using the SageMaker API, using the Python SDK from a SageMaker notebook, or even using the AWS CLI.
 
 To create a job using the console, first click on `Training Jobs` on the left panel of the [SageMaker console](https://console.aws.amazon.com/sagemaker).  Then click on `Create Training Job`.  Then, fill in the details of the job:
 
 * Give the job a name: `birds` with a suffix provided to you for the workshop (e.g., your job name could be `birds13-07`).  You will use the same name for your model and endpoint configuration in the next lab.
 * Leave the IAM role as the default (something like `AmazonSageMaker-ExecutionRole-20180926T21970`).  If no default is provided, choose `Create a new role`.  SageMaker will ask you what level of S3 permissions to provide for this job.  For ease of use in the workshop, simply pick `Any S3 bucket` as the setting.  For production usage, you would want to be more specific.
+* For the `Algorithm source` setting, leave it at the default, `Amazon SageMaker built-in algorithm`.
 * For the `Algorithm` setting, choose `Image classification` from the list of built in SageMaker algorithms.
-* In the `Resource configuration` section, choose the `ml.p3.2xlarge` instance type.  Note that prior to this workshop, your workshop account had its resource limit increased (from 0 to 1) for using a p3 series instance type.  The p2 and p3 instance families provide GPU's, which are required for SageMaker's image classification algorithm.  If you were using your own AWS account, you may need to increase your resource limit as well.  The default resource limit is 0.
+* In the `Resource configuration` section, choose the `ml.p3.2xlarge` instance type.  Note that prior to this workshop, your workshop account had its resource limit increased (from the default of 0) for using a p3 series instance type.  The p2 and p3 instance families provide GPU's, which are required for SageMaker's image classification algorithm.  If you were using your own AWS account, you may need to increase your resource limit as well.
 
 The remaining 3 settings before the hyperparameters should be left at their default values:
 
@@ -37,14 +38,15 @@ The remaining 3 settings before the hyperparameters should be left at their defa
 For SageMaker's Image Classification algorithm, there are more than two dozen hyperparameters.  For the purposes of this workshop, we will leave most of them at their default values.  Change only the following hyperparameters:
 
 * **checkpoint_frequency**: `25`.  A checkpoint saves the state of the neural network, so you could resume training from that state.  This is useful for large scale training, but is not important for this workshop.  We will set it to be the same exact number as the number of epochs.  That is, there will only be a single checkpoint, once all the training epochs for the lab have completed.
-* **epochs**: `25`.  For this size dataset on the selected instance type, this number of epochs will allow the job to complete in around 7 minutes with reasonable accuracy.  If you had more time available, you could improve the accuracy by doubling the number of epochs.
+* **epochs**: `25`.  For this size dataset on the selected instance type, this number of epochs will allow the job to complete in around 7 minutes with reasonable accuracy.  If you had more time available, you could improve the accuracy by doubling the number of epochs.  For some use cases, you may need 100's of epochs for your training job.
 * **mini_batch_size**: `24`.  This hyperparameter tells the algorithm how many images to process in a single mini batch.
 * **num_classes**: `4`.  If you were to use the full NABirds dataset, this would be 555.
-* **num_training_samples**: `322`.  If you were to use the full NABirds dataset, this would be > 40,000.
+* **num_training_samples**: `322`.  We determined this number in Lab 1, when you packaged the images for these species.  If you were to use the full NABirds dataset, the number of training samples would be more than 40,000.
 * **augmentation_type** `crop`. This tells the algorithm to also flip each image horizontally to increase the model's ability to accurately identify species.  If a bird is facing left in the image, this augmentation will also train the model with a copy of the image with the bird facing to the right.
 * **top_k**: `2`.  This indicates to the algorithm that it should log an additional accuracy metric.  In addition to the accuracy of getting the prediction of the species exactly right, it will also log how accurate your model is at predicting the right species within the top 2 predictions for a given epoch.
+* **early_stopping** `true`.  This parameter tells the algorithm to stop training if validation accuracy doesn't improve after a patience number of epochs.
 
-For all other parameters, use default values.
+For all other hyperparameters, use default values.
 
 #### Define the two data channels (train and validation)
 
@@ -91,10 +93,9 @@ In the prior section, you created a training job from the SageMaker console by e
 
 ## Step 2 - View the progress of the training
 
-* Click on training job to view details.
+* On the `Training jobs` console, click on the name of your training job to view the details of the job.
 * Click on `View logs` in the `Monitoring` section towards the bottom of the page of job details.  
-* Note that there is an `Output` section just below the `Monitoring` section.  Once the job is complete, you will see the S3 URI to the model artifacts (the `model.tar.gz` file).  You may want to copy that URI from the output section when doing Lab 3.
-* Note that it could take a couple of minutes for the training job infrastructure to be instantiated, before the training job is executing and the log files are available for viewing.  If you try to view the logs before they are created, you may see an error.  Don't be alarmed.  Simply wait until the training job is truly executing.
+* Note that it could take a couple of minutes for the training job infrastructure to be instantiated, before the training job is executing and the log files are available for viewing.  If you try to view the logs before they are created, you may see an error (e.g., `There was an error loading Log Streams. Please try again by refreshing this page`).  Don't be alarmed.  Simply wait until the training job is truly executing.
 * Pick the latest log stream.
 * You will see logging of progress for each epoch of the training job.  Pay attention to `Validation-accuracy` in the log output, as it should be steadily increasing.  If you had more time available, you could increase the number of epochs and see additional accuracy improvements.  
 
@@ -137,7 +138,7 @@ Here is some sample output from a single epoch:
 ...
 ```
 
-As stated earlier, once the job is complete (console will show a green `Completed` status), the training model artifacts are saved in `model.tar.gz` in the specified output directory.  Navigate to the S3 console, and drill down into your S3 bucket to find the model artifacts.  That file will be used to create a model for inference in the next lab.
+Once the training job is complete (console will show a green `Completed` status), the training model artifacts are saved in `model.tar.gz` in the output directory you specified earlier in this lab.  To get the full S3 URI for the model artifacts, you can find it on the details page of your training job.  You can also navigate to the S3 console, and drill down into your S3 bucket to find the model artifacts.  That file will be used to create a model for inference in the next lab.
 
 ## Navigation
 
