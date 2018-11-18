@@ -16,7 +16,7 @@ Here are the steps:
 * Go to the SageMaker console.
 * In the `Inference` section of the left hand panel of the SageMaker console, click on `Models`.
 * Click on `Create model`.
-* Give the model the name `birds` with a suffix provided to you for the workshop. For consistency in this workshop, the name of your SageMaker model will be the same as the name of your training job and your endpoint configuration.
+* Give the model the name `birds` with a suffix provided to you for the workshop (e.g., `birds02-08`). For consistency in this workshop, the name of your SageMaker model will be the same as the name of your training job and your endpoint configuration.
 * Leave the model with the default IAM role such as `AmazonSageMaker-ExecutionRole-20180926T121970`.
 * Leave the Network setting as `No VPC`.
 * Set the Primary container to the location of SageMaker's inference code image for `us-east-1` which is:
@@ -30,7 +30,8 @@ Here are the steps:
 * In the `Inference` section of the left hand panel of the SageMaker console, click on `Endpoint configurations` .
 * Click on `Create endpoint configuration`.
 * Give the endpoint configuration the name `birds` with a suffix provided to you for the workshop.
-* Click on `Add model` and pick the model you just created in the previous step.
+* Click on `Add model` and pick the model you just created in the previous step.  Note that the if there is just one model listed, the console may not let you select it explicitly.  You will still be able to save.
+* Verify that the `Instance type` selected for the production variants for your endpoint configuration is set to `ml.m4.4xlarge`.  If it is not, click `Edit` and change it to this type.
 * Click on `Save`.
 * Click on `Create endpoint configuration`, and your new endpoint configuration will now show up in the list of endpoint configurations.
 
@@ -39,7 +40,7 @@ Here are the steps:
 * In the `Inference` section of the left hand panel of the SageMaker console, click on `Endpoints`.
 * Click on `Create endpoint`.
 * Give it the name `nabirds-species-identifier` with a suffix provided to you for the workshop (e.g., `nabirds-species-identifier12-04`).  Remember this endpoint name, as you will refer to it in the next step, and in the next two labs.
-* In the `Endpoint configuration` section, select the endpoint configuration that you just created in the previous step.
+* In the `Endpoint configuration` section, select the endpoint configuration that you just created in the previous step.  You will need to first click the radio button for that configuration, then click on the `Select endpoint configuration` button.
 * Click on `Create endpoint` at the bottom of the page, and SageMaker will create an endpoint for you.  The creation process will take several minutes.  Note that once the endpoint is in the running state, your account will be billed until the endpoint is deleted.
 
 ## Step 4 - Test your model from a SageMaker terminal window

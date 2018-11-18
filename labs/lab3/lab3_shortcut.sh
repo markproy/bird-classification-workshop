@@ -6,7 +6,7 @@
 if [ $# -lt 2 ]
 then
   echo Pass the training job name and the user suffix, as in:
-  echo   bash lab3_shortcut.sh birds-2018-11-26-16-10-14 01
+  echo   bash lab3_shortcut.sh birds-2018-11-26-16-10-14 02-07
   exit 1
 fi
 
@@ -23,10 +23,10 @@ MODEL_DATA_URL=$(aws sagemaker describe-training-job --training-job-name $1 \
   --query "ModelArtifacts.S3ModelArtifacts" --output text)
 echo model data url is $MODEL_DATA_URL
 
-MODEL_NAME='birds-'$SUFFIX
+MODEL_NAME='birds'$SUFFIX
 ENDPOINT_CONFIG_NAME=$MODEL_NAME
-INSTANCE_TYPE='ml.t2.medium' # 0.065/hr, or ml.m5.large=$0.13/hr, or m5.xlarge=$0.269/hr
-ENDPOINT_NAME='nabirds-species-identifier-'$SUFFIX
+INSTANCE_TYPE='ml.m4.4xlarge'
+ENDPOINT_NAME='nabirds-species-identifier'$SUFFIX
 PRODUCTION_VARIANTS=[{\"VariantName\":\"main\",\"ModelName\":\"$MODEL_NAME\",\"InitialInstanceCount\":1,\"InstanceType\":\"$INSTANCE_TYPE\",\"InitialVariantWeight\":1.0}]
 
 IMAGE='811284229777.dkr.ecr.us-east-1.amazonaws.com/image-classification:latest'

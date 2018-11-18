@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # this script should be run in a terminal window inside your SageMaker notebook
 # that was created as part of the workshop.
@@ -10,7 +10,7 @@ then
   exit 1
 fi
 
-export ENDPOINT_NAME=nabirds-species-identifier-$1
+export ENDPOINT_NAME=nabirds-species-identifier$1
 
 python test_direct_sample.py ../../test_images/eastern-bluebird.jpg
 python test_direct_sample.py ../../test_images/northern-cardinal.jpg

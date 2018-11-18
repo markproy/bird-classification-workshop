@@ -11,7 +11,7 @@ Here are the steps involved:
 
 ### Create or select an IAM role for your Lambda function
 
-This Lambda function requires an IAM role with access to SNS, S3, and SageMaker.  Your instructor has created the role on your behalf during workshop preparations.  Go to the IAM console and click on the `Roles` section.  Look for a role called `deeplens-workshop-lambda-role`.  Click on that role and ensure it has access to SNS, S3, and SageMaker, as well as basic Lambda execution permissions (i.e., for CloudWatch logging).
+This Lambda function requires an IAM role with access to SNS, S3, and SageMaker.  Your instructor has created the role on your behalf during workshop preparations.  Go to the IAM console and click on the `Roles` section.  Look for a role called `deeplens-workshop-lambda-role` (with your user suffix).  Click on that role and ensure it has access to SNS, S3, and SageMaker, as well as basic Lambda execution permissions (i.e., for CloudWatch logging).
 
 ### Create a 'hello world' Lambda function
 
@@ -20,7 +20,8 @@ This Lambda function requires an IAM role with access to SNS, S3, and SageMaker.
 * Next, choose to create your function via `Blueprints`.
 * Search for the blueprint called `hello-world-python3`.  Select that blueprint and click on `Configure` at the bottom of the page.
 * Name the new function `IdentifySpeciesAndNotify` plus user suffix (e.g. `01-07`).  For example, `IdentifySpeciesAndNotify01-07`.  
-* For IAM role, pick `Choose an existing role` and then pick `service-role/deeplens-workshop-lambda-role` which was created on your behalf before the workshop.
+* Before you move on, double check the exact spelling of the function name.  Subsequent steps depend on it being precise.
+* For IAM role, pick `Choose an existing role` and then pick `service-role/deeplens-workshop-lambda-role` (with your user suffix) which was created on your behalf before the workshop.
 * Click `Create function` at the bottom of the page.
 
 You have successfully created a hello world Lambda function with the appropriate permissions.  You will now customize that function to do what we need it to do in the subsequent steps.
@@ -30,7 +31,7 @@ You have successfully created a hello world Lambda function with the appropriate
 * Select `S3` in the left hand panel list of possible triggers. It is near the bottom.
 * You'll see an `S3` box added to the design panel on the right, and it will say `Configuration required`.  
 * Scroll down to the `Configure triggers` section of the designer.
-* The first configuration step is to identify which S3 bucket will serve as the event source.  Choose your S3 bucket from the dropdown list (e.g., `deeplens-sagemaker-20181126-roymark`).
+* The first configuration step is to identify which S3 bucket will serve as the event source.  Choose your S3 bucket from the dropdown list (e.g., `deeplens-sagemaker-20181126-roymark`).  You will see other S3 buckets available in the drop down list.  Be sure to use the one you created earlier in the workshop.
 * Next, ensure `Object Created (All)` is selcted as the `Event Type`.
 * Enter a `Prefix` of `birds/` and a `Suffix` of `.jpg`.
 * Ensure `Enable trigger` is selected (it is by default).
@@ -48,7 +49,7 @@ The function is now available, and will be triggered when new objects arrive in 
 
 ### Update the Python code for your function
 
-Before updating the Lambda function to have the required code to predict bird species, first take some time to [review the code](../labs/lab4/lambda/lambda_function.py).  Let's walk through a few key code snippets in the sections below.
+Before updating the Lambda function to have the required code to predict bird species, first take some time to review the [code](../labs/lab4/lambda/lambda_function.py) that will be used for this function.  Let's walk through a few key code snippets in the sections below.
 
 #### Code for Invoking the SageMaker endpoint
 
@@ -119,7 +120,7 @@ From your SageMaker terminal window, deploying the package is very straightforwa
 
 ```
 cd ~/SageMaker/bird-classification-workshop/labs/lab4
-bash deploy_lambda.sh 03-06
+./deploy_lambda.sh 03-06
 ```
 
 The script first creates a zip file containing the code as well as the `numpy` Python package.  It then uses the AWS CLI to deploy the package to Lambda.  This is made possible by having the proper IAM role for the SageMaker notebook instance that lets you update the function code using the Lambda service.  You should receive output similar to the following:
@@ -165,7 +166,7 @@ adding: numpy-1.15.0.dist-info/INSTALLER (stored 0%)
 In this step, you will copy a test image to S3.  The workshop has a set of test images you can use in the `test_images` folder.  You can use the S3 console to upload an image, or use the AWS CLI as in the following command (remembering to use your specific S3 bucket name in place of `<bucket-name>`):
 
 ```
-aws s3 cp ../../test_images/northern-cardinal.jpg s3://<bucket-name>/birds/`
+aws s3 cp ../../test_images/northern-cardinal.jpg s3://<bucket-name>/birds/
 ```
 
 To ensure the Lambda function is triggered, you need to ensure you use the `birds/` prefix for the target object within your S3 bucket.  If you are looking for the image via the S3 console, you may have to refresh the  console to see the new file in your bucket.  
@@ -194,11 +195,12 @@ Review the logs.  Look for log entries containing `msg` to see readable results 
 ...
 ```
 
-Try copying another test image or two, and then go back to the Lambda logs and refresh.
+Try copying additional test images, and then go back to the Lambda logs and refresh.
 
 ```
-aws s3 cp ../../test_images/eastern-bluebird.jpg s3://<bucket-name>/birds/`
-aws s3 cp ../../test_images/purple-martin.jpg s3://<bucket-name>/birds/`
+aws s3 cp ../../test_images/eastern-bluebird.jpg s3://<bucket-name>/birds/
+aws s3 cp ../../test_images/purple-martin.jpg s3://<bucket-name>/birds/
+aws s3 cp ../../test_images/american-goldfinch.jpg s3://<bucket-name>/birds/
 ```
 
 If you are not finding `msg` entries, you should look for error messages that will help you troubleshoot the problem.

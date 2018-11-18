@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # This script deploys an updated lamnbda function.
 # The lambda_code subdirectory must be pre-populated with the lambda function
 # and the corresponding set of additional python packages that are required
@@ -17,7 +17,7 @@
 if [ $# -lt 1 ]
 then
   echo Pass the user suffix, as in:
-  echo   bash deploy_lambda.sh 01
+  echo   bash deploy_lambda.sh 07-05
   exit 1
 fi
 

@@ -66,9 +66,9 @@ Here are the detailed steps you will follow to deploy a project based on the Obj
 * On the `Projects` console, click `Create new project`.
 * Use a project template called `Object detection`.  Click `Next`.
 * Update the `Project name` to be unique.  By default, it is called `Object-detection`, but you need to add your user suffix (e.g., `Object-detection05-03`).
-* Now that you have a unique project name, click `Create` at the bottom of the page.  Project creation could take a few seconds.  You will know that the project is fully created when you see `Description`, `Creation time`, and `Last updated` are populated in the console.  Once you see a green banner at the top of the page indicating a successful creation, click your web browser refresh button if those fields are still blank.
+* Now that you have a unique project name, click `Create` at the bottom of the page.  Project creation could take up to 30 seconds.  You will know that the project is fully created when you see `Description`, `Creation time`, and `Last updated` are populated in the console.  Once you see a green banner at the top of the page indicating a successful creation, click your web browser refresh button if those fields are still blank.
 
-### Step 2 - Deploy the project to the device
+### Step 2 - Deploy the project to your DeepLens device
 
 * Once the project is created, select it, and click `Deploy to device`. Pick the device you registered in the previous step. Click `Review`. Click `Deploy`.
 * You will see the status at the top of the page in a blue box, and it will indicate `Deployment of project is in progress`.  A percent completion of the model download will be displayed.  Once the model is downloaded, the device will create a Greengrass deployment.  This progress will be indicated in the blue banner at the top of the page.  After a few minutes, you will see the status bar change from blue to green indicating `Deployment of project succeeded`.
@@ -76,7 +76,7 @@ Here are the detailed steps you will follow to deploy a project based on the Obj
 
 ## Test the project
 
-Login to the device using the keyboard and monitor.  `aws_cam` is the username.  `Aws2018!` is the password.
+Login to the device using the keyboard and monitor.  `aws_cam` is the username.  `Aws2017!` is the password.
 
 Once the desktop is displayed, right click on the desktop and select `Open Terminal`.  In the terminal window, launch a viewer to see the project stream being provided by the AWS DeepLens device.  The following command in the terminal window will launch a new project viewer window:
 
@@ -84,7 +84,7 @@ Once the desktop is displayed, right click on the desktop and select `Open Termi
 mplayer -demuxer lavf -lavfdopts format=mjpeg:probesize=32 /tmp/results.mjpeg
 ```
 
-This will bring up a new window showing you what the device is seeing.  For the Object Detection project, it will also show you blue bounding boxes and confidence levels each time it identifies one of the 20 objects it has been trained to detect (e.g., person, sofa, tv monitor).
+This will bring up a new window showing you what the device is seeing.  For the Object Detection project, it will also show you blue bounding boxes and confidence levels each time it identifies one of the 20 objects it has been trained to detect (e.g., person, sofa, tv monitor).  A printed picture is provided for you to use for testing.  One one picture, it has a dog, a sheep, an airplane, a bus, a car, and a cow.
 
 ## Customize the object detection project to identify birds
 
@@ -147,7 +147,9 @@ response = s3.put_object(ACL='public-read',
 
 ### Before customizing the function, enable S3 update access
 
-Your DeepLens project will be saving cropped images to your S3 bucket.  By default, your function is not permitted to do so.  To enable this access, you will attach the `AmazonS3FullAccess` policy to the `AWSDeepLensGreengrassGroupRole` IAM role.  Here are the steps to attach this policy:
+Your DeepLens project will be saving cropped images to your S3 bucket.  By default, your function is not permitted to do so.  To enable this access, you will attach the `AmazonS3FullAccess` policy to the `AWSDeepLensGreengrassGroupRole` IAM role.  
+
+For this workshop, the role has already been updated, so you will not need to perform this step.  If you were doing this in your own account, you would follow these steps:
 
 * Open the IAM console.
 * Click on `Roles`.
@@ -184,7 +186,7 @@ S3_PUSH_THROTTLE_SECONDS = 4
 Follow these steps to update your DeepLens project so that it uses the new Lambda function you just created:
 
 * Return back to the DeepLens `Projects` console.  
-* Click on the name of your project.
+* Click on the name of your project (e.g., `Object-detection02-08`).
 * From the project details page, click on `Edit` to edit the project content.  This button is on the far right hand side of the `Project` section.
 * Once you are on the `Edit project` page, click on `Remove` to remove the original Lambda function in the `Project Content` section.
 * Click on `Add function`, and choose the new Lambda function you just created from the list of available functions.
@@ -220,10 +222,12 @@ Navigate to the `birds` folder.  You will see a new folder created for today's d
 If you do not find new cropped images in your S3 bucket, it is possible you did not provide S3 update access to your DeepLens device.  If that is the case, you may see a `Pushing to S3 failed` error such as this in your log:
 
 ```
-[INFO]-Lambda.py:92,Invoking Lambda function "arn:aws:lambda:::function:GGRouter" with Greengrass Message "Pushing to S3 failed: An error occurred (AccessDenied) when calling the PutObject operation: Access Denied"
+[INFO]-Lambda.py:92,Invoking Lambda function "arn:aws:lambda:::function:GGRouter"
+with Greengrass Message "Pushing to S3 failed: An error occurred (AccessDenied)
+when calling the PutObject operation: Access Denied"
 ```
 
-Another possible issue is that you have a typo in your environment variable for `BUCKET_NAME`.  Reviewing CloudWatch logs should help you determine the root cause.
+Another possible issue is that you have a typo in your environment variable for `BUCKET_NAME`.  Reviewing CloudWatch logs should help you determine the root cause.  To address an incorrect S3 bucket name, return to the Lambda console for your function.  You will need to click on `Go to $LATEST` to edit the function.  Then scroll to the environment variable section, correct the bucket name, save the function, and publish a new version of the function.
 
 ### Now find out what species was identified
 
