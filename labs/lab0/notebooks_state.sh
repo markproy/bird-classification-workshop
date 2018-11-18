@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This script iterates through all the BirdWorkshop sagemaker notebook instances,
+# This script iterates through all the SageMaker notebook instances,
 # in this account, starting or stopping them all based on the first argument.  The
 # second argument is an AWS credentials profile that corresponds to a configured
 # entry in the AWS credentials configuration file to refer to a specific IAM user.
