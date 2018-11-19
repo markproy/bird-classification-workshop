@@ -6,7 +6,7 @@
 if [ $# -lt 1 ]
 then
   echo Pass the user suffix, as in:
-  echo   bash test_all.sh 02
+  echo   bash test_all.sh 13-07
   exit 1
 fi
 

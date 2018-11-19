@@ -108,6 +108,9 @@ def lambda_handler(event, context):
     except Exception as e:
         print(e)
         print('Error publishing message to SNS.')
-        raise e
+# normally would raise this exception, but since we are incrementally building
+# the workshop, bury the exception, so that the Lambda function doesn't end up
+# getting called multiple times
+#        raise e
 
     return 'success' #response['content-type']

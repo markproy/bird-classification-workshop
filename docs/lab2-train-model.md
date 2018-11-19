@@ -138,7 +138,9 @@ Here is some sample output from a single epoch:
 ...
 ```
 
-Once the training job is complete (console will show a green `Completed` status), the training model artifacts are saved in `model.tar.gz` in the output directory you specified earlier in this lab.  To get the full S3 URI for the model artifacts, you can find it on the details page of your training job.  You can also navigate to the S3 console, and drill down into your S3 bucket to find the model artifacts.  That file will be used to create a model for inference in the next lab.
+Once the training job is complete (console will show a green `Completed` status), the training model artifacts are saved in `model.tar.gz` in the output directory you specified earlier in this lab.  To get the full S3 URI for the model artifacts, you can find it on the details page of your training job.  Make a copy of the full S3 URI so that you can paste that reference when creating the SageMaker model.
+
+You can also navigate to the S3 console, and drill down into your S3 bucket to find the model artifacts.  That file will be used to create a model for inference in the next lab.
 
 ## Navigation
 

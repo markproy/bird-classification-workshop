@@ -26,7 +26,7 @@ Region=$2
 echo $Profile
 set -x
 
-echo -e "\nRemoving S3 buckets [change to not delete those marked do-not-delete]..."
+echo -e "\nRemoving S3 buckets..."
 #  each account has the following S3 buckets that should not be deleted. they are used for
 #  security / auditing purposes:
 #    cloudtrail-awslogs-XXXXX-YYYY-isengard-do-not-delete

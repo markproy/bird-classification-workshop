@@ -17,6 +17,7 @@ In this lab, you will configure automatic SMS text notification whenever a bird 
 
 ## Configure new SNS subscription
 
+* Click on the ARN for the new topic to get to the topic details page.
 * Under the `Subscriptions` section of the topic details, click `Create subscription` to begin creating the subscription.
 * Pick `SMS` as the protocol.
 * For the `Endpoint`, enter your cell phone number (e.g., `+16035551212`).

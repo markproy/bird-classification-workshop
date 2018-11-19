@@ -3,18 +3,20 @@
 # this script should be run in a terminal window inside your SageMaker notebook
 # that was created as part of the workshop.
 
-if [ $# -lt 4 ]
+if [ $# -lt 5 ]
 then
-  echo Pass the account profile bucket, user suffix, region, as in:
-  echo   ./lab2_shortcut.sh deeplens-1 s3://deeplens-sagemaker-20181126-smithjohn 01-02 us-east-1
+  echo Pass the account profile bucket, user suffix, region, instance type, as in:
+  echo   ./lab2_shortcut.sh default s3://deeplens-sagemaker-20181126-smithjohn 01-02 us-east-1 ml.p3.2xlarge
   exit 1
 fi
 
 # Fill in the values of these four variables
 PROFILE=$1
 BUCKET=$2
-INSTANCE_NAME=BirdClassificationWorkshop$3
+SUFFIX=$3
+INSTANCE_NAME=BirdClassificationWorkshop$SUFFIX
 REGION=$4
+INSTANCE_TYPE=$5
 
 EXECUTION_ROLE_ARN=$(aws --profile ${PROFILE} --region ${REGION} sagemaker describe-notebook-instance \
   --notebook-instance-name $INSTANCE_NAME \
@@ -31,9 +33,8 @@ if [[ ${REGION} == "us-east-1" ]]; then
   TRAINING_IMAGE=811284229777.dkr.ecr.us-east-1.amazonaws.com/image-classification:1
 fi
 
-INSTANCE_TYPE=ml.p3.2xlarge
 PREFIX=
-TRAINING_JOB_NAME=birds-`date '+%Y-%m-%d-%H-%M-%S'`
+TRAINING_JOB_NAME=birds$SUFFIX-`date '+%Y-%m-%d-%H-%M-%S'`
 
 TRAINING_DATA=$BUCKET$PREFIX/train
 VAL_DATA=$BUCKET$PREFIX/validation

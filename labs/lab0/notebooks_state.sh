@@ -1,10 +1,8 @@
 #!/bin/bash
-
 # This script iterates through all the SageMaker notebook instances,
-# in this account, starting or stopping them all based on the first argument.  The
+# in all workshop accounts, starting or stopping them all based on the first argument.  The
 # second argument is an AWS credentials profile that corresponds to a configured
 # entry in the AWS credentials configuration file to refer to a specific IAM user.
-
 # ./notebooks_state.sh start deeplens-1 us-east-1
 # ./notebooks_state.sh stop deeplens-3 us-east-1
 
@@ -34,4 +32,3 @@ aws sagemaker --profile ${Profile} --region ${Region} list-notebook-instances \
 
 #--query "NotebookInstances[?NotebookInstanceStatus=='${Selection}'].NotebookInstanceName"
 #BirdClassificationWorkshop02-01	BirdClassificationWorkshop01-08
-#how do we turn the list of instances into one command for each selected instance?

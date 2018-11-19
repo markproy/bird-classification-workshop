@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # this script should be run in a terminal window inside your SageMaker notebook
 # that was created as part of the workshop.
@@ -6,7 +6,7 @@
 if [ $# -lt 2 ]
 then
   echo Pass the training job name and the user suffix, as in:
-  echo   bash lab3_shortcut.sh birds-2018-11-26-16-10-14 02-07
+  echo   ./lab3_shortcut.sh birds-2018-11-26-16-10-14 02-07
   exit 1
 fi
 

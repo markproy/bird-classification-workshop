@@ -71,8 +71,8 @@ Here are the detailed steps you will follow to deploy a project based on the Obj
 ### Step 2 - Deploy the project to your DeepLens device
 
 * Once the project is created, select it, and click `Deploy to device`. Pick the device you registered in the previous step. Click `Review`. Click `Deploy`.
-* You will see the status at the top of the page in a blue box, and it will indicate `Deployment of project is in progress`.  A percent completion of the model download will be displayed.  Once the model is downloaded, the device will create a Greengrass deployment.  This progress will be indicated in the blue banner at the top of the page.  After a few minutes, you will see the status bar change from blue to green indicating `Deployment of project succeeded`.
-* Soon thereafter, the topmost blue light on the device should turn on and remain lit.  All three blue lights should be lit when the model is downloaded and is running.
+* You will see the status at the top of the page in a blue box, and it will indicate `Deployment of project is in progress`.  A percent completion of the model download will be displayed.  Once the model is downloaded, the device will create a Greengrass deployment.  This progress will be indicated in the blue banner at the top of the page.  After a few minutes, you will see the status bar change from blue to green indicating `Deployment of project succeeded`.  While you are waiting, you may want to get logged into the DeepLens using your attached monitor and keyboard in the next section.
+* Soon after deploying, the topmost blue light on your DeepLens device should turn on and remain lit.  All three blue lights should be lit when the model is downloaded and is running.
 
 ## Test the project
 
@@ -163,7 +163,7 @@ For this workshop, the role has already been updated, so you will not need to pe
 Here are the steps to follow to customize the DeepLens project to use a brand new Lambda function.
 
 * Navigate to the [Lambda console](https://console.aws.amazon.com/lambda/home).
-* Use the Lambda console and click on `Create function` to get started.
+* Navigate to the list of Functions, and click on `Create function` to get started.
 * Next, choose to create your function via `Blueprints`.
 * Search for the blueprint called `greengrass-hello-world`.  Select that blueprint and click on `Configure` at the bottom of the page.
 * Name the new function `deeplens-bird-detection` plus user suffix (e.g. `01-07`).  For example, `deeplens-bird-detection01-07`.  
@@ -189,7 +189,7 @@ Follow these steps to update your DeepLens project so that it uses the new Lambd
 * Click on the name of your project (e.g., `Object-detection02-08`).
 * From the project details page, click on `Edit` to edit the project content.  This button is on the far right hand side of the `Project` section.
 * Once you are on the `Edit project` page, click on `Remove` to remove the original Lambda function in the `Project Content` section.
-* Click on `Add function`, and choose the new Lambda function you just created from the list of available functions.
+* Click on `Add function`, and choose the new Lambda function you just created from the list of available functions (e.g., `deeplens-bird-detection13-07`).
 * Click `Save` at the bottom of the page to save your project edits.  Note that when you are back on the screen with the list of projects, it will also show a version number of the DeepLens project itself.  That is completely independent of the version number of the Lambda function.
 
 ## Re-deploy the updated project
