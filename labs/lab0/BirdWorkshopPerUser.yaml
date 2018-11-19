@@ -10,13 +10,13 @@ Parameters:
     ConstraintDescription: a short string suffix to add to the end of a resource, 01 for example
     Description: A suffix that will be added to the end of a resource name to make it unique in an account
     Type: String
-    Default: '01'
+    Default: '01-01'
 
   ZipFileURL:
     ConstraintDescription: must be an S3 presigned URL
     Description: An S3 presigned URL to a zip file containing the bird images for the workshop
     Type: String
-    Default: https://bit.ly/2B5kEJ0
+    Default: https://bit.ly/2FugLRT
 
   NotebookInstanceState:
     ConstraintDescription: either Stopped or InService
