@@ -7,6 +7,8 @@ import numpy as np   # for interpreting results from the SageMaker inference
 print('Loading function')
 
 print('Getting access to s3, sns, and sagemaker runtime')
+
+# Get the service client with sigv4 configured
 s3 = boto3.client('s3')
 sns = boto3.client('sns')
 runtime = boto3.client(service_name='runtime.sagemaker')
@@ -32,6 +34,7 @@ def lambda_handler(event, context):
         print("KEY: " + key)
         print("CONTENT LENGTH: " + str(s3_object_response['ContentLength']))
         print("CONTENT TYPE: " + s3_object_response['ContentType'])
+
     except Exception as e:
         print(e)
         print('Error getting object {} from bucket {}. Make sure they exist and your bucket is in the same region as this function.'.format(key, bucket))

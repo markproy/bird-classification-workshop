@@ -30,6 +30,9 @@ zip -r9 ../$PACKAGE_FILE_PREFIX.zip .
 cd ..
 
 # Now deploy the resulting package
-aws lambda update-function-code \
+aws lambda update-function-code --publish \
   --function-name $FUNCTION_NAME  \
   --zip-file fileb://./$PACKAGE_FILE_PREFIX.zip
+
+#aws lambda publish-version --function-name $FUNCTION_NAME
+aws lambda list-versions-by-function --function-name $FUNCTION_NAME
