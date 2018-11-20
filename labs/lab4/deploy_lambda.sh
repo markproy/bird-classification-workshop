@@ -36,3 +36,4 @@ aws lambda update-function-code --publish \
 
 #aws lambda publish-version --function-name $FUNCTION_NAME
 aws lambda list-versions-by-function --function-name $FUNCTION_NAME
+rm $PACKAGE_FILE_PREFIX.zip
