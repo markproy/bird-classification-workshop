@@ -68,7 +68,8 @@ aws --profile ${Profile} --region ${Region} dynamodb list-tables --output text |
 
 echo -e "\nRemoving Lambda functions..."
 aws --profile ${Profile} --region ${Region} lambda list-functions --output text | \
-  cut -f 5 | xargs -I{} \
+  cut -f 5 | \
+  grep -v clean-deeplens-projects | xargs -I{} \
   aws --profile ${Profile} --region ${Region} lambda delete-function --function-name {}
 
 

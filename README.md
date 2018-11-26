@@ -5,6 +5,30 @@ Machine learning is a game-changing technology with vast potential in every indu
 
 You will also create a custom project for AWS DeepLens that detects birds and triggers species identification. By the end of the workshop, you will have a working end-to-end solution. Prerequisites: hands-on experience with Python, AWS Lambda, Amazon SNS, and Amazon S3 are required to get the most value from the workshop.
 
+### Getting started
+
+In this workshop, you have an AWS DeepLens device in front of you connected to a monitor, keyboard, and mouse.  You can use the DeepLens device to run the entire workshop, or you can use your laptop to do all of the labs other than the DeepLens lab (lab 5).
+
+#### Log into the AWS console
+
+Once the browser is open, type `console.aws.amazon.com` into the url bar. (Note: If the login page says "Root user sign in" and there's already an email showing, select Sign in to a different account and then type in your AWS Account number on your card.)
+
+Once your login page shows three fields, please enter the following:
+
+* Account ID or alias: the AWS Account number on your card
+* IAM user name: the User name on your card
+* Password: `Aws2017!`
+
+Next, make sure you're in N. Virginia region. Proceed to Lab 1.
+
+#### If you are using DeepLens instead of your laptop
+
+AWS DeepLens runs an Ubuntu OS. Login to the device with the password `Aws2017!` for the `aws_cam` username.
+
+We have already pre-registered your DeepLens device to your workshop account. You can find the information for your account on the card in front of you taped to your monitor.
+
+Open a Firefox browser on the left panel and follow the console login instructions.
+
 ### Lab overview
 
 The workshop is composed of the following 6 labs:
