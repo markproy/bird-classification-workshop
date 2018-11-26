@@ -29,6 +29,3 @@ set -x
 aws sagemaker --profile ${Profile} --region ${Region} list-notebook-instances \
   --status-equals ${Selection} --output text | cut -f 7 | \
   xargs -I{} aws sagemaker --profile ${Profile} --region ${Region} $Command --notebook-instance-name {}
-
-#--query "NotebookInstances[?NotebookInstanceStatus=='${Selection}'].NotebookInstanceName"
-#BirdClassificationWorkshop02-01	BirdClassificationWorkshop01-08

@@ -44,7 +44,6 @@ For SageMaker's Image Classification algorithm, there are more than two dozen hy
 * **num_training_samples**: `322`.  We determined this number in Lab 1, when you packaged the images for these species.  If you were to use the full NABirds dataset, the number of training samples would be more than 40,000.
 * **augmentation_type** `crop`. This tells the algorithm to also flip each image horizontally to increase the model's ability to accurately identify species.  If a bird is facing left in the image, this augmentation will also train the model with a copy of the image with the bird facing to the right.
 * **top_k**: `2`.  This indicates to the algorithm that it should log an additional accuracy metric.  In addition to the accuracy of getting the prediction of the species exactly right, it will also log how accurate your model is at predicting the right species within the top 2 predictions for a given epoch.
-* **early_stopping** `true`.  This parameter tells the algorithm to stop training if validation accuracy doesn't improve after a patience number of epochs.
 
 For all other hyperparameters, use default values.
 
